@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@source "../../node_modules/@postbee/postbee-ui-lib";
 
 :root {
   --background: #ffffff;
