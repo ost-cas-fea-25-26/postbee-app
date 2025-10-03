@@ -10,7 +10,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@postbee/postbee-ui-lib": "1.12.0",
+    "@postbee/postbee-ui-lib": "1.0.0",
     "next": "15.5.4",
     "react": "19.2.0",
     "react-dom": "19.2.0"
