@@ -10,24 +10,24 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@postbee/postbee-ui-lib": "1.0.0",
-    "next": "15.5.4",
+    "@postbee/postbee-ui-lib": "^1.24.1",
+    "next": "16.0.3",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@smartive/eslint-config": "6.5.0",
+    "@smartive/eslint-config": "7.0.0",
     "@smartive/prettier-config": "3.1.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.5.4",
-    "knip": "5.64.1",
+    "eslint-config-next": "16.0.3",
+    "knip": "5.69.1",
     "prettier": "3.6.2",
-    "prettier-plugin-tailwindcss": "0.6.14",
+    "prettier-plugin-tailwindcss": "0.7.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
