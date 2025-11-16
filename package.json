@@ -20,6 +20,7 @@
     "@smartive/eslint-config": "7.0.0",
     "@smartive/prettier-config": "3.1.2",
     "@tailwindcss/postcss": "^4",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.0",
     "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
