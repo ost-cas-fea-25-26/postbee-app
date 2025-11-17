@@ -19,6 +19,7 @@ export async function getPostList() {
     },
   });
   const posts = (await res.json()) as PaginatedResult<Post>;
+
   return posts.data;
 }
 
@@ -36,5 +37,6 @@ export async function createPost(text: string) {
   });
 
   const post = (await res.json()) as Post;
+
   return post;
 }
