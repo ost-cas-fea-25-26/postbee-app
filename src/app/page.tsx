@@ -1,5 +1,4 @@
-import LoginButton from '@/components/LoginButton';
-import LogoutButton from '@/components/LogoutButton';
+import { AuthLoginButton, AuthLogoutButton } from '@/components/auth';
 import { getSession } from '@/lib/auth';
 import Image from 'next/image';
 
@@ -15,14 +14,14 @@ export default async function Home() {
             You are logged in as {session.user?.name} ({session.user?.email}).
           </p>
           <div>
-            <LogoutButton />
+            <AuthLogoutButton />
           </div>
         </div>
       ) : (
         <div>
           <p>You are not logged in.</p>
           <div>
-            <LoginButton />
+            <AuthLoginButton />
           </div>
         </div>
       )}{' '}

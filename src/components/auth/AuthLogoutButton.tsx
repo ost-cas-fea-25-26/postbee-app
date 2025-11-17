@@ -4,7 +4,7 @@ import { signOut } from '@/lib/auth-client';
 import { Button } from '@postbee/postbee-ui-lib';
 import { useRouter } from 'next/navigation';
 
-export default function LogoutButton() {
+export default function AuthLogoutButton() {
   const router = useRouter();
 
   const handleLogout = async () => {
