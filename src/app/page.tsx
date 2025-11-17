@@ -1,15 +1,14 @@
 import LoginButton from '@/components/LoginButton';
 import LogoutButton from '@/components/LogoutButton';
-import { getPostList } from '@/lib/api';
 import { getSession } from '@/lib/auth';
+import Image from 'next/image';
 
 export default async function Home() {
   const session = await getSession();
-  const posts = await getPostList();
 
   return (
     <main className="flex flex-col items-center justify-center">
-      <img src="/images/PostBee-Logo.png" alt="Logo" width="200" />
+      <Image src="/images/PostBee-Logo.png" alt="Logo" width={200} height={200} loading="eager" />
       {session?.user ? (
         <div>
           <p>
@@ -17,14 +16,6 @@ export default async function Home() {
           </p>
           <div>
             <LogoutButton />
-          </div>
-          <div className="mt-xl">
-            <h2>Latest Posts:</h2>
-            <ul>
-              {posts.map((post) => (
-                <li key={post.id}>{post.text}</li>
-              ))}
-            </ul>
           </div>
         </div>
       ) : (

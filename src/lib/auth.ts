@@ -6,7 +6,7 @@ import { genericOAuth } from 'better-auth/plugins';
 import Database from 'better-sqlite3';
 import { headers } from 'next/headers';
 
-import { CUSTOM_PROVIDER_ID, baseURL } from './auth-client';
+import { baseURL } from './auth-client';
 
 export const auth = betterAuth({
   database: new Database('./auth.db'),
@@ -25,17 +25,20 @@ export const auth = betterAuth({
     genericOAuth({
       config: [
         {
-          providerId: CUSTOM_PROVIDER_ID,
-          clientId: '346687044958880314',
-          clientSecret: '', // PKCE doesn't require client secret
-          discoveryUrl: 'https://cas-fee-adv-ed1ide.zitadel.cloud/.well-known/openid-configuration',
-          scopes: ['openid', 'profile', 'email', 'urn:zitadel:iam:org:project:id:346687044958814778:aud'],
+          providerId: process.env.AUTH_PROVIDER_ID ?? '',
+          clientId: process.env.AUTH_CLIENT_ID ?? '',
+          clientSecret: process.env.AUTH_CLIENT_SECRET ?? '', // PKCE doesn't require client secret
+          discoveryUrl: process.env.AUTH_DISCOVERY_URL ?? '',
+          scopes: (process.env.AUTH_SCOPES ?? '')
+            .split(',')
+            .map((item) => item.trim())
+            .filter(Boolean),
           pkce: true,
         },
       ],
     }),
   ],
-  secret: process.env.AUTH_SECRET ?? 'this-is-very-secret',
+  secret: process.env.AUTH_SECRET ?? '',
   advanced: {
     useSecureCookies: process.env.NODE_ENV === 'production',
     cookiePrefix: 'better-auth',
@@ -59,7 +62,7 @@ export const getAccessToken = cache(async () => {
   const token = await auth.api.getAccessToken({
     headers: reqHeaders,
     body: {
-      providerId: CUSTOM_PROVIDER_ID,
+      providerId: process.env.AUTH_PROVIDER_ID ?? '',
     },
   });
 
