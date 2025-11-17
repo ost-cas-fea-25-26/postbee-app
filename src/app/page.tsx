@@ -1,4 +1,5 @@
 import { AuthLoginButton, AuthLogoutButton } from '@/components/auth';
+import { PostsList } from '@/components/posts';
 import { getSession } from '@/lib/auth';
 import Image from 'next/image';
 
@@ -16,6 +17,7 @@ export default async function Home() {
           <div>
             <AuthLogoutButton />
           </div>
+          <PostsList />
         </div>
       ) : (
         <div>
