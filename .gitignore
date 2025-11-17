@@ -42,3 +42,5 @@ next-env.d.ts
 
 # editors
 .idea
+
+auth.db

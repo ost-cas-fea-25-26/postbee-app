@@ -1,6 +1,6 @@
 @import 'tailwindcss';
-@import "@postbee/postbee-ui-lib/styles";
-@source "../../node_modules/@postbee/postbee-ui-lib";
+@import '@postbee/postbee-ui-lib/styles';
+@source '../../node_modules/@postbee/postbee-ui-lib';
 
 body {
   font-family: var(--font-sans);
