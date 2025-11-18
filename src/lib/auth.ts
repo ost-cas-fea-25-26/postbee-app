@@ -62,7 +62,7 @@ export const getAccessToken = cache(async () => {
   const token = await auth.api.getAccessToken({
     headers: reqHeaders,
     body: {
-      providerId: process.env.AUTH_PROVIDER_ID ?? '',
+      providerId: process.env.NEXT_PUBLIC_AUTH_PROVIDER_ID ?? '',
     },
   });
 
