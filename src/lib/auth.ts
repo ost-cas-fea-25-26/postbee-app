@@ -25,7 +25,7 @@ export const auth = betterAuth({
     genericOAuth({
       config: [
         {
-          providerId: process.env.AUTH_PROVIDER_ID ?? '',
+          providerId: process.env.NEXT_PUBLIC_AUTH_PROVIDER_ID ?? '',
           clientId: process.env.AUTH_CLIENT_ID ?? '',
           clientSecret: process.env.AUTH_CLIENT_SECRET ?? '', // PKCE doesn't require client secret
           discoveryUrl: process.env.AUTH_DISCOVERY_URL ?? '',
