@@ -6,5 +6,7 @@ declare namespace NodeJS {
     AUTH_CLIENT_SECRET: string;
     AUTH_DISCOVERY_URL: string;
     AUTH_SCOPES: string;
+    // APIs
+    API_URL_MUMBLE: string;
   }
 }
