@@ -1,6 +1,6 @@
 import { getPostList } from '@/lib/api';
 
-export default async function LoginButton() {
+export default async function PostsList() {
   const posts = await getPostList();
 
   return (
