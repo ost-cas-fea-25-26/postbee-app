@@ -6,11 +6,15 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
+    "better-auth-migrate": "npx @better-auth/cli migrate -y",
     "lint": "eslint",
     "format": "prettier --write ."
   },
   "dependencies": {
     "@postbee/postbee-ui-lib": "^1.26.0",
+    "@types/better-sqlite3": "7.6.13",
+    "better-auth": "1.3.34",
+    "better-sqlite3": "12.4.1",
     "next": "16.0.3",
     "react": "19.2.0",
     "react-dom": "19.2.0"
