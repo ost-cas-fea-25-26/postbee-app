@@ -8,6 +8,8 @@ import { headers } from 'next/headers';
 
 import { baseURL } from './auth-client';
 
+export type AuthSession = Awaited<ReturnType<typeof auth.api.getSession>>;
+
 export const auth = betterAuth({
   database: new Database('./auth.db'),
   baseURL,

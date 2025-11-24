@@ -1,7 +1,7 @@
 'use client';
 
 import { signOut } from '@/lib/auth-client';
-import { Button } from '@postbee/postbee-ui-lib';
+import { HeaderButton } from '@postbee/postbee-ui-lib';
 import { useRouter } from 'next/navigation';
 
 export default function AuthLogoutButton() {
@@ -12,9 +12,5 @@ export default function AuthLogoutButton() {
     router.refresh();
   };
 
-  return (
-    <Button onClick={handleLogout} variant="secondary">
-      Logout
-    </Button>
-  );
+  return <HeaderButton icon="log-out" text="Log out" onClick={handleLogout} />;
 }
