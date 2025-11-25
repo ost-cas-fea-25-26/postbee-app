@@ -1,11 +1,17 @@
-import { Heading } from '../components/postbee-ui-client';
+import { getSession } from '@/lib/auth';
 
-export default function Home() {
+import { Heading } from '../components/postbee-ui-client';
+import { Dashboard } from './_dashboard';
+
+export default async function Home() {
+  const session = await getSession();
+
   return (
     <>
       <Heading level={2} className="text-primary">
         Willkommen auf Mumble
       </Heading>
+      <Dashboard session={session} />
     </>
   );
 }
