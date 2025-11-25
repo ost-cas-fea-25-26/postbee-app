@@ -2,6 +2,16 @@
 @import '@postbee/postbee-ui-lib/styles';
 @source '../../node_modules/@postbee/postbee-ui-lib';
 
+:root {
+  --max-content-width: 680px;
+}
+
+@layer utilities {
+  .max-w-content {
+    max-width: var(--max-content-width);
+  }
+}
+
 body {
   font-family: var(--font-sans);
 }
