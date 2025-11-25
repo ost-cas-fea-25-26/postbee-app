@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "npm run better-auth-migrate && next build --turbopack",
     "start": "next start",
-    "better-auth-migrate": "npx @better-auth/cli migrate -y",
+    "better-auth-migrate": "npx @better-auth/cli migrate -y --config src/lib/auth.ts",
     "lint": "eslint",
     "format": "prettier --write ."
   },
