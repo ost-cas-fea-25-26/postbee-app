@@ -10,8 +10,8 @@
     "format": "prettier --write .",
     "db:up": "docker compose up -d postgres && until docker exec postbee-app-postgres-1 pg_isready -U postgres; do sleep 1; done",
     "db:down": "docker compose down",
-    "auth:migrate:local": "npm run db:up && dotenv -e .env.local -- npx @better-auth/cli migrate --config src/lib/auth.ts",
-    "auth:generate:local": "npm run db:up && dotenv -e .env.local -- npx @better-auth/cli generate --config src/lib/auth.ts",
+    "auth:migrate:local": "npm run db:up && npx @better-auth/cli migrate --config src/lib/auth.ts",
+    "auth:generate:local": "npm run db:up && npx @better-auth/cli generate --config src/lib/auth.ts",
     "auth:migrate:deploy": "npx @better-auth/cli migrate -y --config src/lib/auth.ts"
   },
   "dependencies": {
@@ -35,7 +35,6 @@
     "@types/react-dom": "^19",
     "@typescript-eslint/eslint-plugin": "^8.47.0",
     "@typescript-eslint/parser": "^8.47.0",
-    "dotenv-cli": "^11.0.0",
     "eslint": "9.22.0",
     "eslint-config-next": "16.0.4",
     "knip": "5.69.1",
