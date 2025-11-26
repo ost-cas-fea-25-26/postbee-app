@@ -3,15 +3,17 @@ import { cache } from 'react';
 import { betterAuth } from 'better-auth';
 import { nextCookies } from 'better-auth/next-js';
 import { genericOAuth } from 'better-auth/plugins';
-import Database from 'better-sqlite3';
 import { headers } from 'next/headers';
+import { Pool } from 'pg';
 
 import { baseURL } from './auth-client';
 
 export type AuthSession = Awaited<ReturnType<typeof auth.api.getSession>>;
 
 export const auth = betterAuth({
-  database: new Database('./auth.db'),
+  database: new Pool({
+    connectionString: process.env.NEON_DATABASE_URL,
+  }),
   baseURL,
   trustedOrigins: [baseURL],
   session: {
