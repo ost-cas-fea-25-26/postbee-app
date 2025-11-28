@@ -7,9 +7,7 @@ import { headers } from 'next/headers';
 import { Pool } from 'pg';
 
 export const baseURL =
-  process.env.NEXT_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : `http://localhost:${process.env.PORT ?? 3000}`;
+  process.env.NEXT_URL || process.env.VERCEL_URL ? `${process.env.VERCEL_URL}` : `localhost:${process.env.PORT ?? 3000}`;
 
 export type AuthSession = Awaited<ReturnType<typeof auth.api.getSession>>;
 
