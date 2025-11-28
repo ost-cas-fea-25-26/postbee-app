@@ -6,21 +6,12 @@ import { genericOAuth } from 'better-auth/plugins';
 import { headers } from 'next/headers';
 import { Pool } from 'pg';
 
-export const baseURL =
-  process.env.NEXT_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : `http://localhost:${process.env.PORT ?? 3000}`;
-
-console.warn(process.env);
-
 export type AuthSession = Awaited<ReturnType<typeof auth.api.getSession>>;
 
 export const auth = betterAuth({
   database: new Pool({
     connectionString: process.env.DATABASE_URL,
   }),
-  baseURL,
-  // trustedOrigins: [baseURL],
   session: {
     expiresIn: 60 * 60 * 12, // 12 hours
     updateAge: 60 * 60 * 12, // 12 hours
