@@ -18,7 +18,7 @@ export const auth = betterAuth({
     connectionString: process.env.DATABASE_URL,
   }),
   baseURL,
-  trustedOrigins: [baseURL],
+  // trustedOrigins: [baseURL],
   session: {
     expiresIn: 60 * 60 * 12, // 12 hours
     updateAge: 60 * 60 * 12, // 12 hours
