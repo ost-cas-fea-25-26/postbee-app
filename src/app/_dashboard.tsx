@@ -1,6 +1,11 @@
-import { PostsList } from '@/components/posts';
+import { Suspense } from 'react';
 
-export function Dashboard({ session }: { session: any }) {
+import { PostsList } from '@/components/posts';
+import { getSession } from '@/lib/auth';
+
+export async function Dashboard() {
+  const session = await getSession();
+
   return (
     <div>
       {session?.user ? (
@@ -9,7 +14,9 @@ export function Dashboard({ session }: { session: any }) {
             You are logged in as {session.user?.name} ({session.user?.email}).
           </p>
 
-          <PostsList />
+          <Suspense fallback={<p>Loading posts...</p>}>
+            <PostsList />
+          </Suspense>
         </div>
       ) : (
         <div>
