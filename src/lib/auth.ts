@@ -11,6 +11,8 @@ export const baseURL =
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : `http://localhost:${process.env.PORT ?? 3000}`;
 
+console.warn(process.env);
+
 export type AuthSession = Awaited<ReturnType<typeof auth.api.getSession>>;
 
 export const auth = betterAuth({
