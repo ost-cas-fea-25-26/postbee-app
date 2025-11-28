@@ -15,7 +15,7 @@ export type AuthSession = Awaited<ReturnType<typeof auth.api.getSession>>;
 
 export const auth = betterAuth({
   database: new Pool({
-    connectionString: process.env.NEON_DATABASE_URL,
+    connectionString: process.env.DATABASE_URL,
   }),
   baseURL,
   trustedOrigins: [baseURL],
