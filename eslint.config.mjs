@@ -13,6 +13,9 @@ const config = [
       parser,
     },
   },
+  {
+    ignores: ['src/lib/api/client/**'],
+  },
 ];
 
 export default config;
