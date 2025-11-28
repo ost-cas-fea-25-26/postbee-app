@@ -1,13 +1,13 @@
 import { PostCard, PostItem } from '@/components/posts';
-import { getPostList } from '@/lib/api';
+import { getPosts } from '@/lib/api/client/sdk.gen';
 
 export default async function PostsList() {
-  const posts = await getPostList();
+  const { data: posts } = await getPosts();
 
   return (
     <div className="mt-xl">
       <ul>
-        {posts.map((post) => (
+        {posts?.data?.map((post) => (
           <PostCard key={post.id} post={post}>
             <PostItem post={post} />
           </PostCard>
