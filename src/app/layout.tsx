@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import Header from '@/components/header/Header';
 import type { Metadata } from 'next';
 
@@ -15,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-secondary-100">
-        <Header />
+        <Suspense fallback={null}>
+          <Header />
+        </Suspense>
         <main className="flex flex-col items-center justify-center px-sm">
           <div className="w-full max-w-content mt-8">{children}</div>
         </main>
