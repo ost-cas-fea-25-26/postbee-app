@@ -1,7 +1,8 @@
 import { Suspense } from 'react';
 
 import { PostsList } from '@/components/posts';
-import { getSession } from '@/lib/auth';
+import { PostCreate } from '@/components/posts/PostCreate';
+import { getSession } from '@/lib/auth/auth';
 
 export async function Dashboard() {
   const session = await getSession();
@@ -9,18 +10,17 @@ export async function Dashboard() {
   return (
     <div>
       {session?.user ? (
-        <div>
-          <p>
-            You are logged in as {session.user?.name} ({session.user?.email}).
-          </p>
-
+        <div className="flex flex-col items-center justify-center gap-4 mb-xl">
+          <PostCreate />
           <Suspense fallback={<p>Loading posts...</p>}>
             <PostsList />
           </Suspense>
         </div>
       ) : (
-        <div>
-          <p>You are not logged in.</p>
+        <div className="flex flex-col items-center justify-center gap-4 mb-xl">
+          <Suspense fallback={<p>Loading posts...</p>}>
+            <PostsList />
+          </Suspense>
         </div>
       )}
     </div>

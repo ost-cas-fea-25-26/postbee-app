@@ -1,16 +1,12 @@
-import { getAccessToken } from '../auth';
-import { client } from './client/client.gen';
+import { getAccessToken } from '../auth/auth';
+import type { CreateClientConfig } from './client/client.gen';
 
-client.setConfig({
-  baseUrl: process.env.API_URL_MUMBLE,
-});
+export * from './client/sdk.gen';
 
-client.interceptors.request.use(async (request) => {
-  const tokenResponse = await getAccessToken();
-
-  const tokenString = tokenResponse?.accessToken ?? '';
-
-  request.headers.set('Authorization', `Bearer ${tokenString}`);
-
-  return request;
+export const createClientConfig: CreateClientConfig = (config) => ({
+  ...config,
+  auth: async () => {
+    const token = await getAccessToken();
+    return token?.accessToken ?? '';
+  },
 });

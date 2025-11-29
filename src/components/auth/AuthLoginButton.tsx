@@ -1,6 +1,6 @@
 'use client';
 
-import { signinZitadel } from '@/lib/auth-client';
+import { signinZitadel } from '@/lib/auth/auth-client';
 import { HeaderButton } from '@postbee/postbee-ui-lib';
 
 export default function AuthLoginButton() {

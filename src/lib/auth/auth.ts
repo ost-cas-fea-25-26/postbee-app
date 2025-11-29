@@ -7,6 +7,15 @@ import { headers } from 'next/headers';
 import { Pool } from 'pg';
 
 export type AuthSession = Awaited<ReturnType<typeof auth.api.getSession>>;
+export type AuthUser = {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export const auth = betterAuth({
   database: new Pool({

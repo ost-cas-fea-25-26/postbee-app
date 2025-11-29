@@ -1,45 +1,56 @@
 import { ComponentProps } from 'react';
 
+import { AppUser } from '@/lib/types';
 import { readableCreatedDate } from '@/lib/utils';
+import { getUserDisplayName } from '@/lib/utils/user';
 import { Avatar, Icon, Label } from '@postbee/postbee-ui-lib';
 import Link from 'next/link';
 
-interface IPostItemUserInfo {
-  user: unknown;
-  postDate: Date;
+interface ICommentItemUserInfo {
+  user: AppUser;
+  commentDate?: Date;
 }
 
-export const PostItemUserInfo = ({ postDate, user }: IPostItemUserInfo) => {
-  const displayName = user?.firstname && user?.lastname ? `${user.firstname} ${user.lastname}` : null;
-  const username = user?.username;
+export const CommentItemUserInfo = ({ commentDate, user }: ICommentItemUserInfo) => {
+  const username = user?.username ?? '';
+  const displayName = getUserDisplayName(user);
 
   const avatarProps: ComponentProps<typeof Avatar> = {
-    alt: '',
-    src: user.avatarUrl,
-    width: 100,
-    height: 100,
+    alt: displayName,
+    src: user?.avatarUrl ?? user.image,
+    size: 'sm',
   };
 
   const labelProps: ComponentProps<typeof Label> = {
     size: 'md',
-    children: displayName ?? username,
+    children: displayName,
   };
 
   return (
     <Link
       href={'#TODO'}
-      className="duratin-300 relative flex place-items-center gap-xs  rounded-s transition-all hover:scale-105"
+      className="duration-300 relative flex items-center gap-xs rounded-s transition-all hover:scale-105"
       data-testid="mumble-user-info"
+      aria-label={`User info for ${displayName}`}
+      onClick={(e) => e.stopPropagation()}
     >
-      {<Avatar {...avatarProps} />}
+      <Avatar {...avatarProps} />
       <div className="flex flex-col gap-xs">
         <Label {...labelProps} className="max-w-[150px] truncate capitalize sm:max-w-none" />
-        <div className="flex flex-wrap gap-s">
-          <Icon icon={'profile'} />
-          {username}
+        <div className="flex flex-wrap gap-s items-center text-sm text-muted-foreground">
+          {username && (
+            <>
+              <Icon icon="profile" aria-hidden="true" />
+              <span>{username}</span>
+            </>
+          )}
 
-          <Icon icon={'profile'} />
-          {readableCreatedDate(postDate)}
+          {commentDate && (
+            <>
+              <Icon icon="calendar" aria-hidden="true" />
+              <time dateTime={commentDate.toISOString()}>{readableCreatedDate(commentDate)}</time>
+            </>
+          )}
         </div>
       </div>
     </Link>

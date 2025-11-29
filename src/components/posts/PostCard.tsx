@@ -1,36 +1,59 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ComponentProps, ReactNode } from 'react';
 
+import { Card } from '@/components/core/Card';
 import { Skeleton } from '@/components/skeleton';
-import { Post } from '@/lib/api';
+import { Post } from '@/lib/api/client';
+import { AppUser } from '@/lib/types';
+import { getUserDisplayName } from '@/lib/utils';
 import { Avatar } from '@postbee/postbee-ui-lib';
 import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
 
 interface PostCardProps {
   children: ReactNode;
   post?: Post;
-  imageSrc?: string;
   skeleton?: boolean;
 }
 
-export const PostCard = ({ children, imageSrc, skeleton = false, post }: PostCardProps) => {
+export const PostCard = ({ children, skeleton = false, post }: PostCardProps) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    if (!post) return;
+    router.push(`/post/${post.id}`);
+  };
+
+  const displayName = getUserDisplayName(post?.creator as AppUser);
+
+  const avatarProps: ComponentProps<typeof Avatar> = {
+    alt: displayName,
+    src: post?.creator?.avatarUrl ?? '',
+    size: 'md',
+  };
+
   return (
-    <div
-      data-testid="mumble-card"
-      className={clsx(
-        'relative h-fit w-full items-center rounded-m bg-white px-xl py-s pr-m sm:py-l sm:pr-xl',
-        post && ' transition-colors duration-150 hover:ring hover:ring-base-200',
-      )}
+    <Card
+      className={clsx(post && 'transition-colors duration-150 hover:ring hover:ring-secondary-200')}
+      data-testid="post-card"
+      onClick={handleClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          handleClick();
+        }
+      }}
     >
-      <div className="absolute left-[-30px] top-m">
+      <div className="absolute left-[-30px] top-md">
         {skeleton ? (
-          <Skeleton className="h-[64px] w-[64px] rounded-full border-6 border-base-100 bg-base-200" />
+          <Skeleton className="h-[64px] w-[64px] rounded-full border-6 bordbg-secondary-100 bg-secondary-200" />
         ) : (
-          <Avatar size="md" src={imageSrc} alt={'User Picture'} />
+          <Avatar {...avatarProps} />
         )}
       </div>
-      <div className="grid gap-s sm:gap-m">{children}</div>
-    </div>
+      <div className="grid gap-sm sm:gap-md">{children}</div>
+    </Card>
   );
 };

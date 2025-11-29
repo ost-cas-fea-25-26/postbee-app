@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 
 import Header from '@/components/header/Header';
 import type { Metadata } from 'next';
+import { Toaster } from 'sonner';
 
 import './globals.css';
 
@@ -17,6 +18,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-secondary-100">
+        <Toaster
+          position="top-right"
+          richColors
+          toastOptions={{
+            closeButton: true,
+          }}
+        />
         <Suspense fallback={null}>
           <Header />
         </Suspense>
