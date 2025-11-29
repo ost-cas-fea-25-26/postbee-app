@@ -1,4 +1,4 @@
-import { Heading } from '../components/postbee-ui-client';
+import { Heading } from '@postbee/postbee-ui-lib';
 
 export default function Home() {
   return (

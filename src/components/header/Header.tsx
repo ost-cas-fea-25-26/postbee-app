@@ -1,8 +1,8 @@
 import { getSession } from '@/lib/auth';
+import { Logo } from '@postbee/postbee-ui-lib';
 import Link from 'next/link';
 
 import { AuthLoginButton, AuthLogoutButton } from '../auth';
-import { Logo } from '../postbee-ui-client';
 import HeaderActions from './HeaderActions';
 
 export default async function Header() {
