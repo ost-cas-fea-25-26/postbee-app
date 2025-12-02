@@ -7,17 +7,16 @@ import { Avatar, Icon, Label } from '@postbee/postbee-ui-lib';
 import Link from 'next/link';
 
 interface ICommentItemUserInfo {
-  user: AppUser;
+  username: string;
+  displayName: string;
+  avatar?: string;
   commentDate?: Date;
 }
 
-export const CommentItemUserInfo = ({ commentDate, user }: ICommentItemUserInfo) => {
-  const username = user?.username ?? '';
-  const displayName = getUserDisplayName(user);
-
+export const CommentItemUserInfo = ({ username, displayName, avatar, commentDate }: ICommentItemUserInfo) => {
   const avatarProps: ComponentProps<typeof Avatar> = {
     alt: displayName,
-    src: user?.avatarUrl ?? user.image,
+    src: avatar,
     size: 'sm',
   };
 

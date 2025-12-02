@@ -20,7 +20,15 @@ const CommentFormFields = ({ session }: { session: AuthSession }) => {
 
   return (
     <>
-      <div>{session?.user && <CommentItemUserInfo user={session.user} />}</div>
+      <div>
+        {session?.user && (
+          <CommentItemUserInfo
+            username={session.user.name}
+            avatar={session.user?.image ?? undefined}
+            displayName={session.user.name}
+          />
+        )}
+      </div>
 
       <Textarea
         placeholder="Und was meinst du dazu?"
