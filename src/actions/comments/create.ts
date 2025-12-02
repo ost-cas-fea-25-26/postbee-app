@@ -1,5 +1,6 @@
 'use server';
 
+import { throwIfError } from '@/actions/helpers';
 import { postPostsByIdReplies } from '@/lib/api/client';
 
 export async function createPostReply(postId: string, text: string, media?: File) {
@@ -13,7 +14,7 @@ export async function createPostReply(postId: string, text: string, media?: File
     },
   });
 
-  if (error) throw error;
+  throwIfError(error);
 
   return data;
 }

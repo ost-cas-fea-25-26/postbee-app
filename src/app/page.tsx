@@ -4,7 +4,7 @@ import { Heading } from '@postbee/postbee-ui-lib';
 
 import { Dashboard } from './_dashboard';
 
-export default async function Home() {
+export default function Home() {
   return (
     <>
       <Heading level={2} className="text-primary">

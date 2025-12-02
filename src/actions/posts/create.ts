@@ -1,5 +1,6 @@
 'use server';
 
+import { throwIfError } from '@/actions/helpers';
 import { postPosts } from '@/lib/api/client';
 
 export async function createPost(text: string, media?: File) {
@@ -10,7 +11,7 @@ export async function createPost(text: string, media?: File) {
     },
   });
 
-  if (error) throw error;
+  throwIfError(error);
 
   return data;
 }

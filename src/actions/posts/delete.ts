@@ -1,5 +1,6 @@
 'use server';
 
+import { throwIfError } from '@/actions/helpers';
 import { deletePostsById } from '@/lib/api/client';
 
 export async function deletePost(id: string) {
@@ -9,7 +10,7 @@ export async function deletePost(id: string) {
     },
   });
 
-  if (error) throw error;
+  throwIfError(error);
 
   return data;
 }

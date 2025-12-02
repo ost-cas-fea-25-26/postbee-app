@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 
 import { CommentCreate } from '@/components/comments/CommentCreate';
 import CommentsList from '@/components/comments/CommentsList';
-import { PostCard, PostItem, PostsList } from '@/components/posts';
+import { PostCard, PostItem } from '@/components/posts';
 import { getPostsById } from '@/lib/api';
 import { getSession } from '@/lib/auth/auth';
 

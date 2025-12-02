@@ -39,9 +39,10 @@ const CommentFormFields = ({ session }: { session: AuthSession }) => {
 
 export const CommentCreate = ({ postId, session }: { postId: string; session: AuthSession }) => {
   const onSubmit: SubmitHandler<CommentFormData> = (data) => {
-    console.log('Submitted comment:', data.comment);
+    console.warn('Submitted comment:', data.comment);
     // TODO: add post to current list
     const res = createPostReply(postId, data.comment);
+    console.warn('Submitted comment res:', res);
   };
 
   return (

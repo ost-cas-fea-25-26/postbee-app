@@ -27,26 +27,28 @@ const PostFormFields = () => {
 
   useEffect(() => {
     if (!selectedFile) {
-      setPreviewUrl(null);
-      return;
+      const timeout = setTimeout(() => setPreviewUrl(null), 0);
+
+      return () => clearTimeout(timeout);
     }
 
     const url = URL.createObjectURL(selectedFile);
-    setPreviewUrl(url);
+    const timeout = setTimeout(() => setPreviewUrl(url), 0);
 
     return () => {
+      clearTimeout(timeout);
       URL.revokeObjectURL(url);
     };
   }, [selectedFile]);
 
   const handleDialogSubmit = () => {
-    setValue('media', selectedFile || undefined, { shouldValidate: true });
+    setValue('media', selectedFile ?? undefined, { shouldValidate: true });
     setOpenDialog(false);
   };
 
   return (
     <>
-      <Heading level={4}>Hey, let's mumble ?</Heading>
+      <Heading level={4}>Hey, let&apos;s mumble ?</Heading>
 
       {previewUrl && (
         <div className="grid cursor-auto place-content-center object-contain space-y-2">
@@ -61,7 +63,7 @@ const PostFormFields = () => {
         name="postContent"
         placeholder="Deine Meinung zählt!"
         aria-invalid={!!errors.postContent}
-        errorMessage={errors.postContent && errors.postContent.message}
+        errorMessage={errors.postContent?.message}
       />
 
       <div className="flex items-center justify-center gap-4">
@@ -93,15 +95,16 @@ const PostFormFields = () => {
 };
 
 export const PostCreate = () => {
-  const onSubmit = (data: PostFormData) => {
-    console.log('Submitted post:', data);
+  const onSubmit = async (data: PostFormData) => {
+    console.warn('Submitted post:', data);
     // TODO: add post to current list
-    const res = createPost(data.postContent, data.media);
+    const res = await createPost(data.postContent, data.media);
+    console.warn('Submitted post res:', res);
   };
 
   return (
     <PostCard>
-      <Form<PostFormData> onSubmit={onSubmit} className="grid gap-sm sm:gap-md" defaultValues={{ media: null }}>
+      <Form<PostFormData> onSubmit={onSubmit} className="grid gap-sm sm:gap-md">
         <PostFormFields />
       </Form>
     </PostCard>

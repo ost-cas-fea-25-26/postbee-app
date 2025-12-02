@@ -21,7 +21,13 @@ export const readableCreatedDate = (date: Date) => {
   // For times less than a day ago, show relative time
   const readableTime = formatDistanceToNow(postDate, { locale: de, addSuffix: false });
 
-  if (readableTime === 'ein paar Sekunden') return 'gerade eben';
-  if (readableTime === 'eine Minute') return 'vor einer Minute';
+  if (readableTime === 'ein paar Sekunden') {
+    return 'gerade eben';
+  }
+
+  if (readableTime === 'eine Minute') {
+    return 'vor einer Minute';
+  }
+
   return `vor ${readableTime}`;
 };

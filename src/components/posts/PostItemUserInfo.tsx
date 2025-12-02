@@ -1,8 +1,8 @@
 import { ComponentProps } from 'react';
 
-import { PublicUser, User } from '@/lib/api/client';
+import { User } from '@/lib/api/client';
 import { readableCreatedDate } from '@/lib/utils';
-import { Avatar, Icon, Label } from '@postbee/postbee-ui-lib';
+import { Icon, Label } from '@postbee/postbee-ui-lib';
 import Link from 'next/link';
 
 interface IPostItemUserInfo {

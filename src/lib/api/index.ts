@@ -7,6 +7,7 @@ export const createClientConfig: CreateClientConfig = (config) => ({
   ...config,
   auth: async () => {
     const token = await getAccessToken();
+
     return token?.accessToken ?? '';
   },
 });

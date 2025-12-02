@@ -21,7 +21,9 @@ export const PostCard = ({ children, skeleton = false, post }: PostCardProps) =>
   const router = useRouter();
 
   const handleClick = () => {
-    if (!post) return;
+    if (!post) {
+      return;
+    }
     router.push(`/post/${post.id}`);
   };
 
