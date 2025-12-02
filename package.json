@@ -10,9 +10,9 @@
     "format": "prettier --write .",
     "db:up": "docker compose up -d postgres && until docker exec postbee-app-postgres-1 pg_isready -U postgres; do sleep 1; done",
     "db:down": "docker compose down",
-    "auth:migrate:local": "npm run db:up && npx @better-auth/cli migrate --config src/lib/auth.ts",
-    "auth:generate:local": "npm run db:up && npx @better-auth/cli generate --config src/lib/auth.ts",
-    "auth:migrate:deploy": "npx @better-auth/cli migrate -y --config src/lib/auth.ts",
+    "auth:migrate:local": "npm run db:up && npx @better-auth/cli migrate --config src/lib/auth/auth.ts",
+    "auth:generate:local": "npm run db:up && npx @better-auth/cli generate --config src/lib/auth/auth.ts",
+    "auth:migrate:deploy": "npx @better-auth/cli migrate -y --config src/lib/auth/auth.ts",
     "api:generate": "openapi-ts"
   },
   "dependencies": {
