@@ -3,21 +3,21 @@
 import { deletePostsByIdLikes, putPostsByIdLikes } from '@/lib/api/client';
 
 export async function likePost(postId: string) {
-  const res = await putPostsByIdLikes({ path: { id: postId } });
+  const { data, error } = await putPostsByIdLikes({ path: { id: postId } });
 
-  console.log(res);
+  if (error) throw error;
 
-  return res.data;
+  return data;
 }
 
 export async function unlikePost(postId: string) {
-  const res = await deletePostsByIdLikes({
+  const { data, error } = await deletePostsByIdLikes({
     path: {
       id: postId,
     },
   });
 
-  console.log(res);
+  if (error) throw error;
 
-  return res.data;
+  return data;
 }
