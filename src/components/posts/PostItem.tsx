@@ -38,21 +38,26 @@ export const PostItem = ({ post, session }: { post: Post; session: AuthSession }
               count={post.likes}
               initialIsLiked={!!post.likedBySelf}
               disabled={!session}
-              onClick={async () => {
+              onLikeAdd={async () => {
+                try {
+                  await likePost(post.id!);
+                  toast.success('Post successfully liked.');
+                } catch (error) {
+                  console.error('Error liking/unliking post:', error);
+
+                  toast.error('Error liking post');
+                }
+              }}
+              onLikeRemove={async () => {
                 try {
                   if (post.likedBySelf) {
                     await unlikePost(post.id!);
                     toast.success('Post successfully unliked.');
-                  } else {
-                    await likePost(post.id!);
-                    toast.success('Post successfully liked.');
                   }
                 } catch (error) {
                   console.error('Error liking/unliking post:', error);
                   if (post.likedBySelf) {
                     toast.error('Error unliking post');
-                  } else {
-                    toast.error('Error liking post');
                   }
                 }
               }}
