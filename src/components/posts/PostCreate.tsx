@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 
 import { createPost } from '@/actions/posts';
 import { Form } from '@/components/core/Form';
+import { ImageView } from '@/components/core/ImageView';
 import { PostCard } from '@/components/posts/PostCard';
 import { Button, Dialog, Heading, Textarea, Upload } from '@postbee/postbee-ui-lib';
-import Image from 'next/image';
 import { useFormContext } from 'react-hook-form';
 
 type PostFormData = {
@@ -52,7 +52,7 @@ const PostFormFields = () => {
 
       {previewUrl && (
         <div className="grid cursor-auto place-content-center object-contain space-y-2">
-          <Image src={previewUrl} alt="post-media" width={320} height={584} className="rounded-md object-cover" />
+          <ImageView sources={[previewUrl]} alt="post-media-create" />
 
           <Button icon="cancel" text="Remove" onClick={() => setSelectedFile(null)} variant="secondary" />
         </div>

@@ -1,13 +1,13 @@
 'use client';
 
 import { deletePost, likePost, unlikePost } from '@/actions/posts';
+import { ImageView } from '@/components/core/ImageView';
 import { PostItemUserInfo } from '@/components/posts/PostItemUserInfo';
 import { Post } from '@/lib/api/client';
 import { AuthSession } from '@/lib/auth/auth';
 import { AppUser } from '@/lib/types';
 import { decodeULIDTimestamp } from '@/lib/utils/api';
 import { CommentsButton, CopyButton, IconButton, LikeButton } from '@postbee/postbee-ui-lib';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
@@ -26,7 +26,7 @@ export const PostItem = ({ post, session }: { post: Post; session: AuthSession }
       {post.text && <div className="cursor-auto whitespace-pre-wrap break-all" />}
       {post.mediaUrl && (
         <div className="grid cursor-auto place-content-center object-contain">
-          <Image src={post.mediaUrl} alt={'post-media'} width={320} height={584} />
+          <ImageView sources={[post.mediaUrl]} alt={'post-media'} />
         </div>
       )}
       {post.id && (
