@@ -46,7 +46,7 @@ const PostFormFields = () => {
 export const PostCreate = () => {
   const onSubmit = (data: PostFormData) => {
     console.log('Submitted post:', data.postContent);
-    // Your submit logic here
+    // TODO: add post to current list
     const res = createPost(data.postContent);
   };
 

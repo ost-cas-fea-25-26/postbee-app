@@ -1,5 +1,6 @@
 'use client';
 
+import { createPostReply } from '@/actions/comments';
 import { CommentItemUserInfo } from '@/components/comments/CommentItemUserInfo';
 import { Card } from '@/components/core/Card';
 import { Form } from '@/components/core/Form';
@@ -36,9 +37,11 @@ const CommentFormFields = ({ session }: { session: AuthSession }) => {
   );
 };
 
-export const CommentCreate = ({ session }: { session: AuthSession }) => {
+export const CommentCreate = ({ postId, session }: { postId: string; session: AuthSession }) => {
   const onSubmit: SubmitHandler<CommentFormData> = (data) => {
     console.log('Submitted comment:', data.comment);
+    // TODO: add post to current list
+    const res = createPostReply(postId, data.comment);
   };
 
   return (

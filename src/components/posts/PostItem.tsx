@@ -44,7 +44,6 @@ export const PostItem = ({ post, session }: { post: Post; session: AuthSession }
                   toast.success('Post successfully liked.');
                 } catch (error) {
                   console.error('Error liking/unliking post:', error);
-
                   toast.error('Error liking post');
                 }
               }}

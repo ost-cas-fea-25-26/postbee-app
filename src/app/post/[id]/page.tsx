@@ -1,7 +1,8 @@
 import { Suspense } from 'react';
 
 import { CommentCreate } from '@/components/comments/CommentCreate';
-import { PostCard, PostItem } from '@/components/posts';
+import CommentsList from '@/components/comments/CommentsList';
+import { PostCard, PostItem, PostsList } from '@/components/posts';
 import { getPostsById } from '@/lib/api';
 import { getSession } from '@/lib/auth/auth';
 
@@ -24,7 +25,11 @@ export default async function Page({ params }: Props) {
           <PostItem post={post} session={session} />
 
           <Suspense>
-            <CommentCreate session={session} />
+            <CommentCreate postId={postId} session={session} />
+          </Suspense>
+
+          <Suspense fallback={<p>Loading posts...</p>}>
+            <CommentsList postId={postId} />
           </Suspense>
         </PostCard>
       )}
