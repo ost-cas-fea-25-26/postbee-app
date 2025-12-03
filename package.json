@@ -44,7 +44,7 @@
     "@typescript-eslint/eslint-plugin": "^8.47.0",
     "@typescript-eslint/parser": "^8.47.0",
     "dotenv": "^17.2.3",
-    "eslint": "9.22.0",
+    "eslint": "9.39.1",
     "eslint-config-next": "16.0.7",
     "knip": "5.69.1",
     "prettier": "3.6.2",
