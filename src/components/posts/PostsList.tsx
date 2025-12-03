@@ -10,6 +10,11 @@ export default async function PostsList() {
     <div className="flex h-fit w-full max-w-full flex-col items-center justify-center gap-4 ">
       {posts?.data?.map((post) => (
         <PostCard key={post.id} post={post}>
+          {JSON.stringify(post.creator, null, 2)}
+          <br />
+          <br />
+          User (session id):
+          {JSON.stringify(session, null, 2)}
           <PostItem post={post} session={session} />
         </PostCard>
       ))}
