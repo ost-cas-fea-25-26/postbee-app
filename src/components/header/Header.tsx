@@ -1,4 +1,4 @@
-import { getSession } from '@/lib/auth';
+import { getSession } from '@/lib/auth/auth';
 import { Logo } from '@postbee/postbee-ui-lib';
 import Link from 'next/link';
 

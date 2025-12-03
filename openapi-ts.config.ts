@@ -16,6 +16,10 @@ export default defineConfig({
     path: './src/lib/api/client',
   },
   plugins: [
+    {
+      name: '@hey-api/client-next',
+      runtimeConfigPath: '@/lib/api',
+    },
     '@hey-api/schemas',
     {
       dates: true,

@@ -1,6 +1,6 @@
 'use client';
 
-import { AuthSession } from '@/lib/auth';
+import { AuthSession } from '@/lib/auth/auth';
 import { Avatar, HeaderButton } from '@postbee/postbee-ui-lib';
 
 export default function HeaderActions({ session }: { session: AuthSession }) {

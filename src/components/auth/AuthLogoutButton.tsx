@@ -1,6 +1,6 @@
 'use client';
 
-import { signOut } from '@/lib/auth-client';
+import { signOut } from '@/lib/auth/auth-client';
 import { HeaderButton } from '@postbee/postbee-ui-lib';
 import { useRouter } from 'next/navigation';
 

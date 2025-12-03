@@ -10,9 +10,9 @@
     "format": "prettier --write .",
     "db:up": "docker compose up -d postgres && until docker exec postbee-app-postgres-1 pg_isready -U postgres; do sleep 1; done",
     "db:down": "docker compose down",
-    "auth:migrate:local": "npm run db:up && npx @better-auth/cli migrate --config src/lib/auth.ts",
-    "auth:generate:local": "npm run db:up && npx @better-auth/cli generate --config src/lib/auth.ts",
-    "auth:migrate:deploy": "npx @better-auth/cli migrate -y --config src/lib/auth.ts",
+    "auth:migrate:local": "npm run db:up && npx @better-auth/cli migrate --config src/lib/auth/auth.ts",
+    "auth:generate:local": "npm run db:up && npx @better-auth/cli generate --config src/lib/auth/auth.ts",
+    "auth:migrate:deploy": "npx @better-auth/cli migrate -y --config src/lib/auth/auth.ts",
     "api:generate": "openapi-ts"
   },
   "dependencies": {
@@ -20,10 +20,14 @@
     "@types/better-sqlite3": "7.6.13",
     "better-auth": "1.3.34",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "next": "16.0.6",
     "pg": "^8.16.3",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-hook-form": "^7.67.0",
+    "sonner": "^2.0.7",
+    "yet-another-react-lightbox": "^3.25.0",
     "zod": "^4.1.13"
   },
   "devDependencies": {
