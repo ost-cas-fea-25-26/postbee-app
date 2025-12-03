@@ -22,8 +22,7 @@ export const PostItem = ({ post, session }: { post: Post; session: AuthSession }
       <div className="flex">
         {post.id && <PostItemUserInfo user={post.creator as AppUser} postDate={decodeULIDTimestamp(post.id)} />}
       </div>
-      {post.text}
-      {post.text && <div className="cursor-auto whitespace-pre-wrap break-all" />}
+      {post.text && <div className="cursor-auto whitespace-pre-wrap break-all">{post.text}</div>}
       {post.mediaUrl && (
         <div className="grid cursor-auto place-content-center object-contain">
           <ImageView sources={[post.mediaUrl]} alt={'post-media'} />
