@@ -32,7 +32,7 @@ export async function Dashboard({ searchParams }: Props) {
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center gap-4 mb-xl">
-          <Suspense fallback={<p>Loading posts...</p>}>
+          <Suspense fallback={<SkeletonPost count={15} />}>
             <PostsList tags={tagsList} likedBy={likeByList} creators={creatorsList} />
           </Suspense>
         </div>
