@@ -13,7 +13,7 @@
     "api:generate": "openapi-ts"
   },
   "dependencies": {
-    "@postbee/postbee-ui-lib": "^1.29.0",
+    "@postbee/postbee-ui-lib": "1.29.2",
     "@types/better-sqlite3": "7.6.13",
     "better-auth": "1.4.5",
     "clsx": "^2.1.1",
