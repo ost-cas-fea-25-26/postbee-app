@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { CommentCreate } from '@/components/comments/CommentCreate';
 import CommentsList from '@/components/comments/CommentsList';
 import { PostCard, PostItem } from '@/components/posts';
+import { SkeletonPost } from '@/components/skeleton';
 import { getPostsById } from '@/lib/api';
 import { getSession } from '@/lib/auth/auth';
 
@@ -24,12 +25,8 @@ async function PostContent({ params }: Props) {
   return (
     <PostCard post={post}>
       <PostItem post={post} session={session} />
-      <Suspense>
-        <CommentCreate postId={postId} session={session} />
-      </Suspense>
-      <Suspense fallback={<p>Loading comments...</p>}>
-        <CommentsList postId={postId} />
-      </Suspense>
+      <CommentCreate postId={postId} session={session} />
+      <CommentsList postId={postId} />
     </PostCard>
   );
 }
@@ -37,7 +34,7 @@ async function PostContent({ params }: Props) {
 export default function Page({ params }: Props) {
   return (
     <div>
-      <Suspense fallback={<p>Loading post...</p>}>
+      <Suspense fallback={<SkeletonPost />}>
         <PostContent params={params} />
       </Suspense>
     </div>
