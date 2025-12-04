@@ -5,8 +5,9 @@ import { useEffect, useState } from 'react';
 import { createPost } from '@/actions/posts';
 import { Form } from '@/components/core/Form';
 import { ImageView } from '@/components/core/ImageView';
+import { UploadDialog } from '@/components/core/UploadDialog';
 import { PostCard } from '@/components/posts/PostCard';
-import { Button, Dialog, Heading, Textarea, Upload } from '@postbee/postbee-ui-lib';
+import { Button, Heading, Textarea } from '@postbee/postbee-ui-lib';
 import { useFormContext } from 'react-hook-form';
 
 type PostFormData = {
@@ -28,7 +29,6 @@ const PostFormFields = () => {
   useEffect(() => {
     if (!selectedFile) {
       const timeout = setTimeout(() => setPreviewUrl(null), 0);
-
       return () => clearTimeout(timeout);
     }
 
@@ -41,8 +41,10 @@ const PostFormFields = () => {
     };
   }, [selectedFile]);
 
-  const handleDialogSubmit = () => {
-    setValue('media', selectedFile ?? undefined, { shouldValidate: true });
+  const handleUploadSubmit = (files: File[]) => {
+    const file = files[0] ?? null;
+    setSelectedFile(file);
+    setValue('media', file ?? undefined, { shouldValidate: true });
     setOpenDialog(false);
   };
 
@@ -80,14 +82,7 @@ const PostFormFields = () => {
           }}
         />
 
-        <Dialog title="Upload" open={openDialog} onClose={() => setOpenDialog(false)} onSubmit={handleDialogSubmit}>
-          <Upload
-            files={selectedFile ? [{ file: selectedFile, preview: URL.createObjectURL(selectedFile) }] : []}
-            onChange={(files) => {
-              setSelectedFile(files[0]?.file ?? null);
-            }}
-          />
-        </Dialog>
+        <UploadDialog open={openDialog} onClose={() => setOpenDialog(false)} onSubmit={handleUploadSubmit} />
 
         <Button text="Absenden" icon="send" fullWidth type="submit" onClick={(e) => e.stopPropagation()} />
       </div>
