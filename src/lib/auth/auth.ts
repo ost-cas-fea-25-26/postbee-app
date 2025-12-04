@@ -107,3 +107,9 @@ export const getAccessToken = cache(async () => {
 
   return token;
 });
+
+export async function isCurrentUser(userId: string) {
+  const session = await getSession();
+
+  return !!session && session.user.id === userId;
+}
