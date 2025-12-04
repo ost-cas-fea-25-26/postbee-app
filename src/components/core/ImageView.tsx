@@ -8,7 +8,7 @@ export const ImageView = ({ sources, alt = 'media' }: { sources: string[]; alt: 
   const [toggle, setOpen] = useState(false);
 
   return (
-    <div>
+    <>
       {sources.map((src) => (
         <Image
           key={src}
@@ -26,6 +26,6 @@ export const ImageView = ({ sources, alt = 'media' }: { sources: string[]; alt: 
         />
       ))}
       <Lightbox open={toggle} close={() => setOpen(false)} slides={sources.map((src) => ({ src }))} />
-    </div>
+    </>
   );
 };
