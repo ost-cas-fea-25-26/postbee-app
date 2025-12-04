@@ -14,7 +14,13 @@ export default function SkeletonPost({ count = 1 }: ISkeletonPost) {
     </PostCard>
   );
 
-  return Array(count)
-    .fill(0)
-    .map((_, i) => <Fragment key={i}>{skeleton}</Fragment>);
+  return (
+    <div className="flex flex-col gap-sm w-full">
+      {Array(count)
+        .fill(0)
+        .map((_, i) => (
+          <Fragment key={i}>{skeleton}</Fragment>
+        ))}
+    </div>
+  );
 }
