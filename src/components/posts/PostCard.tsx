@@ -50,7 +50,7 @@ export const PostCard = ({ children, skeleton = false, post }: PostCardProps) =>
     >
       <div className="absolute left-[-30px] top-md">
         {skeleton ? (
-          <Skeleton className="h-[64px] w-[64px] rounded-full border-6 bordbg-secondary-100 bg-secondary-200" />
+          <Skeleton className="h-[64px] w-[64px] rounded-full border-6 border-secondary-100 bg-secondary-200" />
         ) : (
           <Avatar {...avatarProps} />
         )}

@@ -13,5 +13,22 @@
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-sans), serif;
+}
+
+/* Add this keyframes block for shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Your skeleton shimmer class */
+.mumble-animate-skeleton {
+  background: linear-gradient(90deg, #e5e7eb 0%, #f3f4f6 50%, #e5e7eb 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
 }
