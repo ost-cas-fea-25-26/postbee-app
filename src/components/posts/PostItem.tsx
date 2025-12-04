@@ -16,7 +16,7 @@ export const PostItem = ({ post, session }: { post: Post; session: AuthSession }
   const router = useRouter();
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
-  const isMyPost = post.creator?.id === session?.user?.id;
+  const isMyPost = post.creator?.id === session?.user?.identifier;
 
   return (
     <div className="grid gap-sm sm:gap-md">
