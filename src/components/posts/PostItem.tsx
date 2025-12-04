@@ -25,7 +25,6 @@ export const PostItem = ({ post, session }: { post: Post; session: AuthSession }
       </div>
       {post.text && (
         <div
-          data-testid="mumble-post--text"
           className="cursor-auto whitespace-pre-wrap break-all"
           dangerouslySetInnerHTML={{ __html: textToTagsLink(post.text)! }}
         />
