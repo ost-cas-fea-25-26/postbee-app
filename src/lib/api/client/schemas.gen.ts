@@ -209,6 +209,12 @@ export const PublicUserSchema = {
       nullable: true,
       example: 'max_muster',
     },
+    displayName: {
+      type: 'string',
+      description: 'The display name of the creator.',
+      nullable: true,
+      example: 'max muster',
+    },
     avatarUrl: {
       type: 'string',
       description: 'If set, points to the avatar of the user.',
@@ -381,6 +387,12 @@ export const UserSchema = {
       nullable: true,
       example: 'max_muster',
     },
+    displayName: {
+      type: 'string',
+      description: 'The display name of the creator.',
+      nullable: true,
+      example: 'max muster',
+    },
     avatarUrl: {
       type: 'string',
       description: 'If set, points to the avatar of the user.',
@@ -512,6 +524,12 @@ export const PublicUserWritableSchema = {
       nullable: true,
       example: 'max_muster',
     },
+    displayName: {
+      type: 'string',
+      description: 'The display name of the creator.',
+      nullable: true,
+      example: 'max muster',
+    },
   },
   additionalProperties: false,
   description:
@@ -561,6 +579,12 @@ export const UserWritableSchema = {
       description: 'The username of the creator.',
       nullable: true,
       example: 'max_muster',
+    },
+    displayName: {
+      type: 'string',
+      description: 'The display name of the creator.',
+      nullable: true,
+      example: 'max muster',
     },
     firstname: {
       type: 'string',

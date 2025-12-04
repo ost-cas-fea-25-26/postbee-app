@@ -5,8 +5,7 @@ import type { Client as CoreClient, Config as CoreConfig } from '../core/types.g
 import type { Middleware } from './utils.gen';
 
 export interface Config<T extends ClientOptions = ClientOptions>
-  extends Omit<RequestInit, 'body' | 'headers' | 'method'>,
-    CoreConfig {
+  extends Omit<RequestInit, 'body' | 'headers' | 'method'>, CoreConfig {
   /**
    * Base URL for all requests made by this client.
    */
@@ -36,7 +35,8 @@ export interface Config<T extends ClientOptions = ClientOptions>
 }
 
 export interface RequestOptions<TData = unknown, ThrowOnError extends boolean = boolean, Url extends string = string>
-  extends Config<{
+  extends
+    Config<{
       throwOnError: ThrowOnError;
     }>,
     Pick<
@@ -58,8 +58,10 @@ export interface RequestOptions<TData = unknown, ThrowOnError extends boolean = 
   url: Url;
 }
 
-export interface ResolvedRequestOptions<ThrowOnError extends boolean = boolean, Url extends string = string>
-  extends RequestOptions<unknown, ThrowOnError, Url> {
+export interface ResolvedRequestOptions<
+  ThrowOnError extends boolean = boolean,
+  Url extends string = string,
+> extends RequestOptions<unknown, ThrowOnError, Url> {
   serializedBody?: string;
 }
 

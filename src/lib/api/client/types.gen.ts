@@ -141,6 +141,10 @@ export type PublicUser = {
    */
   username?: string | null;
   /**
+   * The display name of the creator.
+   */
+  displayName?: string | null;
+  /**
    * If set, points to the avatar of the user.
    */
   readonly avatarUrl?: string | null;
@@ -258,6 +262,10 @@ export type User = {
    */
   username?: string | null;
   /**
+   * The display name of the creator.
+   */
+  displayName?: string | null;
+  /**
    * If set, points to the avatar of the user.
    */
   readonly avatarUrl?: string | null;
@@ -353,6 +361,10 @@ export type PublicUserWritable = {
    * The username of the creator.
    */
   username?: string | null;
+  /**
+   * The display name of the creator.
+   */
+  displayName?: string | null;
 };
 
 /**
@@ -392,6 +404,10 @@ export type UserWritable = {
    * The username of the creator.
    */
   username?: string | null;
+  /**
+   * The display name of the creator.
+   */
+  displayName?: string | null;
   /**
    * Firstname of the user.
    */
