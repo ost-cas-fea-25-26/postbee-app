@@ -9,6 +9,7 @@ import { Pool } from 'pg';
 export type AuthSession = Awaited<ReturnType<typeof auth.api.getSession>>;
 export type AuthUser = {
   id: string;
+  identifier: string;
   name: string;
   email: string;
   emailVerified: boolean;
@@ -18,15 +19,14 @@ export type AuthUser = {
 };
 
 export const auth = betterAuth({
-  database: new Pool({
-    connectionString: process.env.DATABASE_URL,
-  }),
-  session: {
-    expiresIn: 60 * 60 * 12, // 12 hours
-    updateAge: 60 * 60 * 12, // 12 hours
-    cookieCache: {
-      enabled: true,
-      maxAge: 60 * 5, // 5 minutes
+  user: {
+    additionalFields: {
+      identifier: {
+        type: 'string',
+        required: false,
+        defaultValue: '',
+        input: false,
+      },
     },
   },
   plugins: [
@@ -43,6 +43,13 @@ export const auth = betterAuth({
             .map((item) => item.trim())
             .filter(Boolean),
           pkce: true,
+          // @ts-ignore Profile type seams not to match
+          mapProfileToUser: (profile) => {
+            console.warn('profile', profile);
+            return {
+              identifier: profile.sub,
+            };
+          },
         },
       ],
     }),
