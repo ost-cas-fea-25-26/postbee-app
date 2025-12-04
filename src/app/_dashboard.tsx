@@ -24,14 +24,14 @@ export async function Dashboard({ searchParams }: Props) {
   return (
     <div>
       {session?.user ? (
-        <div className="flex flex-col items-center justify-center gap-4 mb-xl">
+        <div className="flex flex-col items-center justify-center gap-sm mb-xl">
           <PostCreate />
           <Suspense fallback={<SkeletonPost count={15} />}>
             <PostsList tags={tagsList} likedBy={likeByList} creators={creatorsList} />
           </Suspense>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center gap-4 mb-xl">
+        <div className="flex flex-col items-center justify-center gap-sm mb-xl">
           <Suspense fallback={<SkeletonPost count={15} />}>
             <PostsList tags={tagsList} likedBy={likeByList} creators={creatorsList} />
           </Suspense>

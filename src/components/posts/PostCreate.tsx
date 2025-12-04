@@ -67,7 +67,7 @@ const PostFormFields = () => {
         errorMessage={errors.postContent?.message}
       />
 
-      <div className="flex items-center justify-center gap-4">
+      <div className="flex items-center justify-center gap-sm">
         <Button
           text="Bild hochladen"
           variant="secondary"
