@@ -62,6 +62,7 @@ const PostFormFields = () => {
         {...register('postContent', { required: 'Bitte gib deinen Beitrag ein.' })}
         name="postContent"
         placeholder="Deine Meinung zählt!"
+        rows={5}
         aria-invalid={!!errors.postContent}
         errorMessage={errors.postContent?.message}
       />
