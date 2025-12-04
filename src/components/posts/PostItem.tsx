@@ -6,6 +6,7 @@ import { PostItemUserInfo } from '@/components/posts/PostItemUserInfo';
 import { Post } from '@/lib/api/client';
 import { AuthSession } from '@/lib/auth/auth';
 import { AppUser } from '@/lib/types';
+import { textToTagsLink } from '@/lib/utils';
 import { decodeULIDTimestamp } from '@/lib/utils/api';
 import { CommentsButton, CopyButton, IconButton, LikeButton } from '@postbee/postbee-ui-lib';
 import { useRouter } from 'next/navigation';
@@ -22,7 +23,13 @@ export const PostItem = ({ post, session }: { post: Post; session: AuthSession }
       <div className="flex">
         {post.id && <PostItemUserInfo user={post.creator as AppUser} postDate={decodeULIDTimestamp(post.id)} />}
       </div>
-      {post.text && <div className="cursor-auto whitespace-pre-wrap break-all">{post.text}</div>}
+      {post.text && (
+        <div
+          data-testid="mumble-post--text"
+          className="cursor-auto whitespace-pre-wrap break-all"
+          dangerouslySetInnerHTML={{ __html: textToTagsLink(post.text)! }}
+        />
+      )}
       {post.mediaUrl && (
         <div className="grid cursor-auto place-content-center object-contain">
           <ImageView sources={[post.mediaUrl]} alt={'post-media'} />
