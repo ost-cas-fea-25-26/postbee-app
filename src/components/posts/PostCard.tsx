@@ -39,14 +39,8 @@ export const PostCard = ({ children, skeleton = false, post }: PostCardProps) =>
     <Card
       className={clsx(post && 'transition-colors duration-150 hover:ring hover:ring-secondary-200')}
       data-testid="post-card"
-      onClick={handleClick}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          handleClick();
-        }
-      }}
     >
       <div className="absolute left-[-30px] top-md">
         {skeleton ? (
