@@ -4,7 +4,6 @@ import { betterAuth } from 'better-auth';
 import { nextCookies } from 'better-auth/next-js';
 import { genericOAuth } from 'better-auth/plugins';
 import { headers } from 'next/headers';
-import { Pool } from 'pg';
 
 export type AuthSession = Awaited<ReturnType<typeof auth.api.getSession>>;
 export type AuthUser = {
