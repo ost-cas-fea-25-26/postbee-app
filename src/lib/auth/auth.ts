@@ -6,6 +6,11 @@ import { genericOAuth } from 'better-auth/plugins';
 import { headers } from 'next/headers';
 
 export type AuthSession = Awaited<ReturnType<typeof auth.api.getSession>>;
+
+interface OAuthProfile {
+  sub: string;
+}
+
 export type AuthUser = {
   id: string;
   identifier: string;
@@ -42,9 +47,8 @@ export const auth = betterAuth({
             .map((item) => item.trim())
             .filter(Boolean),
           pkce: true,
-          // @ts-ignore Profile type seams not to match
-          mapProfileToUser: (profile) => {
-            console.warn('profile', profile);
+          // @ts-expect-error Profile type seams not to match
+          mapProfileToUser: (profile: OAuthProfile) => {
             return {
               identifier: profile.sub,
             };

@@ -1,8 +1,6 @@
 import { ComponentProps } from 'react';
 
-import { AppUser } from '@/lib/types';
 import { readableCreatedDate } from '@/lib/utils';
-import { getUserDisplayName } from '@/lib/utils/user';
 import { Avatar, Icon, Label } from '@postbee/postbee-ui-lib';
 import Link from 'next/link';
 

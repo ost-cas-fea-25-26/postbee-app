@@ -12,7 +12,7 @@ interface Props {
   }>;
 }
 
-export default async function Home({ searchParams }: Props) {
+export default function Home({ searchParams }: Props) {
   return (
     <>
       <Heading level={2} className="text-primary">

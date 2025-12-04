@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 
 import { PostsList } from '@/components/posts';
 import { PostCreate } from '@/components/posts/PostCreate';
-import { Skeleton, SkeletonPost, SkeletonPostContent, SkeletonUserCard } from '@/components/skeleton';
+import { SkeletonPost } from '@/components/skeleton';
 import { getSession } from '@/lib/auth/auth';
 
 interface Props {
