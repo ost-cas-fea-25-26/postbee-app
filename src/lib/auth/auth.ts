@@ -1,15 +1,12 @@
 import { cache } from 'react';
 
+import { OAuthProfile } from '@/lib/auth/auth-client';
 import { betterAuth } from 'better-auth';
 import { nextCookies } from 'better-auth/next-js';
 import { genericOAuth } from 'better-auth/plugins';
 import { headers } from 'next/headers';
 
 export type AuthSession = Awaited<ReturnType<typeof auth.api.getSession>>;
-
-interface OAuthProfile {
-  sub: string;
-}
 
 export type AuthUser = {
   id: string;
@@ -43,6 +40,12 @@ export const auth = betterAuth({
         defaultValue: '',
         input: false,
       },
+      username: {
+        type: 'string',
+        required: false,
+        defaultValue: '',
+        input: false,
+      },
     },
   },
   plugins: [
@@ -63,6 +66,7 @@ export const auth = betterAuth({
           mapProfileToUser: (profile: OAuthProfile) => {
             return {
               identifier: profile.sub,
+              username: profile.preferred_username,
             };
           },
         },
