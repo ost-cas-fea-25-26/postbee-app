@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 
 import { PostsList } from '@/components/posts';
 import { PostCreate } from '@/components/posts/PostCreate';
+import { Skeleton, SkeletonPost, SkeletonPostContent, SkeletonUserCard } from '@/components/skeleton';
 import { getSession } from '@/lib/auth/auth';
 
 interface Props {
@@ -25,7 +26,7 @@ export async function Dashboard({ searchParams }: Props) {
       {session?.user ? (
         <div className="flex flex-col items-center justify-center gap-4 mb-xl">
           <PostCreate />
-          <Suspense fallback={<p>Loading posts...</p>}>
+          <Suspense fallback={<SkeletonPost count={15} />}>
             <PostsList tags={tagsList} likedBy={likeByList} creators={creatorsList} />
           </Suspense>
         </div>
