@@ -4,14 +4,22 @@ import { Heading } from '@postbee/postbee-ui-lib';
 
 import { Dashboard } from './_dashboard';
 
-export default function Home() {
+interface Props {
+  searchParams: Promise<{
+    tags: string;
+    likedBy: string;
+    creators: string;
+  }>;
+}
+
+export default async function Home({ searchParams }: Props) {
   return (
     <>
       <Heading level={2} className="text-primary">
         Willkommen auf Mumble
       </Heading>
       <Suspense>
-        <Dashboard />
+        <Dashboard searchParams={searchParams} />
       </Suspense>
     </>
   );
