@@ -8,8 +8,6 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
-    "db:up": "docker compose up -d postgres && until docker exec postbee-app-postgres-1 pg_isready -U postgres; do sleep 1; done",
-    "db:down": "docker compose down",
     "api:generate": "openapi-ts"
   },
   "dependencies": {
