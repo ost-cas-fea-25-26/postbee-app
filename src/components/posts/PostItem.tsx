@@ -10,7 +10,7 @@ import { PostFormData, PostItemEditDialog } from '@/components/posts/PostItemEdi
 import { PostItemUserInfo } from '@/components/posts/PostItemUserInfo';
 import { Post } from '@/lib/api/client';
 import { AuthSession } from '@/lib/auth/auth';
-import { textToTagsLink } from '@/lib/utils';
+import { getSanitizedHTML, textToTagsLink } from '@/lib/utils';
 import { decodeULIDTimestamp } from '@/lib/utils/api';
 import { CommentsButton, CopyButton, LikeButton } from '@postbee/postbee-ui-lib';
 import { useRouter } from 'next/navigation';
@@ -74,7 +74,7 @@ export const PostItem = ({ post, session }: { post: Post; session: AuthSession }
       {post.text && (
         <div
           className="cursor-auto whitespace-pre-wrap break-all"
-          dangerouslySetInnerHTML={{ __html: textToTagsLink(post.text)! }}
+          dangerouslySetInnerHTML={{ __html: getSanitizedHTML(textToTagsLink(post.text)!) }}
         />
       )}
       {post.mediaUrl && (
