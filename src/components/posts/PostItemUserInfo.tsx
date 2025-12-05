@@ -14,7 +14,7 @@ interface IPostItemUserInfo {
 
 export const PostItemUserInfo = ({ username, displayName, postDate, trailing }: IPostItemUserInfo) => {
   const labelProps: ComponentProps<typeof Label> = {
-    size: 'md',
+    size: 'lg',
     children: displayName ?? username,
   };
 

@@ -16,7 +16,7 @@ export const Card = ({ children, className = '', onClick, onKeyDown, role, tabIn
     <div
       data-testid="mumble-card"
       className={clsx(
-        'relative h-fit w-full items-center rounded-md bg-white px-xl py-s pr-m sm:py-lg sm:pr-xl',
+        'relative h-fit w-full items-center rounded-lg bg-white px-xl py-md sm:py-lg sm:pr-xl',
         { 'cursor-pointer': !!onClick },
         className,
       )}

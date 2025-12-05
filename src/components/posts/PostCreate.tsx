@@ -101,7 +101,7 @@ export const PostCreate = () => {
 
   return (
     <PostCard>
-      <Form<PostFormData> onSubmit={onSubmit} className="grid gap-sm sm:gap-md">
+      <Form<PostFormData> onSubmit={onSubmit} className="grid gap-sm">
         <PostFormFields />
       </Form>
     </PostCard>
