@@ -54,7 +54,7 @@ const PostFormFields = () => {
       <Heading level={4}>Hey, let&apos;s mumble ?</Heading>
 
       {previewUrl && (
-        <div className="grid cursor-auto place-content-center object-contain space-y-2">
+        <div className="grid cursor-auto place-content-center object-contain space-y-xs">
           <ImageView sources={[previewUrl]} alt="post-media-create" />
 
           <Button icon="cancel" text="Remove" onClick={() => setSelectedFile(null)} variant="secondary" />

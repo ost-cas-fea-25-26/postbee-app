@@ -74,7 +74,7 @@ const PostEditFields = ({ initialMedia }: { initialMedia?: string | null }) => {
   return (
     <>
       {previewUrl ? (
-        <div className="grid cursor-auto place-content-center object-contain space-y-2">
+        <div className="grid cursor-auto place-content-center object-contain space-y-xs">
           <ImageView sources={[previewUrl]} alt="post-media" />
           <Button icon="cancel" text="Remove" onClick={handleRemoveMedia} variant="secondary" />
         </div>
