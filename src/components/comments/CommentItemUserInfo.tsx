@@ -37,14 +37,14 @@ export const CommentItemUserInfo = ({ username, displayName, avatar, commentDate
         <Label {...labelProps} className="max-w-[150px] truncate capitalize sm:max-w-none" />
         <div className="flex flex-wrap gap-s items-center text-sm text-muted-foreground">
           {username && (
-            <IconLabel color="primary" icon="profile">
+            <IconLabel colorClassName="text-primary" icon="profile">
               {username}
             </IconLabel>
           )}
 
           {commentDate && (
             <>
-              <IconLabel color="secondary-400" icon="time">
+              <IconLabel colorClassName="text-secondary-400" icon="time">
                 {readableCreatedDate(commentDate)}
               </IconLabel>
             </>

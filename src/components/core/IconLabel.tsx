@@ -7,15 +7,15 @@ interface IconLabelProps {
   children: LabelProps['children'];
   icon: IconProps['icon'];
   iconSize?: IconProps['size'];
-  color?: string;
+  colorClassName?: string;
   labelSize?: LabelProps['size'];
 }
 
-export const IconLabel = ({ children, icon, iconSize, color, labelSize }: IconLabelProps) => {
+export const IconLabel = ({ children, icon, iconSize, colorClassName, labelSize }: IconLabelProps) => {
   return (
-    <div className={clsx('inline-flex flex-wrap gap-xxs items-center ', `text-${color}`)}>
+    <div className={clsx('inline-flex flex-wrap gap-xxs items-center', colorClassName)}>
       <Icon icon={icon} size={iconSize ?? 12} />
-      <Label className={`text-${color}`} size={labelSize ?? 'sm'}>
+      <Label className={clsx(colorClassName)} size={labelSize ?? 'sm'}>
         {children}
       </Label>
     </div>

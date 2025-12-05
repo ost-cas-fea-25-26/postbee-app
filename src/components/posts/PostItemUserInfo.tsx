@@ -31,13 +31,13 @@ export const PostItemUserInfo = ({ username, displayName, postDate, trailing }: 
 
           <div className="flex flex-wrap gap-sm items-center">
             {username && (
-              <IconLabel color="primary" icon="profile">
+              <IconLabel colorClassName="text-primary" icon="profile">
                 {username}
               </IconLabel>
             )}
 
             {postDate && (
-              <IconLabel color="secondary-400" icon="time">
+              <IconLabel colorClassName="text-secondary-400" icon="time">
                 {readableCreatedDate(postDate)}
               </IconLabel>
             )}
