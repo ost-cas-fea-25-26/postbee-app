@@ -9,7 +9,6 @@ import { AppUser } from '@/lib/types';
 import { getUserDisplayName } from '@/lib/utils';
 import { Avatar } from '@postbee/postbee-ui-lib';
 import clsx from 'clsx';
-import { useRouter } from 'next/navigation';
 
 interface PostCardProps {
   children: ReactNode;
@@ -18,15 +17,6 @@ interface PostCardProps {
 }
 
 export const PostCard = ({ children, skeleton = false, post }: PostCardProps) => {
-  const router = useRouter();
-
-  const handleClick = () => {
-    if (!post) {
-      return;
-    }
-    router.push(`/post/${post.id}`);
-  };
-
   const displayName = getUserDisplayName(post?.creator as AppUser);
 
   const avatarProps: ComponentProps<typeof Avatar> = {

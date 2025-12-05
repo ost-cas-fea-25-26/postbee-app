@@ -16,8 +16,7 @@ export const ImageView = ({ sources, alt = 'media' }: { sources: string[]; alt: 
           alt={alt}
           width={320}
           height={584}
-          style={{ height: 'auto', width: 'auto' }}
-          className="rounded-md object-cover cursor-pointer"
+          className="rounded-md object-cover cursor-pointer w-auto h-auto"
           loading="eager"
           onClick={(e) => {
             setOpen(!toggle);

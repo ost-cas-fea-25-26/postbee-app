@@ -8,7 +8,7 @@ import clsx from 'clsx';
 
 export type DropdownAction = {
   label: string;
-  onSelect: () => void;
+  onSelect: () => void | Promise<void>;
   icon: IconName;
   variant?: 'default' | 'error';
 };
@@ -23,7 +23,7 @@ export function Dropdown({ trigger, actions, sideOffset = 8 }: DropdownProps) {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        {trigger || (
+        {trigger ?? (
           <button aria-label="Open dropdown menu" className="p-2 rounded-xl shadow bg-white hover:bg-secondary-50">
             {/* Default trigger icon could go here, or leave empty */}
             <Icon icon="settings" color="secondary" />

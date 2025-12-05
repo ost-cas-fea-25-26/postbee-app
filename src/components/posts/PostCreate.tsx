@@ -29,6 +29,7 @@ const PostFormFields = () => {
   useEffect(() => {
     if (!selectedFile) {
       const timeout = setTimeout(() => setPreviewUrl(null), 0);
+
       return () => clearTimeout(timeout);
     }
 
