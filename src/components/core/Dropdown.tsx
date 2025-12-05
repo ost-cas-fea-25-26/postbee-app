@@ -24,7 +24,7 @@ export function Dropdown({ trigger, actions, sideOffset = 8 }: DropdownProps) {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         {trigger ?? (
-          <button aria-label="Open dropdown menu" className="p-2 rounded-xl shadow bg-white hover:bg-secondary-50">
+          <button aria-label="Open dropdown menu" className="p-xs rounded-xl shadow bg-white hover:bg-secondary-50">
             {/* Default trigger icon could go here, or leave empty */}
             <Icon icon="settings" color="secondary" />
           </button>
@@ -33,14 +33,14 @@ export function Dropdown({ trigger, actions, sideOffset = 8 }: DropdownProps) {
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className="min-w-[150px] bg-white rounded-xl shadow p-2 flex flex-col gap-1"
+          className="min-w-[150px] bg-white rounded-xl shadow p-xs flex flex-col gap-xxs"
           sideOffset={sideOffset}
         >
           {actions.map(({ label, onSelect, icon, variant }, i) => (
             <DropdownMenu.Item
               key={i}
               className={clsx(
-                'flex items-center gap-2 p-2 rounded-lg cursor-pointer hover:bg-secondary-100 focus:bg-secondary-100',
+                'flex items-center gap-xs p-xs rounded-lg cursor-pointer hover:bg-secondary-100 focus:bg-secondary-100',
                 `${variant === 'error' ? 'text-error ' : ''}`,
               )}
               onSelect={onSelect}
