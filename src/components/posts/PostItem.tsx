@@ -73,11 +73,11 @@ export const PostItem = ({ post, session }: { post: Post; session: AuthSession }
       </div>
       {post.text && (
         // TODO: check if this make sense
-        <div
+        <p
           suppressHydrationWarning
-          className="cursor-auto whitespace-pre-wrap break-all"
-          dangerouslySetInnerHTML={{ __html: getSanitizedHTML(textToTagsLink(post.text!)) }}
-        />
+          className="pb-paragraph-md cursor-auto whitespace-pre-wrap break-all"
+          dangerouslySetInnerHTML={{ __html: getSanitizedHTML(textToTagsLink(post.text)) }}
+        ></p>
       )}
       {post.mediaUrl && (
         <div className="grid cursor-auto place-content-center object-contain">
