@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { Dialog, Upload } from '@postbee/postbee-ui-lib';
+import { Button, Dialog, Upload } from '@postbee/postbee-ui-lib';
 
 type UploadFile = {
   file: File;
@@ -34,7 +34,16 @@ export const UploadDialog = ({ open, multiple = false, onClose, onSubmit }: Uplo
   };
 
   return (
-    <Dialog title="Upload" open={open} onClose={handleClose} onSubmit={handleSubmit}>
+    <Dialog
+      title="Upload"
+      open={open}
+      actions={
+        <>
+          <Button text="Cancel" icon="cancel" variant="secondary" onClick={handleClose} size="md" />
+          <Button text="Apply" icon="checkmark" onClick={handleSubmit} size="md" />
+        </>
+      }
+    >
       <Upload multiple={multiple} files={selectedFiles} onChange={setSelectedFiles} />
     </Dialog>
   );

@@ -16,7 +16,7 @@ export default function Home({ searchParams }: Props) {
   return (
     <>
       <Heading level={2} className="text-primary mb-lg">
-        Willkommen auf Mumble
+        Welcome to Mumble
       </Heading>
       <Suspense>
         <Dashboard searchParams={searchParams} />

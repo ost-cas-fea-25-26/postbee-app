@@ -62,9 +62,9 @@ const PostFormFields = () => {
       )}
 
       <Textarea
-        {...register('postContent', { required: 'Bitte gib deinen Beitrag ein.' })}
+        {...register('postContent', { required: 'Please enter your contribution.' })}
         name="postContent"
-        placeholder="Deine Meinung zählt!"
+        placeholder="Your opinion matters!"
         rows={5}
         aria-invalid={!!errors.postContent}
         errorMessage={errors.postContent?.message}
@@ -72,7 +72,7 @@ const PostFormFields = () => {
 
       <div className="flex items-center justify-center gap-sm">
         <Button
-          text="Bild hochladen"
+          text="Image upload"
           variant="secondary"
           icon="upload"
           fullWidth
@@ -85,7 +85,7 @@ const PostFormFields = () => {
 
         <UploadDialog open={openDialog} onClose={() => setOpenDialog(false)} onSubmit={handleUploadSubmit} />
 
-        <Button text="Absenden" icon="send" fullWidth type="submit" onClick={(e) => e.stopPropagation()} />
+        <Button text="Send" icon="send" fullWidth type="submit" onClick={(e) => e.stopPropagation()} />
       </div>
     </>
   );
