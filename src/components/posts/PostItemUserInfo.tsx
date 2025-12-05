@@ -44,7 +44,7 @@ export const PostItemUserInfo = ({ username, displayName, postDate, trailing }: 
           </div>
         </div>
       </Link>
-      {trailing && <div className="ml-4">{trailing}</div>}
+      {trailing && <div className="ml-sm">{trailing}</div>}
     </div>
   );
 };
