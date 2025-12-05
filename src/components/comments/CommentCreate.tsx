@@ -37,7 +37,7 @@ const CommentFormFields = ({ session }: { session: AuthSession }) => {
       />
       {errors.comment && <p className="text-red-600 text-sm">{errors.comment.message}</p>}
 
-      <div className="flex items-center justify-center gap-4">
+      <div className="flex items-center justify-center gap-sm">
         <Button text="Bild hochladen" variant="secondary" icon="upload" fullWidth type="button" />
         <Button text="Absenden" icon="send" fullWidth type="submit" />
       </div>
@@ -55,7 +55,7 @@ export const CommentCreate = ({ postId, session }: { postId: string; session: Au
 
   return (
     <Card className="h-fit w-full max-w-full !px-0">
-      <Form<CommentFormData> onSubmit={onSubmit} className="!px-0 flex flex-col justify-center gap-4">
+      <Form<CommentFormData> onSubmit={onSubmit} className="!px-0 flex flex-col justify-center gap-sm">
         <CommentFormFields session={session} />
       </Form>
     </Card>

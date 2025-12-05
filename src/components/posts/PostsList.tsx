@@ -19,7 +19,7 @@ export default async function PostsList({ tags, likedBy, creators }: PostListPro
   const session = await getSession();
 
   return (
-    <div className="flex h-fit w-full max-w-full flex-col items-center justify-center gap-4 ">
+    <div className="flex h-fit w-full max-w-full flex-col items-center justify-center gap-sm ">
       {posts?.data?.map((post) => (
         <PostCard key={post.id} post={post}>
           <PostItem post={post} session={session} />
