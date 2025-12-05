@@ -22,7 +22,7 @@ export const PostItemUserInfo = ({ username, displayName, postDate, trailing }: 
     <div className="flex justify-between items-center w-full">
       <Link
         href={'#TODO'}
-        className="duratin-300 relative flex place-items-center gap-xs rounded-sm transition-all"
+        className="relative flex place-items-center gap-xs rounded-sm **:cursor-pointer"
         data-testid="mumble-user-info"
         onClick={(e) => e.stopPropagation()}
       >

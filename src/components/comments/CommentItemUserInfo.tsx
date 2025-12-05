@@ -27,7 +27,7 @@ export const CommentItemUserInfo = ({ username, displayName, avatar, commentDate
   return (
     <Link
       href={'#TODO'}
-      className="duration-300 relative flex items-center gap-xs rounded-s transition-all hover:scale-105"
+      className="relative flex items-center gap-xs rounded-sm **:cursor-pointer"
       data-testid="mumble-user-info"
       aria-label={`User info for ${displayName}`}
       onClick={(e) => e.stopPropagation()}
