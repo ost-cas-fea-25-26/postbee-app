@@ -72,9 +72,11 @@ export const PostItem = ({ post, session }: { post: Post; session: AuthSession }
         )}
       </div>
       {post.text && (
+        // TODO: check if this make sense
         <div
+          suppressHydrationWarning
           className="cursor-auto whitespace-pre-wrap break-all"
-          dangerouslySetInnerHTML={{ __html: getSanitizedHTML(textToTagsLink(post.text)) }}
+          dangerouslySetInnerHTML={{ __html: getSanitizedHTML(textToTagsLink(post.text!)) }}
         />
       )}
       {post.mediaUrl && (
