@@ -29,7 +29,7 @@ export default function RootLayout({
           <Header />
         </Suspense>
         <main className="flex flex-col items-center justify-center px-sm">
-          <div className="w-full max-w-content mt-8">{children}</div>
+          <div className="w-full max-w-content mt-lg">{children}</div>
         </main>
       </body>
     </html>

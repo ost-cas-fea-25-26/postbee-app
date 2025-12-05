@@ -8,16 +8,16 @@ export const ImageView = ({ sources, alt = 'media' }: { sources: string[]; alt: 
   const [toggle, setOpen] = useState(false);
 
   return (
-    <div>
+    <>
       {sources.map((src) => (
         <Image
           key={src}
           src={src}
           alt={alt}
+          unoptimized
           width={320}
           height={584}
-          style={{ height: 'auto', width: 'auto' }}
-          className="rounded-md object-cover cursor-pointer"
+          className="rounded-md object-cover cursor-pointer w-auto h-auto"
           loading="eager"
           onClick={(e) => {
             setOpen(!toggle);
@@ -26,6 +26,6 @@ export const ImageView = ({ sources, alt = 'media' }: { sources: string[]; alt: 
         />
       ))}
       <Lightbox open={toggle} close={() => setOpen(false)} slides={sources.map((src) => ({ src }))} />
-    </div>
+    </>
   );
 };

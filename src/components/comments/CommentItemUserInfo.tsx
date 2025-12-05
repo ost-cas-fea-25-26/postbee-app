@@ -1,7 +1,8 @@
 import { ComponentProps } from 'react';
 
+import { IconLabel } from '@/components/core/IconLabel';
 import { readableCreatedDate } from '@/lib/utils';
-import { Avatar, Icon, Label } from '@postbee/postbee-ui-lib';
+import { Avatar, Label } from '@postbee/postbee-ui-lib';
 import Link from 'next/link';
 
 interface ICommentItemUserInfo {
@@ -36,16 +37,16 @@ export const CommentItemUserInfo = ({ username, displayName, avatar, commentDate
         <Label {...labelProps} className="max-w-[150px] truncate capitalize sm:max-w-none" />
         <div className="flex flex-wrap gap-s items-center text-sm text-muted-foreground">
           {username && (
-            <>
-              <Icon icon="profile" aria-hidden="true" />
-              <span>{username}</span>
-            </>
+            <IconLabel color="primary" icon="profile">
+              {username}
+            </IconLabel>
           )}
 
           {commentDate && (
             <>
-              <Icon icon="calendar" aria-hidden="true" />
-              <time dateTime={commentDate.toISOString()}>{readableCreatedDate(commentDate)}</time>
+              <IconLabel color="secondary-400" icon="time">
+                {readableCreatedDate(commentDate)}
+              </IconLabel>
             </>
           )}
         </div>

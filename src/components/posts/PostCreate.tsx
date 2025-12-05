@@ -5,8 +5,9 @@ import { useEffect, useState } from 'react';
 import { createPost } from '@/actions/posts';
 import { Form } from '@/components/core/Form';
 import { ImageView } from '@/components/core/ImageView';
+import { UploadDialog } from '@/components/core/UploadDialog';
 import { PostCard } from '@/components/posts/PostCard';
-import { Button, Dialog, Heading, Textarea, Upload } from '@postbee/postbee-ui-lib';
+import { Button, Heading, Textarea } from '@postbee/postbee-ui-lib';
 import { useFormContext } from 'react-hook-form';
 
 type PostFormData = {
@@ -41,8 +42,10 @@ const PostFormFields = () => {
     };
   }, [selectedFile]);
 
-  const handleDialogSubmit = () => {
-    setValue('media', selectedFile ?? undefined, { shouldValidate: true });
+  const handleUploadSubmit = (files: File[]) => {
+    const file = files[0] ?? null;
+    setSelectedFile(file);
+    setValue('media', file ?? undefined, { shouldValidate: true });
     setOpenDialog(false);
   };
 
@@ -51,7 +54,7 @@ const PostFormFields = () => {
       <Heading level={4}>Hey, let&apos;s mumble ?</Heading>
 
       {previewUrl && (
-        <div className="grid cursor-auto place-content-center object-contain space-y-2">
+        <div className="grid cursor-auto place-content-center object-contain space-y-xs">
           <ImageView sources={[previewUrl]} alt="post-media-create" />
 
           <Button icon="cancel" text="Remove" onClick={() => setSelectedFile(null)} variant="secondary" />
@@ -59,9 +62,9 @@ const PostFormFields = () => {
       )}
 
       <Textarea
-        {...register('postContent', { required: 'Bitte gib deinen Beitrag ein.' })}
+        {...register('postContent', { required: 'Please enter your contribution.' })}
         name="postContent"
-        placeholder="Deine Meinung zählt!"
+        placeholder="Your opinion matters!"
         rows={5}
         aria-invalid={!!errors.postContent}
         errorMessage={errors.postContent?.message}
@@ -69,7 +72,7 @@ const PostFormFields = () => {
 
       <div className="flex items-center justify-center gap-sm">
         <Button
-          text="Bild hochladen"
+          text="Image upload"
           variant="secondary"
           icon="upload"
           fullWidth
@@ -80,16 +83,9 @@ const PostFormFields = () => {
           }}
         />
 
-        <Dialog title="Upload" open={openDialog} onClose={() => setOpenDialog(false)} onSubmit={handleDialogSubmit}>
-          <Upload
-            files={selectedFile ? [{ file: selectedFile, preview: URL.createObjectURL(selectedFile) }] : []}
-            onChange={(files) => {
-              setSelectedFile(files[0]?.file ?? null);
-            }}
-          />
-        </Dialog>
+        <UploadDialog open={openDialog} onClose={() => setOpenDialog(false)} onSubmit={handleUploadSubmit} />
 
-        <Button text="Absenden" icon="send" fullWidth type="submit" onClick={(e) => e.stopPropagation()} />
+        <Button text="Send" icon="send" fullWidth type="submit" onClick={(e) => e.stopPropagation()} />
       </div>
     </>
   );

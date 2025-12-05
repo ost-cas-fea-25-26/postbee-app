@@ -1,49 +1,50 @@
-import { ComponentProps } from 'react';
+import React, { ComponentProps, ReactNode } from 'react';
 
-import { User } from '@/lib/api/client';
+import { IconLabel } from '@/components/core/IconLabel';
 import { readableCreatedDate } from '@/lib/utils';
-import { Icon, Label } from '@postbee/postbee-ui-lib';
+import { Label } from '@postbee/postbee-ui-lib';
 import Link from 'next/link';
 
 interface IPostItemUserInfo {
-  user: User;
+  username: string;
+  displayName: string;
   postDate: Date;
+  trailing?: ReactNode;
 }
 
-export const PostItemUserInfo = ({ postDate, user }: IPostItemUserInfo) => {
-  const username = user?.username ?? '';
-  const displayName = user?.firstname && user?.lastname ? `${user.firstname} ${user.lastname}` : username;
-
+export const PostItemUserInfo = ({ username, displayName, postDate, trailing }: IPostItemUserInfo) => {
   const labelProps: ComponentProps<typeof Label> = {
     size: 'md',
     children: displayName ?? username,
   };
 
   return (
-    <Link
-      href={'#TODO'}
-      className="duratin-300 relative flex place-items-center gap-xs  rounded-sm transition-all hover:scale-105"
-      data-testid="mumble-user-info"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className="flex flex-col gap-xs">
-        <Label {...labelProps} className="max-w-[150px] truncate capitalize sm:max-w-none" />
-        <div className="flex flex-wrap gap-sm items-center">
-          {username && (
-            <>
-              <Icon icon={'profile'} size={12} />
-              {username}
-            </>
-          )}
+    <div className="flex justify-between items-center w-full">
+      <Link
+        href={'#TODO'}
+        className="duratin-300 relative flex place-items-center gap-xs rounded-sm transition-all"
+        data-testid="mumble-user-info"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex flex-col gap-xs">
+          <Label {...labelProps} className="max-w-[150px] truncate capitalize sm:max-w-none" />
 
-          {postDate && (
-            <>
-              <Icon icon={'time'} size={12} />
-              {readableCreatedDate(postDate)}
-            </>
-          )}
+          <div className="flex flex-wrap gap-sm items-center">
+            {username && (
+              <IconLabel color="primary" icon="profile">
+                {username}
+              </IconLabel>
+            )}
+
+            {postDate && (
+              <IconLabel color="secondary-400" icon="time">
+                {readableCreatedDate(postDate)}
+              </IconLabel>
+            )}
+          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+      {trailing && <div className="ml-sm">{trailing}</div>}
+    </div>
   );
 };

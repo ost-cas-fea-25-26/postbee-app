@@ -1,10 +1,11 @@
 export const textToTagsLink = (text: string) => {
   if (!text) {
-    return undefined;
+    return '';
   }
 
-  return text.replace(
-    /#(\w+)/g,
-    '<a href="?tags=$1" class="text-primary-600 hover:text-primary-900 hover:underline">#$1</a>',
-  );
+  return text.replace(/(^|[^/\w])#([\p{L}\p{N}_-]+)/gu, (full, prefix: string, tag: string) => {
+    const encoded = encodeURIComponent(tag);
+
+    return `${prefix}<a href="/?tags=${encoded}" class="text-primary-600 hover:text-primary-900 hover:underline">#${tag}</a>`;
+  });
 };

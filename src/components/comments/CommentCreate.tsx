@@ -31,15 +31,16 @@ const CommentFormFields = ({ session }: { session: AuthSession }) => {
       </div>
 
       <Textarea
-        placeholder="Und was meinst du dazu?"
-        {...register('comment', { required: 'Bitte gib einen Kommentar ein.' })}
+        placeholder="And what do you think about that?"
+        rows={5}
+        {...register('comment', { required: 'Please provide a comment.' })}
         aria-invalid={!!errors.comment}
       />
       {errors.comment && <p className="text-red-600 text-sm">{errors.comment.message}</p>}
 
       <div className="flex items-center justify-center gap-sm">
-        <Button text="Bild hochladen" variant="secondary" icon="upload" fullWidth type="button" />
-        <Button text="Absenden" icon="send" fullWidth type="submit" />
+        <Button text="Image upload" variant="secondary" icon="upload" fullWidth type="button" />
+        <Button text="Send" icon="send" fullWidth type="submit" />
       </div>
     </>
   );
