@@ -30,7 +30,6 @@ export const CommentItemUserInfo = ({ username, displayName, avatar, commentDate
       className="relative flex items-center gap-xs rounded-sm **:cursor-pointer"
       data-testid="mumble-user-info"
       aria-label={`User info for ${displayName}`}
-      onClick={(e) => e.stopPropagation()}
     >
       <Avatar {...avatarProps} />
       <div className="flex flex-col gap-xs">

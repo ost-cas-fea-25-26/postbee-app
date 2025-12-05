@@ -85,7 +85,7 @@ export const PostItem = ({ post, session }: { post: Post; session: AuthSession }
         </div>
       )}
       {post.id && (
-        <div className="-ml-3 flex flex-wrap gap-xxs gap-y-0 sm:gap-sm" onClick={(e) => e.stopPropagation()}>
+        <div className="-ml-3 flex flex-wrap gap-xxs gap-y-0 sm:gap-sm">
           <CommentsButton count={post.replies} disabled={!session} onClick={() => router.push(`/post/${post.id}`)} />
 
           <LikeButton

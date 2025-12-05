@@ -24,7 +24,6 @@ export const PostItemUserInfo = ({ username, displayName, postDate, trailing }: 
         href={'#TODO'}
         className="relative flex place-items-center gap-xs rounded-sm **:cursor-pointer"
         data-testid="mumble-user-info"
-        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-col gap-xs">
           <Label {...labelProps} className="max-w-[150px] truncate capitalize sm:max-w-none" />

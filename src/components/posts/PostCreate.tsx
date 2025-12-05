@@ -77,8 +77,7 @@ const PostFormFields = () => {
           icon="upload"
           fullWidth
           type="button"
-          onClick={(e) => {
-            e.stopPropagation();
+          onClick={() => {
             setOpenDialog(true);
           }}
         />
