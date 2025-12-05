@@ -1,8 +1,8 @@
-import React, { ComponentProps } from 'react';
+import { ComponentProps } from 'react';
 
 import { IconLabel } from '@/components/core/IconLabel';
 import { readableCreatedDate } from '@/lib/utils';
-import { Avatar, Icon, Label } from '@postbee/postbee-ui-lib';
+import { Avatar, Label } from '@postbee/postbee-ui-lib';
 import Link from 'next/link';
 
 interface ICommentItemUserInfo {
