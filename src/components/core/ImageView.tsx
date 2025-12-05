@@ -14,6 +14,7 @@ export const ImageView = ({ sources, alt = 'media' }: { sources: string[]; alt: 
           key={src}
           src={src}
           alt={alt}
+          unoptimized
           width={320}
           height={584}
           className="rounded-md object-cover cursor-pointer w-auto h-auto"
