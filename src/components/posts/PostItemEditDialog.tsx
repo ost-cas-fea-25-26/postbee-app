@@ -96,7 +96,7 @@ const PostEditFields = ({ initialMedia }: { initialMedia?: string | null }) => {
         {...register('postContent', { required: 'Please enter your contribution.' })}
         name="postContent"
         rows={5}
-        placeholder="Deine Meinung zählt!"
+        placeholder="Your opinion matters!"
         aria-invalid={!!errors.postContent}
         errorMessage={errors.postContent?.message}
       />
@@ -120,7 +120,7 @@ export const PostItemEditDialog = ({ open, initialContent, initialMedia, onClose
   };
 
   return (
-    <Dialog title="Post bearbeiten" open={open} onClose={onClose} onSubmit={handleDialogSubmit}>
+    <Dialog title="Post edit" open={open} onClose={onClose} onSubmit={handleDialogSubmit}>
       <Form<PostFormData>
         onSubmit={handleSubmit}
         formOptions={{
