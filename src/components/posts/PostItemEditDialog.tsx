@@ -104,7 +104,7 @@ const PostEditFields = ({ initialMedia }: { initialMedia?: string | null }) => {
       <UploadDialog open={openDialog} onClose={() => setOpenDialog(false)} onSubmit={handleUploadSubmit} />
 
       {/* Hidden submit button that Dialog can trigger */}
-      <button type="submit" id="edit-post-submit" style={{ display: 'none' }} />
+      <button type="submit" id="edit-post-submit" className="hidden" />
     </>
   );
 };
