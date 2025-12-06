@@ -7,10 +7,10 @@ export default async function CommentsList({ postId }: { postId: string }) {
   const session = await getSession();
 
   return (
-    <div className="flex h-fit w-full max-w-full flex-col items-center justify-center gap-sm ">
+    <div className="flex h-fit w-full max-w-full flex-col items-center justify-center gap-sm">
       {postReplies?.data?.map((reply) => (
-        <PostCard key={reply.id} post={reply}>
-          <PostItem post={reply} session={session} />
+        <PostCard key={reply.id} post={reply} variant="Reply">
+          <PostItem post={reply} session={session} variant="Reply" />
         </PostCard>
       ))}
     </div>
