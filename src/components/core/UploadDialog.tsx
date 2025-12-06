@@ -37,6 +37,7 @@ export const UploadDialog = ({ open, multiple = false, onClose, onSubmit }: Uplo
     <Dialog
       title="Upload"
       open={open}
+      onClose={handleClose}
       actions={
         <>
           <Button text="Cancel" icon="cancel" variant="secondary" onClick={handleClose} size="md" />
