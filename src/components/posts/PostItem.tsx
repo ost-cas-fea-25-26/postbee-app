@@ -64,6 +64,7 @@ export const PostItem = ({ post, session }: { post: Post; session: AuthSession }
       <div className="flex">
         {post.id && (
           <PostItemUserInfo
+            userId={post.creator?.id ?? ''}
             displayName={post.creator?.displayName ?? ''}
             username={post.creator?.username ?? ''}
             postDate={decodeULIDTimestamp(post.id)}

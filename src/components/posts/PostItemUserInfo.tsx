@@ -6,13 +6,14 @@ import { Label } from '@postbee/postbee-ui-lib';
 import Link from 'next/link';
 
 interface IPostItemUserInfo {
+  userId: string;
   username: string;
   displayName: string;
   postDate: Date;
   trailing?: ReactNode;
 }
 
-export const PostItemUserInfo = ({ username, displayName, postDate, trailing }: IPostItemUserInfo) => {
+export const PostItemUserInfo = ({ userId, username, displayName, postDate, trailing }: IPostItemUserInfo) => {
   const labelProps: ComponentProps<typeof Label> = {
     size: 'lg',
     children: displayName ?? username,
@@ -21,7 +22,7 @@ export const PostItemUserInfo = ({ username, displayName, postDate, trailing }: 
   return (
     <div className="flex justify-between items-center w-full">
       <Link
-        href={'#TODO'}
+        href={`/profile/${userId}/mumbles`}
         className="relative flex place-items-center gap-xs rounded-sm **:cursor-pointer"
         data-testid="mumble-user-info"
       >
