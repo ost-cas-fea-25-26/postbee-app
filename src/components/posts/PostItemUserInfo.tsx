@@ -14,7 +14,7 @@ interface IPostItemUserInfo {
 
 export const PostItemUserInfo = ({ username, displayName, postDate, trailing }: IPostItemUserInfo) => {
   const labelProps: ComponentProps<typeof Label> = {
-    size: 'md',
+    size: 'lg',
     children: displayName ?? username,
   };
 
@@ -22,22 +22,21 @@ export const PostItemUserInfo = ({ username, displayName, postDate, trailing }: 
     <div className="flex justify-between items-center w-full">
       <Link
         href={'#TODO'}
-        className="duratin-300 relative flex place-items-center gap-xs rounded-sm transition-all"
+        className="relative flex place-items-center gap-xs rounded-sm **:cursor-pointer"
         data-testid="mumble-user-info"
-        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-col gap-xs">
           <Label {...labelProps} className="max-w-[150px] truncate capitalize sm:max-w-none" />
 
           <div className="flex flex-wrap gap-sm items-center">
             {username && (
-              <IconLabel color="primary" icon="profile">
+              <IconLabel colorClassName="text-primary" icon="profile">
                 {username}
               </IconLabel>
             )}
 
             {postDate && (
-              <IconLabel color="secondary-400" icon="time">
+              <IconLabel colorClassName="text-secondary-400" icon="time">
                 {readableCreatedDate(postDate)}
               </IconLabel>
             )}

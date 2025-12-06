@@ -27,24 +27,23 @@ export const CommentItemUserInfo = ({ username, displayName, avatar, commentDate
   return (
     <Link
       href={'#TODO'}
-      className="duration-300 relative flex items-center gap-xs rounded-s transition-all hover:scale-105"
+      className="relative flex items-center gap-xs rounded-sm **:cursor-pointer"
       data-testid="mumble-user-info"
       aria-label={`User info for ${displayName}`}
-      onClick={(e) => e.stopPropagation()}
     >
       <Avatar {...avatarProps} />
       <div className="flex flex-col gap-xs">
         <Label {...labelProps} className="max-w-[150px] truncate capitalize sm:max-w-none" />
         <div className="flex flex-wrap gap-s items-center text-sm text-muted-foreground">
           {username && (
-            <IconLabel color="primary" icon="profile">
+            <IconLabel colorClassName="text-primary" icon="profile">
               {username}
             </IconLabel>
           )}
 
           {commentDate && (
             <>
-              <IconLabel color="secondary-400" icon="time">
+              <IconLabel colorClassName="text-secondary-400" icon="time">
                 {readableCreatedDate(commentDate)}
               </IconLabel>
             </>

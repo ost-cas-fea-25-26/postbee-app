@@ -73,11 +73,11 @@ export const PostItem = ({ post, session }: { post: Post; session: AuthSession }
       </div>
       {post.text && (
         // TODO: check if this make sense
-        <div
+        <p
           suppressHydrationWarning
-          className="cursor-auto whitespace-pre-wrap break-all"
-          dangerouslySetInnerHTML={{ __html: getSanitizedHTML(textToTagsLink(post.text!)) }}
-        />
+          className="pb-paragraph-md cursor-auto whitespace-pre-wrap break-all"
+          dangerouslySetInnerHTML={{ __html: getSanitizedHTML(textToTagsLink(post.text)) }}
+        ></p>
       )}
       {post.mediaUrl && (
         <div className="grid cursor-auto place-content-center object-contain">
@@ -85,40 +85,38 @@ export const PostItem = ({ post, session }: { post: Post; session: AuthSession }
         </div>
       )}
       {post.id && (
-        <div className="flex">
-          <div className="-ml-xs flex flex-wrap gap-xxs gap-y-0 sm:gap-lg" onClick={(e) => e.stopPropagation()}>
-            <CommentsButton count={post.replies} disabled={!session} onClick={() => router.push(`/post/${post.id}`)} />
+        <div className="-ml-3 flex flex-wrap gap-xxs gap-y-0 sm:gap-sm">
+          <CommentsButton count={post.replies} disabled={!session} onClick={() => router.push(`/post/${post.id}`)} />
 
-            <LikeButton
-              count={post.likes}
-              initialIsLiked={!!post.likedBySelf}
-              disabled={!session}
-              onLikeAdd={async () => {
-                try {
-                  await likePost(post.id!);
-                  toast.success('Post successfully liked.');
-                } catch (error) {
-                  console.error('Error liking/unliking post:', error);
-                  toast.error('Error liking post');
+          <LikeButton
+            count={post.likes}
+            initialIsLiked={!!post.likedBySelf}
+            disabled={!session}
+            onLikeAdd={async () => {
+              try {
+                await likePost(post.id!);
+                toast.success('Post successfully liked.');
+              } catch (error) {
+                console.error('Error liking/unliking post:', error);
+                toast.error('Error liking post');
+              }
+            }}
+            onLikeRemove={async () => {
+              try {
+                if (post.likedBySelf) {
+                  await unlikePost(post.id!);
+                  toast.success('Post successfully unliked.');
                 }
-              }}
-              onLikeRemove={async () => {
-                try {
-                  if (post.likedBySelf) {
-                    await unlikePost(post.id!);
-                    toast.success('Post successfully unliked.');
-                  }
-                } catch (error) {
-                  console.error('Error liking/unliking post:', error);
-                  if (post.likedBySelf) {
-                    toast.error('Error unliking post');
-                  }
+              } catch (error) {
+                console.error('Error liking/unliking post:', error);
+                if (post.likedBySelf) {
+                  toast.error('Error unliking post');
                 }
-              }}
-            />
+              }
+            }}
+          />
 
-            <CopyButton textToCopy={`${origin}/post/${post.id ?? ''}`} />
-          </div>
+          <CopyButton textToCopy={`${origin}/post/${post.id ?? ''}`} />
         </div>
       )}
       {post.id && (

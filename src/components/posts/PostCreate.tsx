@@ -77,8 +77,7 @@ const PostFormFields = () => {
           icon="upload"
           fullWidth
           type="button"
-          onClick={(e) => {
-            e.stopPropagation();
+          onClick={() => {
             setOpenDialog(true);
           }}
         />
@@ -101,7 +100,7 @@ export const PostCreate = () => {
 
   return (
     <PostCard>
-      <Form<PostFormData> onSubmit={onSubmit} className="grid gap-sm sm:gap-md">
+      <Form<PostFormData> onSubmit={onSubmit} className="grid gap-sm">
         <PostFormFields />
       </Form>
     </PostCard>
