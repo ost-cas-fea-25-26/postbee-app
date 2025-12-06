@@ -12,6 +12,9 @@ const config = [
     languageOptions: {
       parser,
     },
+    rules: {
+      'react/forbid-component-props': 'off',
+    },
   },
   {
     ignores: ['src/lib/api/client/**'],

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Icon, IconProps, Label, LabelProps } from '@postbee/postbee-ui-lib';
 import clsx from 'clsx';
 

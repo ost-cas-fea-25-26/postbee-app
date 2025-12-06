@@ -10,13 +10,22 @@ import { PostFormData, PostItemEditDialog } from '@/components/posts/PostItemEdi
 import { PostItemUserInfo } from '@/components/posts/PostItemUserInfo';
 import { Post } from '@/lib/api/client';
 import { AuthSession } from '@/lib/auth/auth';
+import { PostVariant } from '@/lib/types';
 import { getSanitizedHTML, textToTagsLink } from '@/lib/utils';
 import { decodeULIDTimestamp } from '@/lib/utils/api';
 import { CommentsButton, CopyButton, LikeButton } from '@postbee/postbee-ui-lib';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
-export const PostItem = ({ post, session }: { post: Post; session: AuthSession }) => {
+export const PostItem = ({
+  post,
+  session,
+  variant = 'Default',
+}: {
+  post: Post;
+  session: AuthSession;
+  variant: PostVariant;
+}) => {
   const router = useRouter();
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
@@ -61,17 +70,16 @@ export const PostItem = ({ post, session }: { post: Post; session: AuthSession }
 
   return (
     <div className="grid gap-sm sm:gap-md">
-      <div className="flex">
-        {post.id && (
-          <PostItemUserInfo
-            userId={post.creator?.id ?? ''}
-            displayName={post.creator?.displayName ?? ''}
-            username={post.creator?.username ?? ''}
-            postDate={decodeULIDTimestamp(post.id)}
-            trailing={isMyPost ? <Dropdown actions={actions} /> : null}
-          />
-        )}
-      </div>
+      {post.id && (
+        <PostItemUserInfo
+          userId={post.creator?.id ?? ''}
+          displayName={post.creator?.displayName ?? ''}
+          username={post.creator?.username ?? ''}
+          postDate={decodeULIDTimestamp(post.id)}
+          trailing={isMyPost ? <Dropdown actions={actions} /> : null}
+          variant={variant}
+        />
+      )}
       {post.text && (
         // TODO: check if this make sense
         <p

@@ -24,3 +24,4 @@ export default function SkeletonPost({ count = 1 }: ISkeletonPost) {
     </div>
   );
 }
+//
