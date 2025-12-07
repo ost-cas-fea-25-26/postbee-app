@@ -42,7 +42,11 @@ export const PostCard = ({ children, skeleton = false, post, variant = 'Default'
           'z-10': variant === 'Reply', // to overlap the avatar of the UserInfo
         })}
       >
-        {skeleton ? <SkeletonAvatar size={variant === 'Reply' ? 'sm' : 'md'} /> : <Avatar {...avatarProps} />}
+        {skeleton ? (
+          <SkeletonAvatar size={variant === 'Reply' ? 'sm' : 'md'} />
+        ) : (
+          variant === 'Default' && <Avatar {...avatarProps} />
+        )}
       </div>
       <div className="grid gap-sm sm:gap-md">{children}</div>
     </Card>
