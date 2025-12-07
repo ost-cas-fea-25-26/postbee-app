@@ -1,4 +1,4 @@
-import React, { ComponentProps, ReactNode } from 'react';
+import { ComponentProps, ReactNode } from 'react';
 
 import { IconLabel } from '@/components/core/IconLabel';
 import { readableCreatedDate } from '@/lib/utils';
