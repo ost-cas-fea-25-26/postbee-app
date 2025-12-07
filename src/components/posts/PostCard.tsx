@@ -3,9 +3,9 @@
 import { ComponentProps, ReactNode } from 'react';
 
 import { Card } from '@/components/core/Card';
-import { Skeleton } from '@/components/skeleton';
+import { SkeletonAvatar } from '@/components/skeleton';
 import { Post } from '@/lib/api/client';
-import { AppUser } from '@/lib/types';
+import { AppUser, PostVariant } from '@/lib/types';
 import { getUserDisplayName } from '@/lib/utils';
 import { Avatar } from '@postbee/postbee-ui-lib';
 import clsx from 'clsx';
@@ -14,30 +14,35 @@ interface PostCardProps {
   children: ReactNode;
   post?: Post;
   skeleton?: boolean;
+  variant?: PostVariant;
 }
 
-export const PostCard = ({ children, skeleton = false, post }: PostCardProps) => {
+export const PostCard = ({ children, skeleton = false, post, variant = 'Default' }: PostCardProps) => {
   const displayName = getUserDisplayName(post?.creator as AppUser);
 
   const avatarProps: ComponentProps<typeof Avatar> = {
     alt: displayName,
     src: post?.creator?.avatarUrl ?? '',
-    size: 'md',
+    size: variant === 'Reply' ? 'sm' : 'md',
   };
 
   return (
     <Card
-      className={clsx(post && 'transition-colors duration-150 hover:ring hover:ring-secondary-200')}
+      className={clsx({
+        'hover:ring hover:ring-secondary-200': post && variant === 'Default',
+        'p-0! pt-xs!': variant === 'Reply',
+      })}
       data-testid="post-card"
       role="button"
       tabIndex={0}
     >
-      <div className="absolute left-[-30px] top-md">
-        {skeleton ? (
-          <Skeleton className="h-[64px] w-[64px] rounded-full border-6 border-secondary-100 bg-secondary-200" />
-        ) : (
-          <Avatar {...avatarProps} />
-        )}
+      <div
+        className={clsx('absolute', {
+          'left-[-30px] top-md': variant === 'Default',
+          'z-10': variant === 'Reply', // to overlap the avatar of the UserInfo
+        })}
+      >
+        {skeleton ? <SkeletonAvatar size={variant === 'Reply' ? 'sm' : 'md'} /> : <Avatar {...avatarProps} />}
       </div>
       <div className="grid gap-sm sm:gap-md">{children}</div>
     </Card>
