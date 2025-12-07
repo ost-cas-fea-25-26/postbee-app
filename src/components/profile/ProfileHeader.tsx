@@ -16,8 +16,11 @@ export default function ProfileHeader({
         <div className="h-48 md:h-80 w-full overflow-hidden rounded-lg relative">
           <Image src="/images/profile-banner.png" alt="Profile banner" loading="eager" fill className="object-cover" />
         </div>
-        <div className="absolute -bottom-16 right-6">
+        <div className="absolute -bottom-16 right-6 hidden sm:block">
           <Avatar src={avatarUrl ?? ''} size="xl" />
+        </div>
+        <div className="absolute bottom-4 right-6 block sm:hidden">
+          <Avatar src={avatarUrl ?? ''} size="lg" />
         </div>
       </div>
       <div className="mt-md">

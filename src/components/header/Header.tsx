@@ -28,7 +28,8 @@ export default function Header() {
       <div className="flex w-full max-w-content justify-between mx-sm">
         <div className="grid items-center py-xs">
           <Link href="/">
-            <Logo logo="white-02" width={200} height={40} />
+            <Logo logo="white-02" width={200} height={40} className="hidden sm:block" />
+            <Logo logo="white-01" width="auto" height={40} className="block sm:hidden" />
           </Link>
         </div>
         <div className="flex items-center gap-sm p-xs">

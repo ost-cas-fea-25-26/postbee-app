@@ -40,7 +40,7 @@ const CommentFormFields = ({ session }: { session: AuthSession }) => {
       />
       {errors.comment && <p className="text-red-600 text-sm">{errors.comment.message}</p>}
 
-      <div className="flex items-center justify-center gap-sm">
+      <div className="flex items-center justify-center gap-sm flex-wrap sm:flex-nowrap">
         <Button text="Image upload" variant="secondary" icon="upload" fullWidth type="button" />
         <Button text="Send" icon="send" fullWidth type="submit" />
       </div>

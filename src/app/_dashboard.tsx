@@ -22,20 +22,18 @@ export async function Dashboard({ searchParams }: Props) {
   const creatorsList = Array.isArray(creators) ? creators : creators ? [creators] : undefined;
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center gap-sm mb-xl">
       {session?.user ? (
-        <div className="flex flex-col items-center justify-center gap-sm mb-xl">
+        <>
           <PostCreate />
           <Suspense fallback={<SkeletonPost count={15} />}>
             <PostsList tags={tagsList} likedBy={likeByList} creators={creatorsList} />
           </Suspense>
-        </div>
+        </>
       ) : (
-        <div className="flex flex-col items-center justify-center gap-sm mb-xl">
-          <Suspense fallback={<SkeletonPost count={15} />}>
-            <PostsList tags={tagsList} likedBy={likeByList} creators={creatorsList} />
-          </Suspense>
-        </div>
+        <Suspense fallback={<SkeletonPost count={15} />}>
+          <PostsList tags={tagsList} likedBy={likeByList} creators={creatorsList} />
+        </Suspense>
       )}
     </div>
   );

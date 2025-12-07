@@ -70,7 +70,7 @@ const PostFormFields = () => {
         errorMessage={errors.postContent?.message}
       />
 
-      <div className="flex items-center justify-center gap-sm">
+      <div className="flex items-center justify-center gap-sm flex-wrap sm:flex-nowrap">
         <Button
           text="Image upload"
           variant="secondary"
