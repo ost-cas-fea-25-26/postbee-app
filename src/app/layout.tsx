@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 
 import Header from '@/components/header/Header';
+import { BreakpointProvider } from '@/lib/utils/breakpoint';
 import type { Metadata } from 'next';
 import { Toaster } from 'sonner';
 
@@ -18,19 +19,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-secondary-100">
-        <Toaster
-          position="top-right"
-          richColors
-          toastOptions={{
-            closeButton: true,
-          }}
-        />
-        <Suspense fallback={null}>
-          <Header />
-        </Suspense>
-        <main className="flex flex-col items-center justify-center px-sm">
-          <div className="w-full max-w-content mt-lg">{children}</div>
-        </main>
+        <BreakpointProvider>
+          <Toaster
+            position="top-right"
+            richColors
+            toastOptions={{
+              closeButton: true,
+            }}
+          />
+          <Suspense fallback={null}>
+            <Header />
+          </Suspense>
+          <main className="flex flex-col items-center justify-center px-sm">
+            <div className="w-full max-w-content mt-lg">{children}</div>
+          </main>
+        </BreakpointProvider>
       </body>
     </html>
   );
