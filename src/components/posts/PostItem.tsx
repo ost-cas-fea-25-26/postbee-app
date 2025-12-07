@@ -25,7 +25,7 @@ export const PostItem = ({
 }: {
   post: Post;
   session: AuthSession;
-  variant: PostVariant;
+  variant?: PostVariant;
 }) => {
   const router = useRouter();
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
