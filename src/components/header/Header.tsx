@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import { getSession } from '@/lib/auth/auth';
 import { Logo } from '@postbee/postbee-ui-lib';
 import Link from 'next/link';
@@ -5,9 +7,22 @@ import Link from 'next/link';
 import { AuthLoginButton, AuthLogoutButton } from '../auth';
 import HeaderActions from './HeaderActions';
 
-export default async function Header() {
+async function Actions() {
   const session = await getSession();
 
+  if (session) {
+    return (
+      <>
+        <HeaderActions session={session} />
+        <AuthLogoutButton />
+      </>
+    );
+  }
+
+  return <AuthLoginButton />;
+}
+
+export default function Header() {
   return (
     <header className="sticky top-0 z-10 flex w-full h-20 bg-primary-600 place-content-center ">
       <div className="flex w-full max-w-content justify-between mx-sm">
@@ -17,14 +32,9 @@ export default async function Header() {
           </Link>
         </div>
         <div className="flex items-center gap-sm p-xs">
-          {session ? (
-            <>
-              <HeaderActions session={session} />
-              <AuthLogoutButton />
-            </>
-          ) : (
-            <AuthLoginButton />
-          )}
+          <Suspense fallback={null}>
+            <Actions />
+          </Suspense>
         </div>
       </div>
     </header>
