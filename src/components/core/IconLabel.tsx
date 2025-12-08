@@ -1,4 +1,4 @@
-import { Icon, IconProps, Label, LabelProps } from '@postbee/postbee-ui-lib';
+import { Icon, IconProps, LabelProps } from '@postbee/postbee-ui-lib';
 import clsx from 'clsx';
 
 interface IconLabelProps {
@@ -9,13 +9,11 @@ interface IconLabelProps {
   labelSize?: LabelProps['size'];
 }
 
-export const IconLabel = ({ children, icon, iconSize, colorClassName, labelSize }: IconLabelProps) => {
+export const IconLabel = ({ children, icon, iconSize, colorClassName, labelSize = 'sm' }: IconLabelProps) => {
   return (
     <div className={clsx('inline-flex flex-wrap gap-xxs items-center', colorClassName)}>
       <Icon icon={icon} size={iconSize ?? 12} />
-      <Label className={clsx(colorClassName)} size={labelSize ?? 'sm'}>
-        {children}
-      </Label>
+      <span className={clsx(colorClassName, `pb-label-${labelSize}`)}>{children}</span>
     </div>
   );
 };
