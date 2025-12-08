@@ -111,5 +111,5 @@ export const getAccessToken = cache(async () => {
 export async function isCurrentUser(userId: string) {
   const session = await getSession();
 
-  return !!session && session.user.id === userId;
+  return !!session && (session.user.id === userId || session.user.identifier === userId);
 }

@@ -4,10 +4,10 @@ import { PostsList } from '@/components/posts';
 import { SkeletonPost } from '@/components/skeleton';
 
 async function MumblesContent({ params }: { params: Promise<{ id: string }> }) {
-  const { id: userId } = await params;
+  const { id } = await params;
 
   // TODO: if empty list show empty me profile page
-  return <PostsList creators={[userId]} />;
+  return <PostsList creators={[id]} />;
 }
 
 export default function MumblesPage({ params }: { params: Promise<{ id: string }> }) {
