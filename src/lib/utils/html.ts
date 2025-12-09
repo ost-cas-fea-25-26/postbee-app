@@ -1,18 +1,21 @@
-import createDOMPurify from 'dompurify';
+import createDOMPurify, { DOMPurify } from 'dompurify';
+import type { JSDOM as JSDOMType } from 'jsdom';
 
-let DOMPurifyInstance: any;
+let DOMPurifyInstance: DOMPurify | null = null;
 
-function getDOMPurify() {
+function getDOMPurify(): DOMPurify {
   if (!DOMPurifyInstance) {
     if (typeof window === 'undefined') {
       // We're on server - require jsdom and create DOMPurify
-      const { JSDOM } = require('jsdom');
-      const window = new JSDOM('<!DOCTYPE html>').window;
-      DOMPurifyInstance = createDOMPurify(window);
+      // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+      const jsdom = require('jsdom') as { JSDOM: typeof JSDOMType };
+      const dom: JSDOMType = new jsdom.JSDOM('<!DOCTYPE html>');
+      DOMPurifyInstance = createDOMPurify(dom.window as unknown as Window & typeof globalThis);
 
-      DOMPurifyInstance.addHook('afterSanitizeAttributes', (node: any) => {
+      DOMPurifyInstance.addHook('afterSanitizeAttributes', (node: Element) => {
         if (node.tagName.toLowerCase() === 'a') {
           const href = node.getAttribute('href') ?? '';
+
           if (href.toLowerCase().startsWith('javascript:')) {
             node.setAttribute('href', '#');
           }
@@ -24,11 +27,14 @@ function getDOMPurify() {
       DOMPurifyInstance = createDOMPurify(window);
     }
   }
+
   return DOMPurifyInstance;
 }
 
 export function getSanitizedHTML(html: string): string {
-  if (!html) return '';
+  if (!html) {
+    return '';
+  }
 
   const dompurify = getDOMPurify();
 
