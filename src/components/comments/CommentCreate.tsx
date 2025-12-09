@@ -1,12 +1,13 @@
 'use client';
 
 import { createPostReply } from '@/actions/comments';
-import { CommentItemUserInfo } from '@/components/comments/CommentItemUserInfo';
 import { Card } from '@/components/core/Card';
 import { Form } from '@/components/core/Form';
 import { AuthSession } from '@/lib/auth/auth';
 import { Button, Textarea } from '@postbee/postbee-ui-lib';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
+
+import { PostItemUserInfo } from '../posts/PostItemUserInfo';
 
 type CommentFormData = {
   comment: string;
@@ -22,9 +23,10 @@ const CommentFormFields = ({ session }: { session: AuthSession }) => {
     <>
       <div>
         {session?.user && (
-          <CommentItemUserInfo
-            username={session.user.name}
-            avatar={session.user?.image ?? undefined}
+          <PostItemUserInfo
+            userId={session.user.id}
+            username={session.user.username ?? 'Unknown User'}
+            avatarSrc={session.user?.image ?? undefined}
             displayName={session.user.name}
           />
         )}
