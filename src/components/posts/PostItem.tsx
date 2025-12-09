@@ -10,12 +10,12 @@ import { PostFormData, PostItemEditDialog } from '@/components/posts/PostItemEdi
 import { Post } from '@/lib/api/client';
 import { AuthSession } from '@/lib/auth/auth';
 import { PostVariant } from '@/lib/types';
-import { getSanitizedHTML, textToTagsLink } from '@/lib/utils';
 import { decodeULIDTimestamp } from '@/lib/utils/api';
 import { CommentsButton, CopyButton, LikeButton } from '@postbee/postbee-ui-lib';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
+import { PostItemText } from './PostItemText';
 import { PostItemUserInfo } from './PostItemUserInfo';
 
 export const PostItem = ({
@@ -84,14 +84,7 @@ export const PostItem = ({
           {isMyPost && <Dropdown actions={actions} />}
         </div>
       )}
-      {post.text && (
-        // TODO: check if this make sense
-        <p
-          suppressHydrationWarning
-          className="pb-paragraph-md cursor-auto whitespace-pre-wrap break-all"
-          dangerouslySetInnerHTML={{ __html: getSanitizedHTML(textToTagsLink(post.text)) }}
-        ></p>
-      )}
+      {post.text && <PostItemText text={post.text} />}
       {post.mediaUrl && (
         <div className="grid cursor-auto place-content-center object-contain">
           <ImageView sources={[post.mediaUrl]} alt={'post-media'} />
