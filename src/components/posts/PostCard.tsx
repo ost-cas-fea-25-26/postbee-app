@@ -27,28 +27,30 @@ export const PostCard = ({ children, skeleton = false, post, variant = 'Default'
   };
 
   return (
-    <Card
-      className={clsx({
-        'hover:ring hover:ring-secondary-200': post && variant === 'Default',
-        'p-0! pt-xs!': variant === 'Reply',
-      })}
-      data-testid="post-card"
-      role="button"
-      tabIndex={0}
-    >
-      <div
-        className={clsx('absolute', {
-          'left-[-30px] top-md': variant === 'Default',
-          'z-10': variant === 'Reply', // to overlap the avatar of the UserInfo
+    <div className={clsx('w-full', { 'pl-md md:pl-0': variant === 'Default' })}>
+      <Card
+        className={clsx({
+          'hover:ring hover:ring-secondary-200': post && variant === 'Default',
+          'p-0! pt-xs!': variant === 'Reply',
         })}
+        data-testid="post-card"
+        role="button"
+        tabIndex={0}
       >
-        {skeleton ? (
-          <SkeletonAvatar size={variant === 'Reply' ? 'sm' : 'md'} />
-        ) : (
-          variant === 'Default' && <Avatar {...avatarProps} />
-        )}
-      </div>
-      <div className="grid gap-sm sm:gap-md">{children}</div>
-    </Card>
+        <div
+          className={clsx('absolute', {
+            'left-[-30px] top-md': variant === 'Default',
+            'z-10': variant === 'Reply', // to overlap the avatar of the UserInfo
+          })}
+        >
+          {skeleton ? (
+            <SkeletonAvatar size={variant === 'Reply' ? 'sm' : 'md'} />
+          ) : (
+            variant === 'Default' && <Avatar {...avatarProps} />
+          )}
+        </div>
+        <div className="grid gap-sm sm:gap-md">{children}</div>
+      </Card>
+    </div>
   );
 };
