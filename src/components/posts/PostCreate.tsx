@@ -90,7 +90,10 @@ const PostFormFields = () => {
   );
 };
 
-export const PostCreate = () => {
+type PostCreateProps = {
+  userDisplayName: string;
+};
+export const PostCreate = ({ userDisplayName }: PostCreateProps) => {
   const onSubmit = async (data: PostFormData) => {
     console.warn('Submitted post:', data);
     // TODO: add post to current list
@@ -99,7 +102,7 @@ export const PostCreate = () => {
   };
 
   return (
-    <PostCard>
+    <PostCard post={{ creator: { displayName: userDisplayName } }}>
       <Form<PostFormData> onSubmit={onSubmit} className="grid gap-sm">
         <PostFormFields />
       </Form>

@@ -6,7 +6,7 @@ import { Card } from '@/components/core/Card';
 import { SkeletonAvatar } from '@/components/skeleton';
 import { Post } from '@/lib/api/client';
 import { AppUser, PostVariant } from '@/lib/types';
-import { getUserDisplayName } from '@/lib/utils';
+import { getUserDisplayName, getUserInitials } from '@/lib/utils';
 import { Avatar } from '@postbee/postbee-ui-lib';
 import clsx from 'clsx';
 
@@ -24,6 +24,7 @@ export const PostCard = ({ children, skeleton = false, post, variant = 'Default'
     alt: displayName,
     src: post?.creator?.avatarUrl ?? '',
     size: variant === 'Reply' ? 'sm' : 'md',
+    fallback: getUserInitials(displayName),
   };
 
   return (

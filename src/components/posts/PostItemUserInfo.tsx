@@ -2,7 +2,7 @@ import { ComponentProps } from 'react';
 
 import { IconLabel } from '@/components/core/IconLabel';
 import { PostVariant } from '@/lib/types';
-import { readableCreatedDate } from '@/lib/utils';
+import { getUserInitials, readableCreatedDate } from '@/lib/utils';
 import { Avatar, Label } from '@postbee/postbee-ui-lib';
 import Link from 'next/link';
 
@@ -32,6 +32,7 @@ export const PostItemUserInfo = ({
     alt: displayName,
     src: avatarSrc,
     size: 'sm',
+    fallback: getUserInitials(displayName),
   };
 
   return (

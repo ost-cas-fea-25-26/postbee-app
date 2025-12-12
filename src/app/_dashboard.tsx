@@ -25,7 +25,7 @@ export async function Dashboard({ searchParams }: Props) {
     <div className="flex flex-col items-center justify-center gap-sm mb-xl">
       {session?.user ? (
         <>
-          <PostCreate />
+          <PostCreate userDisplayName={session?.user.name ?? ''} />
           <Suspense fallback={<SkeletonPost count={15} />}>
             <PostsList tags={tagsList} likedBy={likeByList} creators={creatorsList} />
           </Suspense>

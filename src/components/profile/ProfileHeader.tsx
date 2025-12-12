@@ -1,3 +1,4 @@
+import { getUserInitials } from '@/lib/utils';
 import { Avatar, Heading, Icon } from '@postbee/postbee-ui-lib';
 import Image from 'next/image';
 
@@ -17,10 +18,10 @@ export default function ProfileHeader({
           <Image src="/images/profile-banner.png" alt="Profile banner" loading="eager" fill className="object-cover" />
         </div>
         <div className="absolute -bottom-16 right-6 hidden sm:block">
-          <Avatar src={avatarUrl ?? ''} size="xl" />
+          <Avatar src={avatarUrl ?? ''} size="xl" fallback={getUserInitials(displayName ?? username)} />
         </div>
         <div className="absolute bottom-4 right-6 block sm:hidden">
-          <Avatar src={avatarUrl ?? ''} size="lg" />
+          <Avatar src={avatarUrl ?? ''} size="lg" fallback={getUserInitials(displayName ?? username)} />
         </div>
       </div>
       <div className="mt-md">
