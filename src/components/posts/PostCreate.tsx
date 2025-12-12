@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import { createPost } from '@/actions/posts';
 import { Form } from '@/components/core/Form';
@@ -15,16 +15,34 @@ type PostFormData = {
   media?: File | undefined;
 };
 
-const PostFormFields = () => {
+interface PostFormFieldsHandle {
+  resetForm: () => void;
+}
+
+const PostFormFields = ({ ref }: { ref: React.RefObject<PostFormFieldsHandle> }) => {
   const {
     register,
     setValue,
+    reset,
     formState: { errors },
   } = useFormContext<PostFormData>();
 
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  // Expose reset method to parent via ref
+  useImperativeHandle(
+    ref,
+    () => ({
+      resetForm: () => {
+        reset({ postContent: '', media: undefined });
+        setSelectedFile(null);
+        setPreviewUrl(null);
+      },
+    }),
+    [reset],
+  );
 
   useEffect(() => {
     if (!selectedFile) {
@@ -49,6 +67,18 @@ const PostFormFields = () => {
     setOpenDialog(false);
   };
 
+  const handleRemoveFile = () => {
+    setSelectedFile(null);
+    setValue('media', undefined);
+  };
+
+  // Sync media field with selectedFile
+  useEffect(() => {
+    if (!selectedFile) {
+      setValue('media', undefined);
+    }
+  }, [selectedFile, setValue]);
+
   return (
     <>
       <Heading level={4}>Hey, let&apos;s mumble?</Heading>
@@ -57,7 +87,7 @@ const PostFormFields = () => {
         <div className="grid cursor-auto place-content-center object-contain space-y-xs">
           <ImageView sources={[previewUrl]} alt="post-media-create" />
 
-          <Button icon="cancel" text="Remove" onClick={() => setSelectedFile(null)} variant="secondary" />
+          <Button icon="cancel" text="Remove" onClick={handleRemoveFile} variant="secondary" />
         </div>
       )}
 
@@ -93,18 +123,28 @@ const PostFormFields = () => {
 type PostCreateProps = {
   userDisplayName: string;
 };
+
 export const PostCreate = ({ userDisplayName }: PostCreateProps) => {
+  const formFieldsRef = useRef<PostFormFieldsHandle>(null);
+
   const onSubmit = async (data: PostFormData) => {
     console.warn('Submitted post:', data);
-    // TODO: add post to current list
-    const res = await createPost(data.postContent, data.media);
-    console.warn('Submitted post res:', res);
+
+    try {
+      const res = await createPost(data.postContent, data.media);
+      console.warn('Submitted post res:', res);
+
+      // Reset form after successful submission
+      formFieldsRef.current?.resetForm();
+    } catch (error) {
+      console.error('Error submitting post:', error);
+    }
   };
 
   return (
     <PostCard post={{ creator: { displayName: userDisplayName } }}>
       <Form<PostFormData> onSubmit={onSubmit} className="grid gap-sm">
-        <PostFormFields />
+        <PostFormFields ref={formFieldsRef} />
       </Form>
     </PostCard>
   );
