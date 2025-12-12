@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import { createPostReply } from '@/actions/comments';
 import { Card } from '@/components/core/Card';
@@ -18,16 +18,34 @@ type CommentFormData = {
   media?: File | undefined;
 };
 
-const CommentFormFields = ({ session }: { session: AuthSession }) => {
+interface CommentFormFieldsHandle {
+  resetForm: () => void;
+}
+
+const CommentFormFields = ({ session, ref }: { session: AuthSession; ref: React.RefObject<CommentFormFieldsHandle> }) => {
   const {
     register,
     setValue,
+    reset,
     formState: { errors },
   } = useFormContext<CommentFormData>();
 
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  // Expose reset method to parent via ref
+  useImperativeHandle(
+    ref,
+    () => ({
+      resetForm: () => {
+        reset({ comment: '', media: undefined });
+        setSelectedFile(null);
+        setPreviewUrl(null);
+      },
+    }),
+    [reset],
+  );
 
   useEffect(() => {
     if (!selectedFile) {
@@ -52,6 +70,18 @@ const CommentFormFields = ({ session }: { session: AuthSession }) => {
     setOpenDialog(false);
   };
 
+  const handleRemoveFile = () => {
+    setSelectedFile(null);
+    setValue('media', undefined);
+  };
+
+  // Sync media field with selectedFile
+  useEffect(() => {
+    if (!selectedFile) {
+      setValue('media', undefined);
+    }
+  }, [selectedFile, setValue]);
+
   return (
     <>
       <div>
@@ -69,7 +99,7 @@ const CommentFormFields = ({ session }: { session: AuthSession }) => {
         <div className="grid cursor-auto place-content-center object-contain space-y-xs">
           <ImageView sources={[previewUrl]} alt="post-media-create" />
 
-          <Button icon="cancel" text="Remove" onClick={() => setSelectedFile(null)} variant="secondary" />
+          <Button icon="cancel" text="Remove" onClick={handleRemoveFile} variant="secondary" />
         </div>
       )}
 
@@ -101,17 +131,26 @@ const CommentFormFields = ({ session }: { session: AuthSession }) => {
 };
 
 export const CommentCreate = ({ postId, session }: { postId: string; session: AuthSession }) => {
-  const onSubmit: SubmitHandler<CommentFormData> = (data) => {
+  const formFieldsRef = useRef<CommentFormFieldsHandle>(null);
+
+  const onSubmit: SubmitHandler<CommentFormData> = async (data) => {
     console.warn('Submitted comment:', data.comment);
-    // TODO: add post to current list
-    const res = createPostReply(postId, data.comment, data.media);
-    console.warn('Submitted comment res:', res);
+
+    try {
+      const res = await createPostReply(postId, data.comment, data.media);
+      console.warn('Submitted comment res:', res);
+
+      // Reset form using ref method
+      formFieldsRef.current?.resetForm();
+    } catch (error) {
+      console.error('Error submitting comment:', error);
+    }
   };
 
   return (
     <Card className="h-fit w-full max-w-full !px-0">
       <Form<CommentFormData> onSubmit={onSubmit} className="!px-0 flex flex-col justify-center gap-sm">
-        <CommentFormFields session={session} />
+        <CommentFormFields session={session} ref={formFieldsRef} />
       </Form>
     </Card>
   );
