@@ -1,5 +1,3 @@
-import { Suspense } from 'react';
-
 import Header from '@/components/header/Header';
 import type { Metadata } from 'next';
 import { Toaster } from 'sonner';
@@ -25,9 +23,7 @@ export default function RootLayout({
             closeButton: true,
           }}
         />
-        <Suspense fallback={null}>
-          <Header />
-        </Suspense>
+        <Header />
         <main className="flex flex-col items-center justify-center px-sm">
           <div className="w-full max-w-content py-lg">{children}</div>
         </main>
