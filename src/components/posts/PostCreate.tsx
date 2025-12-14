@@ -51,7 +51,7 @@ const PostFormFields = () => {
 
   return (
     <>
-      <Heading level={4}>Hey, let&apos;s mumble ?</Heading>
+      <Heading level={4}>Hey, let&apos;s mumble?</Heading>
 
       {previewUrl && (
         <div className="grid cursor-auto place-content-center object-contain space-y-xs">
@@ -65,7 +65,7 @@ const PostFormFields = () => {
         {...register('postContent', { required: 'Please enter your contribution.' })}
         name="postContent"
         placeholder="Your opinion matters!"
-        rows={5}
+        rows={4}
         aria-invalid={!!errors.postContent}
         errorMessage={errors.postContent?.message}
       />

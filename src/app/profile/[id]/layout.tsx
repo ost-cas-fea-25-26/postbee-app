@@ -55,7 +55,11 @@ async function ProfileLayoutAsyncWrapper({ params }: { params: Promise<{ id: str
   return (
     <>
       <ProfileHeader username={user.username} displayName={user.displayName} avatarUrl={user.avatarUrl ?? ''} />
-      {user.isMe && <ProfileTabs />}
+      {user.isMe && (
+        <div className="mt-md">
+          <ProfileTabs />
+        </div>
+      )}
     </>
   );
 }

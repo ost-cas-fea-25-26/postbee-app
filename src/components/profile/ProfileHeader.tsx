@@ -1,6 +1,8 @@
 import { getUserInitials } from '@/lib/utils';
-import { Avatar, Heading, Icon } from '@postbee/postbee-ui-lib';
+import { Avatar, Heading } from '@postbee/postbee-ui-lib';
 import Image from 'next/image';
+
+import { IconLabel } from '../core/IconLabel';
 
 export default function ProfileHeader({
   username,
@@ -26,12 +28,9 @@ export default function ProfileHeader({
       </div>
       <div className="mt-md">
         <Heading level={3}>{displayName}</Heading>
-        <div className="mt-xs mb-lg flex items-center">
-          <div className="inline-flex text-primary items-center gap-xxs">
-            <Icon icon="profile" size={12} />
-            {username}
-          </div>
-        </div>
+        <IconLabel colorClassName="text-primary" icon="profile">
+          {username}
+        </IconLabel>
       </div>
     </div>
   );

@@ -34,11 +34,11 @@ const CommentFormFields = ({ session }: { session: AuthSession }) => {
 
       <Textarea
         placeholder="And what do you think about that?"
-        rows={5}
+        rows={4}
         {...register('comment', { required: 'Please provide a comment.' })}
         aria-invalid={!!errors.comment}
+        errorMessage={errors.comment?.message}
       />
-      {errors.comment && <p className="text-red-600 text-sm">{errors.comment.message}</p>}
 
       <div className="flex items-center justify-center gap-sm flex-wrap sm:flex-nowrap">
         <Button text="Image upload" variant="secondary" icon="upload" fullWidth type="button" />
