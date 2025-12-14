@@ -51,7 +51,7 @@ const PostFormFields = () => {
 
   return (
     <>
-      <Heading level={4}>Hey, let&apos;s mumble ?</Heading>
+      <Heading level={4}>Hey, let&apos;s mumble?</Heading>
 
       {previewUrl && (
         <div className="grid cursor-auto place-content-center object-contain space-y-xs">
