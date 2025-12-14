@@ -9,18 +9,10 @@ import Link from 'next/link';
 import { AuthLoginButton, AuthLogoutButton } from '../auth';
 import { SkeletonAvatar } from '../skeleton';
 
-async function ProfileButton({ userId }: { userId: string }) {
+async function ProfileAvatar({ userId }: { userId: string }) {
   const user = await getUser(userId);
 
-  return (
-    <>
-      <Link href={`/profile/${user.id}/mumbles`}>
-        <HeaderButton title="User View">
-          <Avatar src={user.avatarUrl} size="sm" fallback={getUserInitials(user.displayName)} />
-        </HeaderButton>
-      </Link>
-    </>
-  );
+  return <Avatar src={user.avatarUrl} size="sm" fallback={getUserInitials(user.displayName)} />;
 }
 
 async function Actions() {
@@ -29,15 +21,13 @@ async function Actions() {
   if (session) {
     return (
       <>
-        <Suspense
-          fallback={
-            <div className="mr-xs">
-              <SkeletonAvatar size="sm" />
-            </div>
-          }
-        >
-          <ProfileButton userId={session.user.identifier!} />
-        </Suspense>
+        <Link href={`/profile/${session.user.identifier}/mumbles`}>
+          <HeaderButton title="User View">
+            <Suspense fallback={<SkeletonAvatar size="sm" />}>
+              <ProfileAvatar userId={session.user.identifier!} />
+            </Suspense>
+          </HeaderButton>
+        </Link>
         <HeaderButton icon="settings" iconAnimation="rotate" text="Settings" />
         <AuthLogoutButton />
       </>
