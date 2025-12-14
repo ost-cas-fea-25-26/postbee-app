@@ -7,6 +7,7 @@ import { Form } from '@/components/core/Form';
 import { ImageView } from '@/components/core/ImageView';
 import { UploadDialog } from '@/components/core/UploadDialog';
 import { PostCard } from '@/components/posts/PostCard';
+import { usePosts } from '@/components/posts/PostsProvider';
 import { Button, Heading, Textarea } from '@postbee/postbee-ui-lib';
 import { useFormContext } from 'react-hook-form';
 
@@ -19,7 +20,7 @@ interface PostFormFieldsHandle {
   resetForm: () => void;
 }
 
-const PostFormFields = ({ ref }: { ref: React.RefObject<PostFormFieldsHandle> }) => {
+const PostFormFields = ({ ref }: { ref: React.RefObject<PostFormFieldsHandle | null> }) => {
   const {
     register,
     setValue,
@@ -125,14 +126,19 @@ type PostCreateProps = {
 };
 
 export const PostCreate = ({ userDisplayName }: PostCreateProps) => {
-  const formFieldsRef = useRef<PostFormFieldsHandle>(null);
+  const formFieldsRef = useRef<PostFormFieldsHandle | null>(null);
+  const { addPost } = usePosts();
 
   const onSubmit = async (data: PostFormData) => {
     console.warn('Submitted post:', data);
 
     try {
-      const res = await createPost(data.postContent, data.media);
-      console.warn('Submitted post res:', res);
+      const createdPost = await createPost(data.postContent, data.media);
+      console.warn('Submitted post res:', createdPost);
+
+      if (createdPost) {
+        addPost(createdPost);
+      }
 
       // Reset form after successful submission
       formFieldsRef.current?.resetForm();
@@ -143,8 +149,10 @@ export const PostCreate = ({ userDisplayName }: PostCreateProps) => {
 
   return (
     <PostCard post={{ creator: { displayName: userDisplayName } }}>
-      <Form<PostFormData> onSubmit={onSubmit} className="grid gap-sm">
-        <PostFormFields ref={formFieldsRef} />
+      <Form<PostFormData> onSubmit={onSubmit}>
+        <div className="grid gap-sm">
+          <PostFormFields ref={formFieldsRef} />
+        </div>
       </Form>
     </PostCard>
   );

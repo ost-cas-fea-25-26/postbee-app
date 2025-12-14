@@ -2,11 +2,12 @@
 
 import { useState } from 'react';
 
-import { deletePost, likePost, unlikePost } from '@/actions/posts';
-import { updatePost } from '@/actions/posts/update';
+import { deletePost as deletePostAction, likePost, unlikePost } from '@/actions/posts';
+import { updatePost as updatePostAction } from '@/actions/posts/update';
 import { Dropdown, DropdownAction } from '@/components/core/Dropdown';
 import { ImageView } from '@/components/core/ImageView';
 import { PostFormData, PostItemEditDialog } from '@/components/posts/PostItemEditDialog';
+import { usePosts } from '@/components/posts/PostsProvider';
 import { Post } from '@/lib/api/client';
 import { AuthSession } from '@/lib/auth/auth';
 import { PostVariant } from '@/lib/types';
@@ -19,7 +20,7 @@ import { toast } from 'sonner';
 import { PostItemUserInfo } from './PostItemUserInfo';
 
 export const PostItem = ({
-  post,
+  post: initialPost,
   session,
   variant = 'Default',
 }: {
@@ -28,6 +29,8 @@ export const PostItem = ({
   variant?: PostVariant;
 }) => {
   const router = useRouter();
+  const { posts, updatePost, deletePost } = usePosts();
+  const post = posts.find((item) => item.id === initialPost.id) ?? initialPost;
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
   const isMyPost = post.creator?.id === session?.user?.identifier;
@@ -44,13 +47,15 @@ export const PostItem = ({
       label: 'Delete',
       onSelect: async () => {
         console.warn('Delete clicked for post', post.id);
+
         try {
-          await deletePost(post.id!);
+          await deletePostAction(post.id!);
+          deletePost(post.id!);
           toast.success('Post deleted');
-          router.refresh();
         } catch (error) {
           console.error('Error deleting post', error);
           toast.error('Failed to delete post');
+          router.refresh();
         }
       },
       icon: 'cancel',
@@ -60,12 +65,59 @@ export const PostItem = ({
 
   const handleEditSubmit = async (data: PostFormData) => {
     try {
-      await updatePost(post.id!, data.postContent, data.mediaRemoved ? null : data.media);
+      await updatePostAction(post.id!, data.postContent, data.mediaRemoved ? null : data.media);
+      updatePost(post.id!, {
+        text: data.postContent,
+        mediaUrl: data.mediaRemoved ? null : typeof data.media === 'string' ? data.media : (post.mediaUrl ?? null),
+      });
       toast.success('Post updated');
-      router.refresh();
     } catch (error) {
       console.error('Error updating post', error);
       toast.error('Failed to update post');
+      // Revert optimistic update
+      router.refresh();
+    }
+  };
+
+  const handleLike = async () => {
+    // Optimistic like
+    updatePost(post.id!, {
+      likes: (post.likes ?? 0) + 1,
+      likedBySelf: true,
+    });
+
+    try {
+      await likePost(post.id!);
+      toast.success('Post successfully liked.');
+    } catch (error) {
+      console.error('Error liking post:', error);
+      toast.error('Error liking post');
+      // Revert
+      updatePost(post.id!, {
+        likes: post.likes,
+        likedBySelf: false,
+      });
+    }
+  };
+
+  const handleUnlike = async () => {
+    // Optimistic unlike
+    updatePost(post.id!, {
+      likes: Math.max((post.likes ?? 0) - 1, 0),
+      likedBySelf: false,
+    });
+
+    try {
+      await unlikePost(post.id!);
+      toast.success('Post successfully unliked.');
+    } catch (error) {
+      console.error('Error unliking post:', error);
+      toast.error('Error unliking post');
+      // Revert
+      updatePost(post.id!, {
+        likes: post.likes,
+        likedBySelf: true,
+      });
     }
   };
 
@@ -105,28 +157,8 @@ export const PostItem = ({
             count={post.likes}
             initialIsLiked={!!post.likedBySelf}
             disabled={!session}
-            onLikeAdd={async () => {
-              try {
-                await likePost(post.id!);
-                toast.success('Post successfully liked.');
-              } catch (error) {
-                console.error('Error liking/unliking post:', error);
-                toast.error('Error liking post');
-              }
-            }}
-            onLikeRemove={async () => {
-              try {
-                if (post.likedBySelf) {
-                  await unlikePost(post.id!);
-                  toast.success('Post successfully unliked.');
-                }
-              } catch (error) {
-                console.error('Error liking/unliking post:', error);
-                if (post.likedBySelf) {
-                  toast.error('Error unliking post');
-                }
-              }
-            }}
+            onLikeAdd={handleLike}
+            onLikeRemove={handleUnlike}
           />
 
           <CopyButton textToCopy={`${origin}/post/${post.id ?? ''}`} />

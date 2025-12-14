@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 
 import { CommentCreate } from '@/components/comments/CommentCreate';
 import CommentsList from '@/components/comments/CommentsList';
-import { PostCard, PostItem } from '@/components/posts';
+import { PostCard, PostItem, PostsProvider } from '@/components/posts';
 import { SkeletonPost } from '@/components/skeleton';
 import { getPostsById } from '@/lib/api';
 import { getSession } from '@/lib/auth/auth';
@@ -23,11 +23,13 @@ async function PostContent({ params }: Props) {
   }
 
   return (
-    <PostCard post={post}>
-      <PostItem post={post} session={session} />
-      <CommentCreate postId={postId} session={session} />
-      <CommentsList postId={postId} />
-    </PostCard>
+    <PostsProvider initialPosts={post ? [post] : []}>
+      <PostCard post={post}>
+        <PostItem post={post} session={session} />
+        <CommentCreate postId={postId} session={session} />
+        <CommentsList postId={postId} />
+      </PostCard>
+    </PostsProvider>
   );
 }
 

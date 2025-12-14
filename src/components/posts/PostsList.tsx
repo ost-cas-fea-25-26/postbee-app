@@ -1,4 +1,5 @@
-import { PostCard, PostItem } from '@/components/posts';
+import PostsListClient from '@/components/posts/PostsListClient';
+import { PostsProvider } from '@/components/posts/PostsProvider';
 import { getPosts } from '@/lib/api/client/sdk.gen';
 import { getSession } from '@/lib/auth/auth';
 
@@ -19,12 +20,8 @@ export default async function PostsList({ tags, likedBy, creators }: PostListPro
   const session = await getSession();
 
   return (
-    <div className="flex h-fit w-full max-w-full flex-col items-center justify-center gap-sm ">
-      {posts?.data?.map((post) => (
-        <PostCard key={post.id} post={post}>
-          <PostItem post={post} session={session} />
-        </PostCard>
-      ))}
-    </div>
+    <PostsProvider initialPosts={posts?.data ?? []}>
+      <PostsListClient session={session} />
+    </PostsProvider>
   );
 }
