@@ -34,7 +34,7 @@ const CommentFormFields = ({ session }: { session: AuthSession }) => {
 
       <Textarea
         placeholder="And what do you think about that?"
-        rows={5}
+        rows={4}
         {...register('comment', { required: 'Please provide a comment.' })}
         aria-invalid={!!errors.comment}
         errorMessage={errors.comment?.message}
