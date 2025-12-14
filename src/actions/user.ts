@@ -43,6 +43,18 @@ function mapSessionUserToAppUser(session: ActiveSession): AppUser {
   };
 }
 
+/**
+ * Retrieves user information by ID with a fallback mechanism.
+ *
+ * This function includes a fallback mechanism to handle cases where the authenticated user
+ * is available in the auth system but not yet synced to the mumble API. If the API lookup
+ * fails for the current user, we fall back to using the session user data instead of throwing
+ * an error.
+ *
+ * @param userId - The ID of the user to retrieve
+ * @returns The user information as an AppUser object
+ * @throws Error if no active session exists or if the user is not found and it's not the current user
+ */
 export const getUser = cache(async (userId: string): Promise<AppUser> => {
   const session = await getSession();
 
