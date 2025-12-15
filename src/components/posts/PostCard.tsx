@@ -5,8 +5,8 @@ import { ComponentProps, ReactNode } from 'react';
 import { Card } from '@/components/core/Card';
 import { SkeletonAvatar } from '@/components/skeleton';
 import { Post } from '@/lib/api/client';
-import { AppUser, PostVariant } from '@/lib/types';
-import { getUserDisplayName, getUserInitials } from '@/lib/utils';
+import { PostVariant } from '@/lib/types';
+import { getUserInitials } from '@/lib/utils';
 import { Avatar } from '@postbee/postbee-ui-lib';
 import clsx from 'clsx';
 
@@ -18,13 +18,11 @@ interface PostCardProps {
 }
 
 export const PostCard = ({ children, skeleton = false, post, variant = 'Default' }: PostCardProps) => {
-  const displayName = getUserDisplayName(post?.creator as AppUser);
-
   const avatarProps: ComponentProps<typeof Avatar> = {
-    alt: displayName,
+    alt: post?.creator?.displayName ?? '',
     src: post?.creator?.avatarUrl ?? '',
     size: variant === 'Reply' ? 'sm' : 'md',
-    fallback: getUserInitials(displayName),
+    fallback: getUserInitials(post?.creator?.displayName ?? ''),
   };
 
   return (

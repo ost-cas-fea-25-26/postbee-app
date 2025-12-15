@@ -1,11 +1,19 @@
 import { Suspense } from 'react';
 
+import { getUser } from '@/actions/user';
 import { getSession } from '@/lib/auth/auth';
-import { Logo } from '@postbee/postbee-ui-lib';
+import { getUserInitials } from '@/lib/utils';
+import { Avatar, HeaderButton, Logo } from '@postbee/postbee-ui-lib';
 import Link from 'next/link';
 
 import { AuthLoginButton, AuthLogoutButton } from '../auth';
-import HeaderActions from './HeaderActions';
+import { SkeletonAvatar } from '../skeleton';
+
+async function ProfileAvatar({ userId }: { userId: string }) {
+  const user = await getUser(userId);
+
+  return <Avatar src={user.avatarUrl} size="sm" fallback={getUserInitials(user.displayName)} />;
+}
 
 async function Actions() {
   const session = await getSession();
@@ -13,7 +21,14 @@ async function Actions() {
   if (session) {
     return (
       <>
-        <HeaderActions session={session} />
+        <Link href={`/profile/${session.user.identifier}/mumbles`}>
+          <HeaderButton title="User View">
+            <Suspense fallback={<SkeletonAvatar size="sm" />}>
+              <ProfileAvatar userId={session.user.identifier!} />
+            </Suspense>
+          </HeaderButton>
+        </Link>
+        <HeaderButton icon="settings" iconAnimation="rotate" text="Settings" />
         <AuthLogoutButton />
       </>
     );
