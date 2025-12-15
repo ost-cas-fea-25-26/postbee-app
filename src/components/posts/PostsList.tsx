@@ -1,27 +1,24 @@
-import PostsListClient from '@/components/posts/PostsListClient';
-import { PostsProvider } from '@/components/posts/PostsProvider';
-import { getPosts } from '@/lib/api/client/sdk.gen';
-import { getSession } from '@/lib/auth/auth';
+'use client';
 
-type PostListProps = {
-  tags?: string[];
-  likedBy?: string[];
-  creators?: string[];
+import { PostCard } from '@/components/posts/PostCard';
+import { PostItem } from '@/components/posts/PostItem';
+import { usePosts } from '@/components/posts/PostsProvider';
+import { AuthSession } from '@/lib/auth/auth';
+
+type PostsListClientProps = {
+  session: AuthSession;
 };
 
-export default async function PostsList({ tags, likedBy, creators }: PostListProps) {
-  const { data: posts } = await getPosts({
-    query: {
-      tags,
-      likedBy,
-      creators,
-    },
-  });
-  const session = await getSession();
+export default function PostsList({ session }: PostsListClientProps) {
+  const { posts } = usePosts();
 
   return (
-    <PostsProvider initialPosts={posts?.data ?? []}>
-      <PostsListClient session={session} />
-    </PostsProvider>
+    <div className="flex h-fit w-full max-w-full flex-col items-center justify-center gap-sm ">
+      {posts.map((post) => (
+        <PostCard key={post.id} post={post}>
+          <PostItem post={post} session={session} />
+        </PostCard>
+      ))}
+    </div>
   );
 }

@@ -1,8 +1,5 @@
-import { Suspense } from 'react';
-
 import { PostsListClient, PostsProvider } from '@/components/posts';
 import { PostCreate } from '@/components/posts/PostCreate';
-import { SkeletonPost } from '@/components/skeleton';
 import { getPosts } from '@/lib/api/client/sdk.gen';
 import { getSession } from '@/lib/auth/auth';
 
@@ -14,7 +11,7 @@ interface Props {
   }>;
 }
 
-export async function Dashboard({ searchParams }: Props) {
+export async function HomeContent({ searchParams }: Props) {
   const session = await getSession();
   const { tags, likedBy, creators } = await searchParams;
 
@@ -34,12 +31,10 @@ export async function Dashboard({ searchParams }: Props) {
 
   return (
     <div className="flex flex-col items-center justify-center gap-sm mb-xl">
-      <Suspense fallback={<SkeletonPost count={15} />}>
-        <PostsProvider initialPosts={initialPosts}>
-          {session?.user ? <PostCreate userDisplayName={session?.user.name ?? ''} /> : null}
-          <PostsListClient session={session} />
-        </PostsProvider>
-      </Suspense>
+      <PostsProvider initialPosts={initialPosts}>
+        {session?.user ? <PostCreate userDisplayName={session?.user.name ?? ''} /> : null}
+        <PostsListClient session={session} />
+      </PostsProvider>
     </div>
   );
 }

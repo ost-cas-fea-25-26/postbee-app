@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { SkeletonPost } from '@/components/skeleton';
 import { Heading } from '@postbee/postbee-ui-lib';
 
-import { Dashboard } from './_dashboard';
+import { HomeContent } from './_home';
 
 interface Props {
   searchParams: Promise<{
@@ -19,8 +19,8 @@ export default function Home({ searchParams }: Props) {
       <Heading level={2} className="text-primary mb-lg">
         Welcome to Mumble
       </Heading>
-      <Suspense fallback={<SkeletonPost count={5} />}>
-        <Dashboard searchParams={searchParams} />
+      <Suspense fallback={<SkeletonPost count={15} />}>
+        <HomeContent searchParams={searchParams} />
       </Suspense>
     </>
   );
