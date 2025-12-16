@@ -4,10 +4,7 @@
   "labels": ["dependencies"],
   "packageRules": [
     {
-      "matchUpdateTypes": ["patch"],
-      "automerge": true,
-      "automergeType": "pr"
+      "matchUpdateTypes": ["patch"]
     }
-  ],
-  "platformAutomerge": true
+  ]
 }
