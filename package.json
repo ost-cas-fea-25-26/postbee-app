@@ -11,7 +11,7 @@
     "api:generate": "openapi-ts"
   },
   "dependencies": {
-    "@postbee/postbee-ui-lib": "1.32.2",
+    "@postbee/postbee-ui-lib": "1.32.3",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@types/better-sqlite3": "7.6.13",
     "better-auth": "1.4.5",
