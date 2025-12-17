@@ -5,17 +5,7 @@ import { cache } from 'react';
 import { type User, getUsersById } from '@/lib/api/client';
 import { type AuthSession, getSession } from '@/lib/auth/auth';
 import { AppUser } from '@/lib/types';
-
-function getUserDisplayName(user: User) {
-  if (user.displayName) {
-    return user.displayName;
-  }
-
-  const username = user?.username ?? '';
-  const fullname = user?.firstname && user?.lastname ? `${user.firstname} ${user.lastname}` : undefined;
-
-  return fullname ?? username;
-}
+import { getUserDisplayName } from '@/lib/utils/user';
 
 type ActiveSession = NonNullable<AuthSession>;
 
@@ -46,25 +36,19 @@ function mapSessionUserToAppUser(session: ActiveSession): AppUser {
 /**
  * Retrieves user information by ID with a fallback mechanism.
  *
- * This function includes a fallback mechanism to handle cases where the authenticated user
- * is available in the auth system but not yet synced to the mumble API. If the API lookup
- * fails for the current user, we fall back to using the session user data instead of throwing
- * an error.
+ * This function attempts to fetch user information from the API. If a session is available,
+ * it uses session data as a fallback for the current user. If no session is available,
+ * it retrieves the user purely from the API.
  *
  * @param userId - The ID of the user to retrieve
  * @returns The user information as an AppUser object
- * @throws Error if no active session exists or if the user is not found and it's not the current user
+ * @throws Error if the user is not found in the API and there's no session fallback
  */
 export const getUser = cache(async (userId: string): Promise<AppUser> => {
   const session = await getSession();
 
-  if (!session) {
-    throw new Error('No active session');
-  }
-
-  const activeSession: ActiveSession = session;
-
-  const isMe = activeSession.user.identifier === userId || activeSession.user.id === userId;
+  const activeSession: ActiveSession | null = session ?? null;
+  const isMe = activeSession?.user.identifier === userId || activeSession?.user.id === userId;
 
   let fetchError: unknown;
 
@@ -73,15 +57,18 @@ export const getUser = cache(async (userId: string): Promise<AppUser> => {
     path: { id: userId },
   });
 
-  if (apiUser) {
+  if (apiUser && activeSession) {
     return mapApiUserToAppUser(apiUser, isMe, activeSession);
+  } else if (apiUser) {
+    // When no session, return user from API with isMe as false
+    return mapApiUserToAppUser(apiUser, false, activeSession!);
   } else if (error) {
     fetchError = error;
   }
 
   // Fallback to session user if the current user was not found in the API and
   // it's "me"
-  if (isMe) {
+  if (isMe && activeSession) {
     return mapSessionUserToAppUser(activeSession);
   }
 
