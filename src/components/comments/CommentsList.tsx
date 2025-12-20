@@ -1,18 +1,25 @@
-import { PostCard, PostItem } from '@/components/posts';
-import { getPostsByIdReplies } from '@/lib/api/client/sdk.gen';
-import { getSession } from '@/lib/auth/auth';
+'use client';
 
-export default async function CommentsList({ postId }: { postId: string }) {
-  const { data: postReplies } = await getPostsByIdReplies({ path: { id: postId } });
-  const session = await getSession();
+import { useComments } from '@/components/comments/CommentsProvider';
+import { PostCard } from '@/components/posts/PostCard';
+import { AuthSession } from '@/lib/auth/auth';
+
+import { CommentItem } from './CommentItem';
+
+type CommentsListClientProps = {
+  session: AuthSession;
+};
+
+export const CommentsList = ({ session }: CommentsListClientProps) => {
+  const { comments } = useComments();
 
   return (
     <div className="flex h-fit w-full max-w-full flex-col items-center justify-center gap-sm">
-      {postReplies?.data?.map((reply) => (
-        <PostCard key={reply.id} post={reply} variant="Reply">
-          <PostItem post={reply} session={session} variant="Reply" />
+      {comments.map((comment) => (
+        <PostCard key={comment.id} post={comment} variant="Reply">
+          <CommentItem comment={comment} session={session} />
         </PostCard>
       ))}
     </div>
   );
-}
+};

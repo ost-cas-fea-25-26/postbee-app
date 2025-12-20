@@ -1,8 +1,6 @@
-import { Suspense } from 'react';
-
-import { PostsList } from '@/components/posts';
+import { PostsListClient, PostsProvider } from '@/components/posts';
 import { PostCreate } from '@/components/posts/PostCreate';
-import { SkeletonPost } from '@/components/skeleton';
+import { getPosts } from '@/lib/api/client/sdk.gen';
 import { getSession } from '@/lib/auth/auth';
 
 interface Props {
@@ -13,7 +11,7 @@ interface Props {
   }>;
 }
 
-export async function Dashboard({ searchParams }: Props) {
+export async function HomeContent({ searchParams }: Props) {
   const session = await getSession();
   const { tags, likedBy, creators } = await searchParams;
 
@@ -21,20 +19,22 @@ export async function Dashboard({ searchParams }: Props) {
   const likeByList = Array.isArray(likedBy) ? likedBy : likedBy ? [likedBy] : undefined;
   const creatorsList = Array.isArray(creators) ? creators : creators ? [creators] : undefined;
 
+  const { data: posts } = await getPosts({
+    query: {
+      tags: tagsList,
+      likedBy: likeByList,
+      creators: creatorsList,
+    },
+  });
+
+  const initialPosts = posts?.data ?? [];
+
   return (
     <div className="flex flex-col items-center justify-center gap-sm mb-xl">
-      {session?.user ? (
-        <>
-          <PostCreate userDisplayName={session?.user.name ?? ''} />
-          <Suspense fallback={<SkeletonPost count={15} />}>
-            <PostsList tags={tagsList} likedBy={likeByList} creators={creatorsList} />
-          </Suspense>
-        </>
-      ) : (
-        <Suspense fallback={<SkeletonPost count={15} />}>
-          <PostsList tags={tagsList} likedBy={likeByList} creators={creatorsList} />
-        </Suspense>
-      )}
+      <PostsProvider initialPosts={initialPosts}>
+        {session?.user ? <PostCreate userDisplayName={session?.user.name ?? ''} /> : null}
+        <PostsListClient session={session} />
+      </PostsProvider>
     </div>
   );
 }
