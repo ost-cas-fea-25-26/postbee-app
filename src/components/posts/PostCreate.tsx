@@ -8,7 +8,8 @@ import { ImageView } from '@/components/core/ImageView';
 import { UploadDialog } from '@/components/core/UploadDialog';
 import { PostCard } from '@/components/posts/PostCard';
 import { usePosts } from '@/components/posts/PostsProvider';
-import { Button, Heading, Textarea } from '@postbee/postbee-ui-lib';
+import type { Post } from '@/lib/api/client';
+import { Button, Heading, Paragraph, Textarea } from '@postbee/postbee-ui-lib';
 import { useFormContext } from 'react-hook-form';
 
 type PostFormData = {
@@ -20,7 +21,15 @@ interface PostFormFieldsHandle {
   resetForm: () => void;
 }
 
-const PostFormFields = ({ ref }: { ref: React.RefObject<PostFormFieldsHandle | null> }) => {
+const PostFormFields = ({
+  ref,
+  title = "Hey, let's mumble?",
+  subtitle,
+}: {
+  ref: React.RefObject<PostFormFieldsHandle | null>;
+  title?: string;
+  subtitle?: string;
+}) => {
   const {
     register,
     setValue,
@@ -75,7 +84,10 @@ const PostFormFields = ({ ref }: { ref: React.RefObject<PostFormFieldsHandle | n
 
   return (
     <>
-      <Heading level={4}>Hey, let&apos;s mumble?</Heading>
+      <div className="flex flex-col gap-xs">
+        <Heading level={4}>{title}</Heading>
+        {subtitle && <Paragraph>{subtitle}</Paragraph>}
+      </div>
 
       {previewUrl && (
         <div className="grid cursor-auto place-content-center object-contain space-y-xs">
@@ -113,9 +125,12 @@ const PostFormFields = ({ ref }: { ref: React.RefObject<PostFormFieldsHandle | n
 
 type PostCreateProps = {
   userDisplayName: string;
+  title?: string;
+  subtitle?: string;
+  onAddPost?: (createdPost: Post) => void;
 };
 
-export const PostCreate = ({ userDisplayName }: PostCreateProps) => {
+export const PostCreate = ({ userDisplayName, title, subtitle, onAddPost }: PostCreateProps) => {
   const formFieldsRef = useRef<PostFormFieldsHandle | null>(null);
   const { addPost } = usePosts();
 
@@ -125,6 +140,7 @@ export const PostCreate = ({ userDisplayName }: PostCreateProps) => {
 
       if (createdPost) {
         addPost(createdPost);
+        onAddPost?.(createdPost);
       }
 
       // Reset form after successful submission
@@ -138,7 +154,7 @@ export const PostCreate = ({ userDisplayName }: PostCreateProps) => {
     <PostCard post={{ creator: { displayName: userDisplayName } }}>
       <Form<PostFormData> onSubmit={onSubmit}>
         <div className="grid gap-sm">
-          <PostFormFields ref={formFieldsRef} />
+          <PostFormFields ref={formFieldsRef} title={title} subtitle={subtitle} />
         </div>
       </Form>
     </PostCard>
