@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 
 import { createPost } from '@/actions/posts';
 import { Form } from '@/components/core/Form';
@@ -30,36 +30,29 @@ const PostFormFields = ({ ref }: { ref: React.RefObject<PostFormFieldsHandle | n
 
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  // Expose reset method to parent via ref
+  // Derive preview URL and clean it up on change/unmount
+  const previewUrl = useMemo(() => (selectedFile ? URL.createObjectURL(selectedFile) : null), [selectedFile]);
+
   useImperativeHandle(
     ref,
     () => ({
       resetForm: () => {
         reset({ postContent: '', media: undefined });
         setSelectedFile(null);
-        setPreviewUrl(null);
       },
     }),
     [reset],
   );
 
-  useEffect(() => {
-    if (!selectedFile) {
-      const timeout = setTimeout(() => setPreviewUrl(null), 0);
-
-      return () => clearTimeout(timeout);
-    }
-
-    const url = URL.createObjectURL(selectedFile);
-    const timeout = setTimeout(() => setPreviewUrl(url), 0);
-
-    return () => {
-      clearTimeout(timeout);
-      URL.revokeObjectURL(url);
-    };
-  }, [selectedFile]);
+  useEffect(
+    () => () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    },
+    [previewUrl],
+  );
 
   const handleUploadSubmit = (files: File[]) => {
     const file = files[0] ?? null;
@@ -73,7 +66,7 @@ const PostFormFields = ({ ref }: { ref: React.RefObject<PostFormFieldsHandle | n
     setValue('media', undefined);
   };
 
-  // Sync media field with selectedFile
+  // Sync media field when file is cleared
   useEffect(() => {
     if (!selectedFile) {
       setValue('media', undefined);
@@ -87,7 +80,6 @@ const PostFormFields = ({ ref }: { ref: React.RefObject<PostFormFieldsHandle | n
       {previewUrl && (
         <div className="grid cursor-auto place-content-center object-contain space-y-xs">
           <ImageView sources={[previewUrl]} alt="post-media-create" />
-
           <Button icon="cancel" text="Remove" onClick={handleRemoveFile} variant="secondary" />
         </div>
       )}
@@ -108,9 +100,7 @@ const PostFormFields = ({ ref }: { ref: React.RefObject<PostFormFieldsHandle | n
           icon="upload"
           fullWidth
           type="button"
-          onClick={() => {
-            setOpenDialog(true);
-          }}
+          onClick={() => setOpenDialog(true)}
         />
 
         <UploadDialog open={openDialog} onClose={() => setOpenDialog(false)} onSubmit={handleUploadSubmit} />

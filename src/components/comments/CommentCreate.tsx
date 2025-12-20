@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 
 import { createPostReply } from '@/actions/comments';
 import { useComments } from '@/components/comments/CommentsProvider';
@@ -33,7 +33,8 @@ const CommentFormFields = forwardRef<CommentFormFieldsHandle, { session: AuthSes
 
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  const previewUrl = useMemo(() => (selectedFile ? URL.createObjectURL(selectedFile) : null), [selectedFile]);
 
   useImperativeHandle(
     ref,
@@ -41,25 +42,19 @@ const CommentFormFields = forwardRef<CommentFormFieldsHandle, { session: AuthSes
       resetForm() {
         reset({ comment: '', media: undefined });
         setSelectedFile(null);
-        setPreviewUrl(null);
       },
     }),
     [reset],
   );
 
-  /* --------------------------- Preview handling -------------------------- */
-  useEffect(() => {
-    if (!selectedFile) {
-      setPreviewUrl(null);
-
-      return;
-    }
-
-    const url = URL.createObjectURL(selectedFile);
-    setPreviewUrl(url);
-
-    return () => URL.revokeObjectURL(url);
-  }, [selectedFile]);
+  useEffect(
+    () => () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    },
+    [previewUrl],
+  );
 
   const handleUploadSubmit = (files: File[]) => {
     const file = files[0] ?? null;
