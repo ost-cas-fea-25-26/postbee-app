@@ -6,6 +6,7 @@ import { ProfileFollowUser } from '@/components/profile/ProfileFollowUser';
 import ProfileHeader from '@/components/profile/ProfileHeader';
 import ProfileTabs from '@/components/profile/ProfileTabs';
 import { SkeletonProfileHeader } from '@/components/skeleton';
+import { getSession } from '@/lib/auth/auth';
 import { notFound } from 'next/navigation';
 
 async function ProfileLayoutAsyncWrapper({ params }: { params: Promise<{ id: string }> }) {
@@ -19,6 +20,7 @@ async function ProfileLayoutAsyncWrapper({ params }: { params: Promise<{ id: str
   }
 
   const isUserFollowed = user.isMe ? false : await getIsUserFollowed(user.id).catch(() => false);
+  const session = await getSession();
 
   return (
     <>
@@ -28,7 +30,7 @@ async function ProfileLayoutAsyncWrapper({ params }: { params: Promise<{ id: str
           <ProfileTabs />
         </div>
       ) : (
-        <ProfileFollowUser user={user} isFollowingInitial={isUserFollowed} />
+        session && <ProfileFollowUser user={user} isFollowingInitial={isUserFollowed} />
       )}
     </>
   );
