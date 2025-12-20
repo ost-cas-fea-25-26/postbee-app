@@ -1,10 +1,11 @@
 import { Suspense } from 'react';
 
-import { PostsList } from '@/components/posts';
+import PostsList from '@/components/posts/Posts';
 import { ProfileRecommendedMumbles } from '@/components/profile/ProfileRecommendedMumbles';
 import { SkeletonPost } from '@/components/skeleton';
 import { getPosts } from '@/lib/api';
 import { isCurrentUser } from '@/lib/auth/auth';
+import { Paragraph } from '@postbee/postbee-ui-lib';
 import { notFound } from 'next/navigation';
 
 async function LikesContent({ params }: { params: Promise<{ id: string }> }) {
@@ -23,7 +24,12 @@ async function LikesContent({ params }: { params: Promise<{ id: string }> }) {
   });
 
   if (posts?.count === 0) {
-    return <ProfileRecommendedMumbles />;
+    return (
+      <div className="flex flex-col gap-lg">
+        <Paragraph>No liked posts found. See at the recommended mumbles below and like some to get started!</Paragraph>
+        <ProfileRecommendedMumbles />
+      </div>
+    );
   }
 
   return <PostsList likedBy={[id]} />;
