@@ -20,17 +20,14 @@ export async function getIsUserFollowed(userId: string) {
   return followers.some((user) => user.id === session.user.identifier);
 }
 
-export async function getUnfollowedUsers(
-  userId: string,
-  { offset = 0, limit = 100 }: { offset?: number; limit?: number } = {},
-) {
-  // Fetch all users (limited)
-  const allUsersResult = await getUsers({
-    query: {
-      offset,
-      limit,
-    },
-  });
+// As an appropriate api call to get unfollowed users does not exist,
+// we need to implement it manually here and to do so we need to fetch
+// all users and the users followed by the current user.
+// To prevent fetching too many users at once, we limit to 100 users
+// for this project it should be enough.
+export async function getUnfollowedUsers(userId: string) {
+  // Fetch all users (limited to 100)
+  const allUsersResult = await getUsers();
   throwIfError(allUsersResult.error);
 
   // Fetch users that the current user follows (limited to 100)
