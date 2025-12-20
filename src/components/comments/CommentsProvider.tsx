@@ -18,17 +18,14 @@ export const CommentsProvider = ({ children, initialComments }: { children: Reac
   const [comments, setComments] = useState<Reply[]>(initialComments);
 
   const updateComment = useCallback((commentId: string, updatedData: Partial<Reply>) => {
-    console.warn('updateComment comment id', commentId);
     setComments((prev) => prev.map((comment) => (comment.id === commentId ? { ...comment, ...updatedData } : comment)));
   }, []);
 
   const deleteComment = useCallback((commentId: string) => {
-    console.warn('deleteComment comment id', commentId);
     setComments((prev) => prev.filter((comment) => comment.id !== commentId));
   }, []);
 
   const addComment = useCallback((comment: Reply) => {
-    console.warn('Adding comment', comment);
     setComments((prev) => [comment, ...prev]);
   }, []);
 

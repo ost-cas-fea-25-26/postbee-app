@@ -18,17 +18,14 @@ export function PostsProvider({ children, initialPosts }: { children: ReactNode;
   const [posts, setPosts] = useState<Post[]>(initialPosts);
 
   const updatePost = useCallback((postId: string, updatedData: Partial<Post>) => {
-    console.warn('updatePost post id', postId);
     setPosts((prev) => prev.map((post) => (post.id === postId ? { ...post, ...updatedData } : post)));
   }, []);
 
   const deletePost = useCallback((postId: string) => {
-    console.warn('deletePost post id', postId);
     setPosts((prev) => prev.filter((post) => post.id !== postId));
   }, []);
 
   const addPost = useCallback((post: Post) => {
-    console.warn('Adding post', post);
     setPosts((prev) => [post, ...prev]);
   }, []);
 

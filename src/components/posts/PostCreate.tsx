@@ -130,11 +130,8 @@ export const PostCreate = ({ userDisplayName }: PostCreateProps) => {
   const { addPost } = usePosts();
 
   const onSubmit = async (data: PostFormData) => {
-    console.warn('Submitted post:', data);
-
     try {
       const createdPost = await createPost(data.postContent, data.media);
-      console.warn('Submitted post res:', createdPost);
 
       if (createdPost) {
         addPost(createdPost);

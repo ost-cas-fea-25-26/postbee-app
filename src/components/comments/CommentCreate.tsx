@@ -51,6 +51,7 @@ const CommentFormFields = forwardRef<CommentFormFieldsHandle, { session: AuthSes
   useEffect(() => {
     if (!selectedFile) {
       setPreviewUrl(null);
+
       return;
     }
 
@@ -123,14 +124,12 @@ CommentFormFields.displayName = 'CommentFormFields';
 
 export const CommentCreate = ({ postId, session }: { postId: string; session: AuthSession }) => {
   const formFieldsRef = useRef<CommentFormFieldsHandle | null>(null);
+
   const { addComment } = useComments();
 
   const onSubmit: SubmitHandler<CommentFormData> = async (data) => {
-    console.warn('Submitted comment:', data.comment);
-
     try {
       const createdComment = await createPostReply(postId, data.comment, data.media);
-      console.warn('Submitted comment res:', createdComment);
 
       if (createdComment) {
         addComment(createdComment);

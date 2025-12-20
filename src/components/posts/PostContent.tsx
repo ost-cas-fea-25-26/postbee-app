@@ -46,8 +46,6 @@ export const PostContent = ({ post, session, variant = 'Default', onUpdate, onDe
     {
       label: 'Delete',
       onSelect: async () => {
-        console.warn('Delete clicked for post', post.id);
-
         try {
           await deletePostAction(post.id!);
           if (onDelete) {
