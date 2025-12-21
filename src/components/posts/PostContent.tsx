@@ -52,6 +52,7 @@ export const PostContent = ({ post, session, variant = 'Default', onUpdate, onDe
             onDelete(post.id!);
           }
           toast.success(isVariantReply ? 'Comment deleted' : 'Post deleted');
+          router.refresh();
         } catch (error: unknown) {
           console.error('Error deleting post', error);
           toast.error('Failed to delete post');

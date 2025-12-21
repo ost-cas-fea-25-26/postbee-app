@@ -11,7 +11,7 @@ interface IconLabelProps {
 
 export const IconLabel = ({ children, icon, iconSize, colorClassName, labelSize = 'sm' }: IconLabelProps) => {
   return (
-    <div className={clsx('inline-flex flex-wrap gap-xxs items-center', colorClassName)}>
+    <div className={clsx('inline-flex gap-xxs items-center', colorClassName)}>
       <Icon icon={icon} size={iconSize ?? 12} />
       <span className={clsx(colorClassName, `pb-label-${labelSize}`)}>{children}</span>
     </div>
