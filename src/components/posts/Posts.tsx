@@ -15,12 +15,17 @@ export default async function Posts({ tags, likedBy, creators }: PostListProps) 
       tags,
       likedBy,
       creators,
+      limit: 20,
     },
   });
   const session = await getSession();
 
   return (
-    <PostsProvider initialPosts={posts?.data ?? []}>
+    <PostsProvider
+      initialPosts={posts?.data ?? []}
+      initialPagination={posts ?? undefined}
+      filters={{ tags, likedBy, creators }}
+    >
       <PostsList session={session} />
     </PostsProvider>
   );
