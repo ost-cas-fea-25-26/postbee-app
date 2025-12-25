@@ -2,6 +2,7 @@
 
 import { throwIfError } from '@/actions/helpers';
 import { postPosts } from '@/lib/api/client';
+import { updateTag } from 'next/cache';
 
 export async function createPost(text: string, media?: File) {
   const { data, error } = await postPosts({
@@ -12,6 +13,8 @@ export async function createPost(text: string, media?: File) {
   });
 
   throwIfError(error);
+
+  updateTag('posts');
 
   return data;
 }
