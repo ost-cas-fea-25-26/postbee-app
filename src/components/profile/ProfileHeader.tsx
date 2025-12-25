@@ -17,7 +17,14 @@ export default function ProfileHeader({
     <div className="w-full max-w-4xl mx-auto">
       <div className="relative">
         <div className="h-48 md:h-80 w-full overflow-hidden rounded-lg relative">
-          <Image src="/images/profile-banner.png" alt="Profile banner" loading="eager" fill className="object-cover" />
+          <Image
+            src="/images/profile-banner.png"
+            alt="Profile banner"
+            loading="eager"
+            fill
+            sizes="(max-width: 896px) 100vw, 896px"
+            className="object-cover"
+          />
         </div>
         <div className="absolute -bottom-16 right-6 hidden sm:block">
           <Avatar src={avatarUrl ?? ''} size="xl" fallback={getUserInitials(displayName ?? username)} />
