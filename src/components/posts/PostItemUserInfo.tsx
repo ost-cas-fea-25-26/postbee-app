@@ -15,14 +15,14 @@ interface IPostItemUserInfo {
   variant?: PostVariant;
 }
 
-export const PostItemUserInfo = ({
+export function PostItemUserInfo({
   userId,
   username,
   displayName,
   avatarSrc,
   date,
   variant = 'Default',
-}: IPostItemUserInfo) => {
+}: IPostItemUserInfo) {
   const labelProps: ComponentProps<typeof Label> = {
     size: variant === 'Reply' ? 'md' : 'lg',
     children: displayName ?? username,
@@ -64,4 +64,4 @@ export const PostItemUserInfo = ({
       </Link>
     </div>
   );
-};
+}

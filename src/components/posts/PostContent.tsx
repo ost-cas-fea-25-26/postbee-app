@@ -26,7 +26,7 @@ type PostItemSharedProps = {
   onDelete?: (id: string) => void;
 };
 
-export const PostContent = ({ post, session, variant = 'Default', onUpdate, onDelete }: PostItemSharedProps) => {
+export function PostContent({ post, session, variant = 'Default', onUpdate, onDelete }: PostItemSharedProps) {
   const router = useRouter();
 
   const isVariantReply = variant === 'Reply';
@@ -199,4 +199,4 @@ export const PostContent = ({ post, session, variant = 'Default', onUpdate, onDe
       )}
     </div>
   );
-};
+}

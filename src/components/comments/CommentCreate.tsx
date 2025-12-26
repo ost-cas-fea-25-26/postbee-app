@@ -117,7 +117,7 @@ const CommentFormFields = forwardRef<CommentFormFieldsHandle, { session: AuthSes
 
 CommentFormFields.displayName = 'CommentFormFields';
 
-export const CommentCreate = ({ postId, session }: { postId: string; session: AuthSession }) => {
+export function CommentCreate({ postId, session }: { postId: string; session: AuthSession }) {
   const formFieldsRef = useRef<CommentFormFieldsHandle | null>(null);
 
   const { addComment } = useComments();
@@ -144,4 +144,4 @@ export const CommentCreate = ({ postId, session }: { postId: string; session: Au
       </Form>
     </Card>
   );
-};
+}

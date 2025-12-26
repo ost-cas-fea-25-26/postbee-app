@@ -108,7 +108,7 @@ const PostEditFields = ({ initialMedia }: { initialMedia?: string | null }) => {
   );
 };
 
-export const PostItemEditDialog = ({ open, initialContent, initialMedia, onClose, onSubmit }: PostItemEditDialogProps) => {
+export function PostItemEditDialog({ open, initialContent, initialMedia, onClose, onSubmit }: PostItemEditDialogProps) {
   const handleSubmit = async (data: PostFormData) => {
     await onSubmit(data);
     onClose();
@@ -135,4 +135,4 @@ export const PostItemEditDialog = ({ open, initialContent, initialMedia, onClose
       </Form>
     </Dialog>
   );
-};
+}

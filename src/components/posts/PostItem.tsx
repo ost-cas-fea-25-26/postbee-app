@@ -6,7 +6,7 @@ import { Post } from '@/lib/api/client';
 import { AuthSession } from '@/lib/auth/auth';
 import { PostVariant } from '@/lib/types';
 
-export const PostItem = ({
+export function PostItem({
   post,
   session,
   variant = 'Default',
@@ -14,8 +14,8 @@ export const PostItem = ({
   post: Post;
   session: AuthSession;
   variant?: PostVariant;
-}) => {
+}) {
   const { updatePost, deletePost } = usePosts();
 
   return <PostContent post={post} session={session} variant={variant} onUpdate={updatePost} onDelete={deletePost} />;
-};
+}
