@@ -84,15 +84,24 @@ const PostFormFields = ({
 
   return (
     <>
-      <div className="flex flex-col gap-xs">
+      <div className="flex flex-col gap-xs" data-testid="post-create-header">
         <Heading level={4}>{title}</Heading>
         {subtitle && <Paragraph>{subtitle}</Paragraph>}
       </div>
 
       {previewUrl && (
-        <div className="grid cursor-auto place-content-center object-contain space-y-xs">
+        <div
+          className="grid cursor-auto place-content-center object-contain space-y-xs"
+          data-testid="post-create-media-preview"
+        >
           <ImageView sources={[previewUrl]} alt="post-media-create" />
-          <Button icon="cancel" text="Remove" onClick={handleRemoveFile} variant="secondary" />
+          <Button
+            icon="cancel"
+            text="Remove"
+            onClick={handleRemoveFile}
+            variant="secondary"
+            data-testid="post-create-remove-media"
+          />
         </div>
       )}
 
@@ -103,6 +112,7 @@ const PostFormFields = ({
         rows={4}
         aria-invalid={!!errors.postContent}
         errorMessage={errors.postContent?.message}
+        data-testid="post-create-textarea"
       />
 
       <div className="flex items-center justify-center gap-sm flex-wrap sm:flex-nowrap">
@@ -113,11 +123,19 @@ const PostFormFields = ({
           fullWidth
           type="button"
           onClick={() => setOpenDialog(true)}
+          data-testid="post-create-upload-button"
         />
 
         <UploadDialog open={openDialog} onClose={() => setOpenDialog(false)} onSubmit={handleUploadSubmit} />
 
-        <Button text="Send" icon="send" fullWidth type="submit" onClick={(e) => e.stopPropagation()} />
+        <Button
+          text="Send"
+          icon="send"
+          fullWidth
+          type="submit"
+          onClick={(e) => e.stopPropagation()}
+          data-testid="post-create-send-button"
+        />
       </div>
     </>
   );
@@ -152,7 +170,7 @@ export const PostCreate = ({ userDisplayName, title, subtitle, onAddPost }: Post
 
   return (
     <PostCard post={{ creator: { displayName: userDisplayName } }}>
-      <Form<PostFormData> onSubmit={onSubmit}>
+      <Form<PostFormData> onSubmit={onSubmit} data-testid="post-create-form">
         <div className="grid gap-sm">
           <PostFormFields ref={formFieldsRef} title={title} subtitle={subtitle} />
         </div>

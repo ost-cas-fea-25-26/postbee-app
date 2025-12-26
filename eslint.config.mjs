@@ -14,7 +14,7 @@ const config = [
     },
   },
   {
-    ignores: ['src/lib/api/client/**'],
+    ignores: ['src/lib/api/client/**', 'test-results/**', 'playwright-report/**', 'playwright/.cache/**'],
   },
 ];
 

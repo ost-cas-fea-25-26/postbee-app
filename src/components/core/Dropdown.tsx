@@ -17,14 +17,19 @@ export type DropdownProps = {
   trigger?: React.ReactNode;
   actions: DropdownAction[];
   sideOffset?: number;
+  'data-testid'?: string;
 };
 
-export function Dropdown({ trigger, actions, sideOffset = 8 }: DropdownProps) {
+export function Dropdown({ trigger, actions, sideOffset = 8, 'data-testid': dataTestId }: DropdownProps) {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         {trigger ?? (
-          <button aria-label="Open dropdown menu" className="p-xs rounded-md shadow hover:bg-secondary-50 cursor-pointer">
+          <button
+            aria-label="Open dropdown menu"
+            className="p-xs rounded-md shadow hover:bg-secondary-50 cursor-pointer"
+            data-testid={dataTestId}
+          >
             {/* Default trigger icon could go here, or leave empty */}
             <Icon icon="settings" color="secondary" />
           </button>
