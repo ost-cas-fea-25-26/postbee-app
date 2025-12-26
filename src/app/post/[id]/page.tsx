@@ -1,10 +1,10 @@
 import { Suspense } from 'react';
 
+import { getCachedPostsById } from '@/actions/posts/get';
 import { CommentCreate } from '@/components/comments/CommentCreate';
 import { Comments } from '@/components/comments/Comments';
 import { PostCard, PostItem, PostsProvider } from '@/components/posts';
 import { SkeletonPost } from '@/components/skeleton';
-import { getPostsById } from '@/lib/api';
 import { getSession } from '@/lib/auth/auth';
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 
 async function PostContent({ params }: Props) {
   const postId = (await params).id;
-  const { data: post } = await getPostsById({ path: { id: postId } });
+  const post = await getCachedPostsById(postId);
   const session = await getSession();
 
   if (!post) {

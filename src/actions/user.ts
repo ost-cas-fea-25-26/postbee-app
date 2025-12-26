@@ -3,9 +3,11 @@
 import { cache } from 'react';
 
 import { type User, getUsersById } from '@/lib/api/client';
+import { clientNoAuth } from '@/lib/api/clients';
 import { type AuthSession, getSession } from '@/lib/auth/auth';
 import { AppUser } from '@/lib/types';
 import { getUserDisplayName } from '@/lib/utils/user';
+import { cacheLife, cacheTag } from 'next/cache';
 
 type ActiveSession = NonNullable<AuthSession>;
 
@@ -33,6 +35,19 @@ function mapSessionUserToAppUser(session: ActiveSession): AppUser {
   };
 }
 
+async function getCachedUser(userId: string) {
+  'use cache';
+  cacheTag('user');
+  cacheLife('hours');
+
+  const { data: apiUser, error } = await getUsersById({
+    client: clientNoAuth,
+    path: { id: userId },
+  });
+
+  return { apiUser, error };
+}
+
 /**
  * Retrieves user information by ID with a fallback mechanism.
  *
@@ -53,9 +68,7 @@ export const getUser = cache(async (userId: string): Promise<AppUser> => {
   let fetchError: unknown;
 
   // Try to fetch user from API
-  const { data: apiUser, error } = await getUsersById({
-    path: { id: userId },
-  });
+  const { apiUser, error } = await getCachedUser(userId);
 
   if (apiUser && activeSession) {
     return mapApiUserToAppUser(apiUser, isMe, activeSession);
