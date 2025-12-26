@@ -37,7 +37,7 @@ async function Actions() {
   return <AuthLoginButton />;
 }
 
-export default function Header() {
+export function Header() {
   return (
     <header className="sticky top-0 z-10 flex w-full h-20 bg-primary-600 place-content-center ">
       <div className="flex w-full max-w-content justify-between mx-sm">

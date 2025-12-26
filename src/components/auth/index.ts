@@ -1,2 +1,2 @@
-export { default as AuthLoginButton } from './AuthLoginButton';
-export { default as AuthLogoutButton } from './AuthLogoutButton';
+export { AuthLoginButton } from './AuthLoginButton';
+export { AuthLogoutButton } from './AuthLogoutButton';

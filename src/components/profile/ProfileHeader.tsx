@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import { IconLabel } from '../core/IconLabel';
 
-export default function ProfileHeader({
+export function ProfileHeader({
   username,
   displayName,
   avatarUrl,
