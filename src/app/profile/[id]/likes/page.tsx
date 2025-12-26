@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 
 import { getCachedPosts } from '@/actions/posts/get';
-import PostsList from '@/components/posts/Posts';
+import { PostsList } from '@/components/posts';
 import { ProfileRecommendedMumbles } from '@/components/profile/ProfileRecommendedMumbles';
 import { SkeletonPost } from '@/components/skeleton';
 import { isCurrentUser } from '@/lib/auth/auth';
