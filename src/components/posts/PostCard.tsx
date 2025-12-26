@@ -17,7 +17,7 @@ interface PostCardProps {
   variant?: PostVariant;
 }
 
-export const PostCard = ({ children, skeleton = false, post, variant = 'Default' }: PostCardProps) => {
+export function PostCard({ children, skeleton = false, post, variant = 'Default' }: PostCardProps) {
   const avatarProps: ComponentProps<typeof Avatar> = {
     alt: post?.creator?.displayName ?? '',
     src: post?.creator?.avatarUrl ?? '',
@@ -50,4 +50,4 @@ export const PostCard = ({ children, skeleton = false, post, variant = 'Default'
       </Card>
     </div>
   );
-};
+}

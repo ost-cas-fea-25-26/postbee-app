@@ -1,10 +1,9 @@
+import { IconLabel } from '@/components/core/IconLabel';
 import { getUserInitials } from '@/lib/utils';
 import { Avatar, Heading } from '@postbee/postbee-ui-lib';
 import Image from 'next/image';
 
-import { IconLabel } from '../core/IconLabel';
-
-export default function ProfileHeader({
+export function ProfileHeader({
   username,
   displayName,
   avatarUrl,

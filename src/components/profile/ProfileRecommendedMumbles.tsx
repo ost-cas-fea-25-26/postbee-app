@@ -1,9 +1,8 @@
 import { Suspense } from 'react';
 
+import { PostsList } from '@/components/posts';
+import { SkeletonPost } from '@/components/skeleton';
 import { Heading } from '@postbee/postbee-ui-lib';
-
-import { PostsList } from '../posts';
-import { SkeletonPost } from '../skeleton';
 
 export function ProfileRecommendedMumbles() {
   return (

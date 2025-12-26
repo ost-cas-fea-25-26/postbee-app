@@ -3,7 +3,7 @@
 import { TabItem, Tabs } from '@postbee/postbee-ui-lib';
 import { useParams, useRouter, useSelectedLayoutSegment } from 'next/navigation';
 
-export default function ProfileTabs() {
+export function ProfileTabs() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const segment = useSelectedLayoutSegment(); // 'mumbles' | 'likes' | null

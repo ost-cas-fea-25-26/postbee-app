@@ -130,7 +130,7 @@ type PostCreateProps = {
   onAddPost?: (createdPost: Post) => void;
 };
 
-export const PostCreate = ({ userDisplayName, title, subtitle, onAddPost }: PostCreateProps) => {
+export function PostCreate({ userDisplayName, title, subtitle, onAddPost }: PostCreateProps) {
   const formFieldsRef = useRef<PostFormFieldsHandle | null>(null);
   const { addPost } = usePosts();
 
@@ -159,4 +159,4 @@ export const PostCreate = ({ userDisplayName, title, subtitle, onAddPost }: Post
       </Form>
     </PostCard>
   );
-};
+}

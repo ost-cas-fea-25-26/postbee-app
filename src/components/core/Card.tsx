@@ -11,7 +11,7 @@ interface CardProps {
   tabIndex?: number;
 }
 
-export const Card = ({ children, className = '', onClick, onKeyDown, role, tabIndex }: CardProps) => {
+export function Card({ children, className = '', onClick, onKeyDown, role, tabIndex }: CardProps) {
   return (
     <div
       data-testid="mumble-card"
@@ -28,4 +28,4 @@ export const Card = ({ children, className = '', onClick, onKeyDown, role, tabIn
       {children}
     </div>
   );
-};
+}

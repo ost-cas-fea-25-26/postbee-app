@@ -9,11 +9,11 @@ interface IconLabelProps {
   labelSize?: LabelProps['size'];
 }
 
-export const IconLabel = ({ children, icon, iconSize, colorClassName, labelSize = 'sm' }: IconLabelProps) => {
+export function IconLabel({ children, icon, iconSize, colorClassName, labelSize = 'sm' }: IconLabelProps) {
   return (
     <div className={clsx('inline-flex gap-xxs items-center', colorClassName)}>
       <Icon icon={icon} size={iconSize ?? 12} />
       <span className={clsx(colorClassName, `pb-label-${labelSize}`)}>{children}</span>
     </div>
   );
-};
+}
