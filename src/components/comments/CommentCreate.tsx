@@ -8,11 +8,10 @@ import { Card } from '@/components/core/Card';
 import { Form } from '@/components/core/Form';
 import { ImageView } from '@/components/core/ImageView';
 import { UploadDialog } from '@/components/core/UploadDialog';
+import { PostItemUserInfo } from '@/components/posts/PostItemUserInfo';
 import { AuthSession } from '@/lib/auth/auth';
 import { Button, Textarea } from '@postbee/postbee-ui-lib';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
-
-import { PostItemUserInfo } from '../posts/PostItemUserInfo';
 
 type CommentFormData = {
   comment: string;

@@ -1,4 +1,5 @@
-import { getAccessToken } from '../auth/auth';
+import { getAccessToken } from '@/lib/auth/auth';
+
 import type { CreateClientConfig } from './client/client.gen';
 
 export * from './client/sdk.gen';

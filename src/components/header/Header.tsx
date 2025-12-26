@@ -1,13 +1,12 @@
 import { Suspense } from 'react';
 
 import { getUser } from '@/actions/user';
+import { AuthLoginButton, AuthLogoutButton } from '@/components/auth';
+import { SkeletonAvatar } from '@/components/skeleton';
 import { getSession } from '@/lib/auth/auth';
 import { getUserInitials } from '@/lib/utils';
 import { Avatar, HeaderButton, Logo } from '@postbee/postbee-ui-lib';
 import Link from 'next/link';
-
-import { AuthLoginButton, AuthLogoutButton } from '../auth';
-import { SkeletonAvatar } from '../skeleton';
 
 async function ProfileAvatar({ userId }: { userId: string }) {
   const user = await getUser(userId);

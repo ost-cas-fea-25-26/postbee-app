@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 
-import { PostCard } from '../posts/PostCard';
-import { SkeletonPostContent } from './SkeletonPostContent';
+import { PostCard } from '@/components/posts/PostCard';
+import { SkeletonPostContent } from '@/components/skeleton/SkeletonPostContent';
 
 interface ISkeletonPost {
   count?: number;

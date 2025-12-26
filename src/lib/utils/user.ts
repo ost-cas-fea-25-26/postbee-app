@@ -1,5 +1,5 @@
-import type { User } from '../api/client';
-import { AppUser } from '../types';
+import type { User } from '@/lib/api/client';
+import { AppUser } from '@/lib/types';
 
 export function getUserDisplayName(user: User | AppUser) {
   if (user.displayName) {
