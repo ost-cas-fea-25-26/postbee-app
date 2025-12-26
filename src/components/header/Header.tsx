@@ -21,7 +21,7 @@ async function Actions() {
   if (session) {
     return (
       <>
-        <Link href={`/profile/${session.user.identifier}/mumbles`}>
+        <Link href={`/profile/${session.user.identifier}/mumbles`} aria-label="View your profile">
           <HeaderButton title="User View">
             <Suspense fallback={<SkeletonAvatar size="sm" />}>
               <ProfileAvatar userId={session.user.identifier!} />
@@ -42,7 +42,7 @@ export default function Header() {
     <header className="sticky top-0 z-10 flex w-full h-20 bg-primary-600 place-content-center ">
       <div className="flex w-full max-w-content justify-between mx-sm">
         <div className="grid items-center py-xs">
-          <Link href="/">
+          <Link href="/" aria-label="Go to Mumble homepage">
             <Logo logo="white-02" width={200} height={40} className="hidden sm:block" />
             <Logo logo="white-01" height={40} className="block sm:hidden" />
           </Link>

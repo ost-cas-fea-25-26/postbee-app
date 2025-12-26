@@ -33,8 +33,6 @@ export const PostCard = ({ children, skeleton = false, post, variant = 'Default'
           'p-0! pt-xs!': variant === 'Reply',
         })}
         data-testid="post-card"
-        role="button"
-        tabIndex={0}
       >
         <div
           className={clsx('absolute', {

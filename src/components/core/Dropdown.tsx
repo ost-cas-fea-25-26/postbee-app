@@ -24,7 +24,7 @@ export function Dropdown({ trigger, actions, sideOffset = 8 }: DropdownProps) {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         {trigger ?? (
-          <button aria-label="Open dropdown menu" className="p-xs rounded-md shadow hover:bg-secondary-50 cursor-pointer">
+          <button aria-label="Open menu options" className="p-xs rounded-md shadow hover:bg-secondary-50 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500">
             {/* Default trigger icon could go here, or leave empty */}
             <Icon icon="settings" color="secondary" />
           </button>
