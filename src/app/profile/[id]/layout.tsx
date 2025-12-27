@@ -24,7 +24,12 @@ async function ProfileLayoutAsyncWrapper({ params }: { params: Promise<{ id: str
 
   return (
     <>
-      <ProfileHeader username={user.username} displayName={user.displayName} avatarUrl={user.avatarUrl ?? ''} />
+      <ProfileHeader
+        username={user.username}
+        displayName={user.displayName}
+        avatarUrl={user.avatarUrl ?? ''}
+        isMe={user.isMe}
+      />
       {user.isMe ? (
         <div className="mt-md">
           <ProfileTabs />

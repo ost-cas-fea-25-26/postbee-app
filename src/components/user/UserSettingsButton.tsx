@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 
+import { AppUser } from '@/lib/types';
 import { HeaderButton } from '@postbee/postbee-ui-lib';
 
 import { UserSettingsModal } from './UserSettingsModal';
-import { AppUser } from '@/lib/types';
 
 type UserSettingsButtonProps = {
   user: AppUser;
@@ -17,11 +17,7 @@ export function UserSettingsButton({ user }: UserSettingsButtonProps) {
   return (
     <>
       <HeaderButton icon="settings" iconAnimation="rotate" text="Settings" onClick={() => setIsModalOpen(true)} />
-      <UserSettingsModal
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        user={user}
-      />
+      <UserSettingsModal open={isModalOpen} onClose={() => setIsModalOpen(false)} user={user} />
     </>
   );
 }

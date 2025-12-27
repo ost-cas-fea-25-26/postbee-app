@@ -3,7 +3,7 @@
 import { cache } from 'react';
 
 import { throwIfError } from '@/actions/helpers';
-import { type User, getUsersById, patchUsers } from '@/lib/api/client';
+import { type User, getUsersById, patchUsers, putUsersAvatar } from '@/lib/api/client';
 import { clientNoAuth } from '@/lib/api/clients';
 import { type AuthSession, getSession } from '@/lib/auth/auth';
 import { AppUser } from '@/lib/types';
@@ -108,6 +108,26 @@ export async function updateUserSettings(data: { firstname?: string; lastname?: 
       firstname: data.firstname,
       lastname: data.lastname,
       username: data.username,
+    },
+  });
+
+  throwIfError(error);
+
+  updateTag('user');
+
+  return result;
+}
+
+export async function updateAvatar(file: File) {
+  const session = await getSession();
+
+  if (!session?.user) {
+    throw new Error('Unauthorized');
+  }
+
+  const { data: result, error } = await putUsersAvatar({
+    body: {
+      media: file,
     },
   });
 
