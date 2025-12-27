@@ -2,7 +2,8 @@
 
 import { cache } from 'react';
 
-import { type User, getUsersById } from '@/lib/api/client';
+import { throwIfError } from '@/actions/helpers';
+import { type User, getUsersById, patchUsers } from '@/lib/api/client';
 import { clientNoAuth } from '@/lib/api/clients';
 import { type AuthSession, getSession } from '@/lib/auth/auth';
 import { AppUser } from '@/lib/types';
@@ -94,3 +95,26 @@ export const getUser = cache(async (userId: string): Promise<AppUser> => {
   // Generic error
   throw new Error('User not found');
 });
+
+export async function updateUserSettings(data: { firstname?: string; lastname?: string; username?: string }) {
+  const session = await getSession();
+
+  if (!session?.user) {
+    throw new Error('Unauthorized');
+  }
+
+  const { data: result, error } = await patchUsers({
+    client: clientNoAuth,
+    body: {
+      firstname: data.firstname,
+      lastname: data.lastname,
+      username: data.username,
+    },
+  });
+
+  throwIfError(error);
+
+  cacheTag('user');
+
+  return result;
+}
