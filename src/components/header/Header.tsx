@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { getUser } from '@/actions/user';
 import { AuthLoginButton, AuthLogoutButton } from '@/components/auth';
 import { SkeletonAvatar } from '@/components/skeleton';
+import { UserSettingsButton } from '@/components/user/UserSettingsButton';
 import { getSession } from '@/lib/auth/auth';
 import { getUserInitials } from '@/lib/utils';
 import { Avatar, HeaderButton, Logo } from '@postbee/postbee-ui-lib';
@@ -18,6 +19,8 @@ async function Actions() {
   const session = await getSession();
 
   if (session) {
+    const user = await getUser(session.user.identifier!);
+
     return (
       <>
         <Link href={`/profile/${session.user.identifier}/mumbles`} aria-label="View your profile">
@@ -27,7 +30,7 @@ async function Actions() {
             </Suspense>
           </HeaderButton>
         </Link>
-        <HeaderButton icon="settings" iconAnimation="rotate" text="Settings" />
+        <UserSettingsButton user={user} />
         <AuthLogoutButton />
       </>
     );
