@@ -18,7 +18,7 @@ async function LikesContent({ params }: { params: Promise<{ id: string }> }) {
 
   const posts = await getCachedPosts({
     query: {
-      creators: [id],
+      likedBy: [id],
       limit: 1,
     },
   });
