@@ -1,15 +1,14 @@
-'use client';
+import { Suspense } from 'react';
 
-import { useEffect } from 'react';
-
-import { usePathname } from 'next/navigation';
+import { ScrollToTop } from '@/components/core/ScrollToTop';
 
 export default function Template({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-
-  return <>{children}</>;
+  return (
+    <>
+      <Suspense fallback={null}>
+        <ScrollToTop />
+      </Suspense>
+      {children}
+    </>
+  );
 }
