@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, createContext, useCallback, useContext, useState } from 'react';
+import { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 import { Post } from '@/lib/api/client';
 
@@ -16,6 +16,12 @@ const PostsContext = createContext<PostsContextType | undefined>(undefined);
 
 export function PostsProvider({ children, initialPosts }: { children: ReactNode; initialPosts: Post[] }) {
   const [posts, setPosts] = useState<Post[]>(initialPosts);
+
+  // Sync internal posts state with initialPosts when it changes (e.g., when searchParams like tags change).
+  // This ensures the context always reflects the latest data instead of showing stale state.
+  useEffect(() => {
+    setPosts(initialPosts);
+  }, [initialPosts]);
 
   const updatePost = useCallback((postId: string, updatedData: Partial<Post>) => {
     setPosts((prev) => prev.map((post) => (post.id === postId ? { ...post, ...updatedData } : post)));
