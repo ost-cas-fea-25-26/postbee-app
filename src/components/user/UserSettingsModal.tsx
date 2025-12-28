@@ -80,6 +80,9 @@ export function UserSettingsModal({ open, onClose, user }: UserSettingsModalProp
     document.getElementById('user-settings-submit')?.click();
   };
 
+  const firstname = user.firstname || user.displayName?.split(' ')[0] || '';
+  const lastname = user.lastname || (user.displayName?.split(' ')?.at(1) ?? '') || '';
+
   return (
     <Dialog
       title="User Settings"
@@ -97,8 +100,8 @@ export function UserSettingsModal({ open, onClose, user }: UserSettingsModalProp
         onSubmit={handleSubmit}
         formOptions={{
           defaultValues: {
-            firstname: user.firstname || '',
-            lastname: user.lastname || '',
+            firstname,
+            lastname,
             username: user.username || '',
           },
         }}
