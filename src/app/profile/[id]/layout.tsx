@@ -28,7 +28,7 @@ async function ProfileLayoutAsyncWrapper({ params }: { params: Promise<{ id: str
         username={user.username}
         displayName={user.displayName}
         avatarUrl={user.avatarUrl ?? ''}
-        isMe={user.isMe}
+        isMe={!!user.isMe}
       />
       {user.isMe ? (
         <div className="mt-md">
