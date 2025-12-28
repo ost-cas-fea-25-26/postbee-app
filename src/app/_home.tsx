@@ -1,4 +1,5 @@
 import { getCachedPosts } from '@/actions/posts/get';
+import { getUser } from '@/actions/user';
 import { PostsListClient, PostsProvider } from '@/components/posts';
 import { PostCreate } from '@/components/posts/PostCreate';
 import { getSession } from '@/lib/auth/auth';
@@ -13,6 +14,7 @@ interface Props {
 
 export async function HomeContent({ searchParams }: Props) {
   const session = await getSession();
+  const user = await getUser(session?.user?.id ?? '');
   const { tags, likedBy, creators } = await searchParams;
 
   const tagsList = Array.isArray(tags) ? tags : tags ? [tags] : undefined;
@@ -32,7 +34,7 @@ export async function HomeContent({ searchParams }: Props) {
   return (
     <div className="flex flex-col items-center justify-center gap-sm mb-xl">
       <PostsProvider initialPosts={initialPosts}>
-        {session?.user ? <PostCreate userDisplayName={session?.user.name ?? ''} /> : null}
+        {session?.user ? <PostCreate userDisplayName={user.displayName} userAvatarUrl={user.avatarUrl} /> : null}
         <PostsListClient session={session} />
       </PostsProvider>
     </div>

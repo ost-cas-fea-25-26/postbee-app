@@ -125,12 +125,13 @@ const PostFormFields = ({
 
 type PostCreateProps = {
   userDisplayName: string;
+  userAvatarUrl?: string;
   title?: string;
   subtitle?: string;
   onAddPost?: (createdPost: Post) => void;
 };
 
-export function PostCreate({ userDisplayName, title, subtitle, onAddPost }: PostCreateProps) {
+export function PostCreate({ userDisplayName, userAvatarUrl, title, subtitle, onAddPost }: PostCreateProps) {
   const formFieldsRef = useRef<PostFormFieldsHandle | null>(null);
   const { addPost } = usePosts();
 
@@ -151,7 +152,7 @@ export function PostCreate({ userDisplayName, title, subtitle, onAddPost }: Post
   };
 
   return (
-    <PostCard post={{ creator: { displayName: userDisplayName } }}>
+    <PostCard post={{ creator: { displayName: userDisplayName, avatarUrl: userAvatarUrl } }}>
       <Form<PostFormData> onSubmit={onSubmit}>
         <div className="grid gap-sm">
           <PostFormFields ref={formFieldsRef} title={title} subtitle={subtitle} />
