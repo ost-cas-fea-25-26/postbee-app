@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import { Skeleton } from './Skeleton';
+import { Skeleton } from '.';
 
 interface ISkeletonAvatar {
   size?: 'sm' | 'md' | 'lg' | 'xl';
