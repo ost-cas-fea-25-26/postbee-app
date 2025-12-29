@@ -1,8 +1,35 @@
 'use server';
 
 import { throwIfError } from '@/actions/helpers';
-import { PostPaginatedResult } from '@/lib/api/client';
-import { getPosts } from '@/lib/api/client';
+import { PostPaginatedResult, getPosts, getPostsById } from '@/lib/api/client';
+import { clientNoAuth } from '@/lib/api/clients';
+import { cacheLife, cacheTag } from 'next/cache';
+
+export async function getCachedPosts(options?: Parameters<typeof getPosts>[0]) {
+  'use cache';
+  cacheTag('posts');
+  cacheLife('hours');
+
+  const { data } = await getPosts({
+    client: clientNoAuth,
+    ...options,
+  });
+
+  return data;
+}
+
+export async function getCachedPostsById(postId: string) {
+  'use cache';
+  cacheTag('posts');
+  cacheLife('hours');
+
+  const { data } = await getPostsById({
+    client: clientNoAuth,
+    path: { id: postId },
+  });
+
+  return data;
+}
 
 export async function getMorePosts(params: {
   tags?: string[];

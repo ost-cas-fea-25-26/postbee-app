@@ -1,6 +1,6 @@
+import { getCachedPosts } from '@/actions/posts/get';
 import { PostsListClient, PostsProvider } from '@/components/posts';
 import { PostCreate } from '@/components/posts/PostCreate';
-import { getPosts } from '@/lib/api/client/sdk.gen';
 import { getSession } from '@/lib/auth/auth';
 
 interface Props {
@@ -19,7 +19,7 @@ export async function HomeContent({ searchParams }: Props) {
   const likeByList = Array.isArray(likedBy) ? likedBy : likedBy ? [likedBy] : undefined;
   const creatorsList = Array.isArray(creators) ? creators : creators ? [creators] : undefined;
 
-  const { data: posts } = await getPosts({
+  const posts = await getCachedPosts({
     query: {
       tags: tagsList,
       likedBy: likeByList,

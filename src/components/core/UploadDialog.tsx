@@ -15,21 +15,17 @@ type UploadDialogProps = {
   onSubmit: (files: File[]) => void;
 };
 
-export const UploadDialog = ({ open, multiple = false, onClose, onSubmit }: UploadDialogProps) => {
+export function UploadDialog({ open, multiple = false, onClose, onSubmit }: UploadDialogProps) {
   const [selectedFiles, setSelectedFiles] = useState<UploadFile[]>([]);
 
   const handleClose = () => {
-    // Reset files and close dialog
     setSelectedFiles([]);
     onClose();
   };
 
   const handleSubmit = () => {
-    // Emit files to parent and close
     const files = selectedFiles.map((item) => item.file);
     onSubmit(files);
-
-    // Reset and close
     setSelectedFiles([]);
   };
 
@@ -48,4 +44,4 @@ export const UploadDialog = ({ open, multiple = false, onClose, onSubmit }: Uplo
       <Upload multiple={multiple} files={selectedFiles} onChange={setSelectedFiles} />
     </Dialog>
   );
-};
+}

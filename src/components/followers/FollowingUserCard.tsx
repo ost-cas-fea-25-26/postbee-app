@@ -1,13 +1,12 @@
 'use client';
 
+import { Card } from '@/components/core/Card';
+import { IconLabel } from '@/components/core/IconLabel';
+import { FollowingButtons } from '@/components/followers/FollowingButtons';
 import type { User } from '@/lib/api/client';
 import { getUserDisplayName, getUserInitials } from '@/lib/utils';
 import { Avatar } from '@postbee/postbee-ui-lib';
 import Link from 'next/link';
-
-import { Card } from '../core/Card';
-import { IconLabel } from '../core/IconLabel';
-import { FollowingButtons } from './FollowingButtons';
 
 export function FollowingUserCard({ user, isFollowingInitial = false }: { user: User; isFollowingInitial?: boolean }) {
   const displayName = getUserDisplayName(user);

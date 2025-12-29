@@ -1,13 +1,13 @@
 import { Fragment } from 'react';
 
-import { PostCard } from '../posts/PostCard';
-import SkeletonPostContent from './SkeletonPostContent';
+import { PostCard } from '@/components/posts/PostCard';
+import { SkeletonPostContent } from '@/components/skeleton/SkeletonPostContent';
 
 interface ISkeletonPost {
   count?: number;
 }
 
-export default function SkeletonPost({ count = 1 }: ISkeletonPost) {
+export function SkeletonPost({ count = 1 }: ISkeletonPost) {
   const skeleton = (
     <PostCard skeleton>
       <SkeletonPostContent />

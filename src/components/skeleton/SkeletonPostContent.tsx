@@ -1,4 +1,4 @@
-export default function SkeletonPostContent() {
+export function SkeletonPostContent() {
   return (
     <>
       <div className="mumble-animate-skeleton w-4/12 rounded-sm bg-secondary-200 pb-md">&nbsp;</div>

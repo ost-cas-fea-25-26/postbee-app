@@ -1,19 +1,19 @@
 import { Suspense } from 'react';
 
+import { getCachedPosts } from '@/actions/posts/get';
 import { getUser } from '@/actions/user';
 import { PostsList, PostsProvider } from '@/components/posts';
 import { PostCreateRefresh } from '@/components/posts/PostCreateRefresh';
 import { ProfileRecommendedMumbles } from '@/components/profile/ProfileRecommendedMumbles';
 import { ProfileRecommendedUsers } from '@/components/profile/ProfileRecommendedUsers';
 import { SkeletonPost } from '@/components/skeleton';
-import { getPosts } from '@/lib/api';
 import { Heading } from '@postbee/postbee-ui-lib';
 
 async function MumblesContent({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = await getUser(id);
 
-  const { data: posts } = await getPosts({
+  const posts = await getCachedPosts({
     query: {
       creators: [id],
     },

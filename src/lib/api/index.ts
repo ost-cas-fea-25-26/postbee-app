@@ -1,8 +1,13 @@
-import { getAccessToken } from '../auth/auth';
+import { getAccessToken } from '@/lib/auth/auth';
+
 import type { CreateClientConfig } from './client/client.gen';
 
 export * from './client/sdk.gen';
 
+/**
+ * Client configuration with authentication token
+ * Use this for requests that require authorization
+ */
 export const createClientConfig: CreateClientConfig = (config) => ({
   ...config,
   auth: async () => {
@@ -10,4 +15,12 @@ export const createClientConfig: CreateClientConfig = (config) => ({
 
     return token?.accessToken ?? '';
   },
+});
+
+/**
+ * Client configuration without authentication
+ * Use this for cacheable requests that don't require authorization
+ */
+export const createClientConfigNoAuth: CreateClientConfig = (config) => ({
+  ...config,
 });

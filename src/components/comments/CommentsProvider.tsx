@@ -14,7 +14,7 @@ interface CommentsContextType {
 
 const CommentsContext = createContext<CommentsContextType | undefined>(undefined);
 
-export const CommentsProvider = ({ children, initialComments }: { children: ReactNode; initialComments: Reply[] }) => {
+export function CommentsProvider({ children, initialComments }: { children: ReactNode; initialComments: Reply[] }) {
   const [comments, setComments] = useState<Reply[]>(initialComments);
 
   const updateComment = useCallback((commentId: string, updatedData: Partial<Reply>) => {
@@ -42,7 +42,7 @@ export const CommentsProvider = ({ children, initialComments }: { children: Reac
       {children}
     </CommentsContext.Provider>
   );
-};
+}
 
 export function useComments() {
   const context = useContext(CommentsContext);
