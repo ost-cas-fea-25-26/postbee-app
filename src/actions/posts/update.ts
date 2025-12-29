@@ -2,7 +2,6 @@
 
 import { throwIfError } from '@/actions/helpers';
 import { patchPostsById, putPostsById } from '@/lib/api/client';
-import { updateTag } from 'next/cache';
 
 export async function updatePost(id: string, text: string, media?: File | null) {
   const body: { text: string; media?: File } = { text };
@@ -31,8 +30,6 @@ export async function updatePost(id: string, text: string, media?: File | null) 
   });
 
   throwIfError(error);
-
-  updateTag('posts');
 
   return data;
 }
