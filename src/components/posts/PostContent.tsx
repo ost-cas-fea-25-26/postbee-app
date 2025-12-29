@@ -98,7 +98,6 @@ export function PostContent({ post, session, variant = 'Default', onUpdate, onDe
 
     try {
       await likePost(post.id!);
-      toast.success('Post successfully liked.');
     } catch (error: unknown) {
       console.error('Error liking post:', error);
       toast.error('Error liking post');
@@ -125,7 +124,6 @@ export function PostContent({ post, session, variant = 'Default', onUpdate, onDe
 
     try {
       await unlikePost(post.id!);
-      toast.success('Post successfully unliked.');
     } catch (error: unknown) {
       console.error('Error unliking post:', error);
       toast.error('Error unliking post');
