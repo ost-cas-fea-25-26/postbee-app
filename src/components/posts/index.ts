@@ -6,4 +6,3 @@ export { PostItemUserInfo } from './PostItemUserInfo';
 export { PostsProvider } from './PostsProvider';
 export { PostsList } from './PostsList';
 export { PostsListClient } from './PostsListClient';
-export { PostProvider } from './PostProvider';
