@@ -48,13 +48,7 @@ export function AvatarUploadDialog({ open, onClose, onSubmit, loading = false, m
         actions={
           <>
             <Button text="Cancel" icon="cancel" variant="secondary" onClick={handleClose} size="md" />
-            <Button
-              text={loading ? 'Uploading...' : 'Apply'}
-              icon="checkmark"
-              onClick={handleSubmit}
-              size="md"
-              disabled={loading}
-            />
+            <Button text="Apply" loading={loading} icon="checkmark" onClick={handleSubmit} size="md" />
           </>
         }
       >

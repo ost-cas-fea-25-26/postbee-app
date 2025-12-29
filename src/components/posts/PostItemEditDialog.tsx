@@ -109,8 +109,11 @@ const PostEditFields = ({ initialMedia }: { initialMedia?: string | null }) => {
 };
 
 export function PostItemEditDialog({ open, initialContent, initialMedia, onClose, onSubmit }: PostItemEditDialogProps) {
+  const [submitPending, setSubmitPending] = useState(false);
   const handleSubmit = async (data: PostFormData) => {
+    setSubmitPending(true);
     await onSubmit(data);
+    setSubmitPending(false);
     onClose();
   };
 
@@ -119,7 +122,16 @@ export function PostItemEditDialog({ open, initialContent, initialMedia, onClose
   };
 
   return (
-    <Dialog title="Post edit" open={open} onClose={onClose} onSubmit={handleDialogSubmit}>
+    <Dialog
+      title="Post edit"
+      open={open}
+      actions={
+        <>
+          <Button text="Cancel" icon="cancel" variant="secondary" onClick={onClose} size="md" />
+          <Button text="Save" icon="checkmark" onClick={handleDialogSubmit} size="md" loading={submitPending} />
+        </>
+      }
+    >
       <Form<PostFormData>
         onSubmit={handleSubmit}
         formOptions={{

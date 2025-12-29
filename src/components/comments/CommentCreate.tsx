@@ -22,107 +22,111 @@ export interface CommentFormFieldsHandle {
   resetForm: () => void;
 }
 
-const CommentFormFields = forwardRef<CommentFormFieldsHandle, { session: AuthSession }>(({ session }, ref) => {
-  const {
-    register,
-    setValue,
-    reset,
-    formState: { errors },
-  } = useFormContext<CommentFormData>();
+const CommentFormFields = forwardRef<CommentFormFieldsHandle, { session: AuthSession; submitPending?: boolean }>(
+  ({ session, submitPending = false }, ref) => {
+    const {
+      register,
+      setValue,
+      reset,
+      formState: { errors },
+    } = useFormContext<CommentFormData>();
 
-  const [openDialog, setOpenDialog] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const previewUrl = useMemo(() => (selectedFile ? URL.createObjectURL(selectedFile) : null), [selectedFile]);
+    const previewUrl = useMemo(() => (selectedFile ? URL.createObjectURL(selectedFile) : null), [selectedFile]);
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      resetForm() {
-        reset({ comment: '', media: undefined });
-        setSelectedFile(null);
+    useImperativeHandle(
+      ref,
+      () => ({
+        resetForm() {
+          reset({ comment: '', media: undefined });
+          setSelectedFile(null);
+        },
+      }),
+      [reset],
+    );
+
+    useEffect(
+      () => () => {
+        if (previewUrl) {
+          URL.revokeObjectURL(previewUrl);
+        }
       },
-    }),
-    [reset],
-  );
+      [previewUrl],
+    );
 
-  useEffect(
-    () => () => {
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl);
-      }
-    },
-    [previewUrl],
-  );
+    const handleUploadSubmit = (files: File[]) => {
+      const file = files[0] ?? null;
 
-  const handleUploadSubmit = (files: File[]) => {
-    const file = files[0] ?? null;
+      setSelectedFile(file);
+      setValue('media', file ?? undefined, { shouldValidate: true });
+      setOpenDialog(false);
+    };
 
-    setSelectedFile(file);
-    setValue('media', file ?? undefined, { shouldValidate: true });
-    setOpenDialog(false);
-  };
+    const handleRemoveFile = () => {
+      setSelectedFile(null);
+      setValue('media', undefined, { shouldValidate: true });
+    };
 
-  const handleRemoveFile = () => {
-    setSelectedFile(null);
-    setValue('media', undefined, { shouldValidate: true });
-  };
+    return (
+      <>
+        {session?.user && (
+          <PostItemUserInfo
+            userId={session.user.id}
+            username={session.user.username ?? 'Unknown User'}
+            avatarSrc={session.user.image ?? undefined}
+            displayName={session.user.name}
+          />
+        )}
 
-  return (
-    <>
-      {session?.user && (
-        <PostItemUserInfo
-          userId={session.user.id}
-          username={session.user.username ?? 'Unknown User'}
-          avatarSrc={session.user.image ?? undefined}
-          displayName={session.user.name}
+        {previewUrl && (
+          <div className="grid place-content-center space-y-xs">
+            <ImageView sources={[previewUrl]} alt="comment-media-preview" />
+            <Button icon="cancel" text="Remove" variant="secondary" onClick={handleRemoveFile} />
+          </div>
+        )}
+
+        <Textarea
+          placeholder="And what do you think about that?"
+          rows={4}
+          {...register('comment', {
+            required: 'Please provide a comment.',
+          })}
+          aria-invalid={!!errors.comment}
+          errorMessage={errors.comment?.message}
         />
-      )}
 
-      {previewUrl && (
-        <div className="grid place-content-center space-y-xs">
-          <ImageView sources={[previewUrl]} alt="comment-media-preview" />
-          <Button icon="cancel" text="Remove" variant="secondary" onClick={handleRemoveFile} />
+        <div className="flex flex-wrap items-center justify-center gap-sm sm:flex-nowrap">
+          <Button
+            text="Image upload"
+            variant="secondary"
+            icon="upload"
+            type="button"
+            fullWidth
+            onClick={() => setOpenDialog(true)}
+          />
+
+          <UploadDialog open={openDialog} onClose={() => setOpenDialog(false)} onSubmit={handleUploadSubmit} />
+
+          <Button text="Send" icon="send" type="submit" loading={submitPending} fullWidth />
         </div>
-      )}
-
-      <Textarea
-        placeholder="And what do you think about that?"
-        rows={4}
-        {...register('comment', {
-          required: 'Please provide a comment.',
-        })}
-        aria-invalid={!!errors.comment}
-        errorMessage={errors.comment?.message}
-      />
-
-      <div className="flex flex-wrap items-center justify-center gap-sm sm:flex-nowrap">
-        <Button
-          text="Image upload"
-          variant="secondary"
-          icon="upload"
-          type="button"
-          fullWidth
-          onClick={() => setOpenDialog(true)}
-        />
-
-        <UploadDialog open={openDialog} onClose={() => setOpenDialog(false)} onSubmit={handleUploadSubmit} />
-
-        <Button text="Send" icon="send" type="submit" fullWidth />
-      </div>
-    </>
-  );
-});
+      </>
+    );
+  },
+);
 
 CommentFormFields.displayName = 'CommentFormFields';
 
 export function CommentCreate({ postId, session }: { postId: string; session: AuthSession }) {
+  const [submitPending, setSubmitPending] = useState(false);
   const formFieldsRef = useRef<CommentFormFieldsHandle | null>(null);
 
   const { addComment } = useComments();
 
   const onSubmit: SubmitHandler<CommentFormData> = async (data) => {
     try {
+      setSubmitPending(true);
       const createdComment = await createPostReply(postId, data.comment, data.media);
 
       if (createdComment) {
@@ -133,13 +137,15 @@ export function CommentCreate({ postId, session }: { postId: string; session: Au
       formFieldsRef.current?.resetForm();
     } catch (error) {
       console.error('Error submitting comment:', error);
+    } finally {
+      setSubmitPending(false);
     }
   };
 
   return (
     <Card className="h-fit w-full max-w-full !px-0">
       <Form<CommentFormData> onSubmit={onSubmit} className="flex flex-col gap-sm !px-0">
-        <CommentFormFields ref={formFieldsRef} session={session} />
+        <CommentFormFields ref={formFieldsRef} session={session} submitPending={submitPending} />
       </Form>
     </Card>
   );
