@@ -26,6 +26,7 @@ export async function HomeContent({ searchParams }: Props) {
       tags: tagsList,
       likedBy: likeByList,
       creators: creatorsList,
+      limit: 20,
     },
   });
 
@@ -33,7 +34,11 @@ export async function HomeContent({ searchParams }: Props) {
 
   return (
     <div className="flex flex-col items-center justify-center gap-sm mb-xl">
-      <PostsProvider initialPosts={initialPosts}>
+      <PostsProvider
+        initialPosts={initialPosts}
+        initialPagination={posts ?? undefined}
+        filters={{ tags: tagsList, likedBy: likeByList, creators: creatorsList }}
+      >
         {session?.user ? <PostCreate userDisplayName={user.displayName} userAvatarUrl={user.avatarUrl} /> : null}
         <PostsListClient session={session} />
       </PostsProvider>
