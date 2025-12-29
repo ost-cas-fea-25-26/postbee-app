@@ -9,7 +9,7 @@ import { Button, Dialog, Input } from '@postbee/postbee-ui-lib';
 import { useFormContext } from 'react-hook-form';
 import { toast } from 'sonner';
 
-export type UserSettingsFormData = {
+type UserSettingsFormData = {
   firstname: string;
   lastname: string;
   username: string;
