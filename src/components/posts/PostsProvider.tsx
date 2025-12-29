@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, createContext, useCallback, useContext, useState } from 'react';
+import { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 import { getMorePosts } from '@/actions/posts';
 import { Post, PostPaginatedResult } from '@/lib/api/client';
@@ -39,6 +39,12 @@ export function PostsProvider({ children, initialPosts, initialPagination, filte
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(!!initialPagination?.next);
   const [offset, setOffset] = useState(initialPosts.length);
+
+  // Sync internal posts state with initialPosts when it changes (e.g., when searchParams like tags change).
+  // This ensures the context always reflects the latest data instead of showing stale state.
+  useEffect(() => {
+    setPosts(initialPosts);
+  }, [initialPosts]);
 
   const updatePost = useCallback((postId: string, updatedData: Partial<Post>) => {
     setPosts((prev) => prev.map((post) => (post.id === postId ? { ...post, ...updatedData } : post)));
