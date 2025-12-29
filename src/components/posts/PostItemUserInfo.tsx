@@ -42,6 +42,7 @@ export function PostItemUserInfo({
         className="relative flex place-items-center gap-xs **:cursor-pointer"
         data-testid="mumble-user-info"
         aria-label={`View ${displayName}'s profile`}
+        prefetch={false}
       >
         {variant === 'Reply' && <Avatar {...avatarProps} />}
         <div className="flex flex-col gap-xs hover:brightness-75 transition-all duration-300">
