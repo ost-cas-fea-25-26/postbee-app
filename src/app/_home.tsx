@@ -14,7 +14,7 @@ interface Props {
 
 export async function HomeContent({ searchParams }: Props) {
   const session = await getSession();
-  const user = await getUser(session?.user?.id ?? '');
+  const user = await getUser(session?.user?.identifier ?? '');
   const { tags, likedBy, creators } = await searchParams;
 
   const tagsList = Array.isArray(tags) ? tags : tags ? [tags] : undefined;
