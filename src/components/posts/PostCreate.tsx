@@ -11,6 +11,7 @@ import { usePosts } from '@/components/posts/PostsProvider';
 import type { Post } from '@/lib/api/client';
 import { Button, Heading, Paragraph, Textarea } from '@postbee/postbee-ui-lib';
 import { useFormContext } from 'react-hook-form';
+import { toast } from 'sonner';
 
 type PostFormData = {
   postContent: string;
@@ -159,6 +160,7 @@ export function PostCreate({ userDisplayName, userAvatarUrl, title, subtitle, on
       formFieldsRef.current?.resetForm();
     } catch (error) {
       console.error('Error submitting post:', error);
+      toast.error('Error submitting post');
     } finally {
       setSubmitPending(false);
     }

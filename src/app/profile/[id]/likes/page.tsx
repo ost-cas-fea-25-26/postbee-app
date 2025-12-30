@@ -1,9 +1,9 @@
 import { Suspense } from 'react';
 
-import { getCachedPosts } from '@/actions/posts/get';
 import { PostsList } from '@/components/posts';
 import { ProfileRecommendedMumbles } from '@/components/profile/ProfileRecommendedMumbles';
 import { SkeletonPost } from '@/components/skeleton';
+import { getPosts } from '@/lib/api';
 import { isCurrentUser } from '@/lib/auth/auth';
 import { Paragraph } from '@postbee/postbee-ui-lib';
 import { notFound } from 'next/navigation';
@@ -16,7 +16,7 @@ async function LikesContent({ params }: { params: Promise<{ id: string }> }) {
     notFound();
   }
 
-  const posts = await getCachedPosts({
+  const { data: posts } = await getPosts({
     query: {
       likedBy: [id],
       limit: 1,
