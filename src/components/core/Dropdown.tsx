@@ -36,7 +36,7 @@ export function Dropdown({ trigger, actions, sideOffset = 8 }: DropdownProps) {
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className="min-w-[150px] bg-white rounded-xl shadow p-xs flex flex-col gap-xxs"
+          className="min-w-[150px] bg-white rounded-lg shadow-xl p-xs flex flex-col gap-xxs"
           sideOffset={sideOffset}
         >
           {actions.map(({ label, onSelect, icon, variant }, i) => (
