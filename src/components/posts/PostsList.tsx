@@ -1,5 +1,5 @@
-import { getCachedPosts } from '@/actions/posts/get';
 import { PostsProvider } from '@/components/posts/PostsProvider';
+import { getPosts } from '@/lib/api';
 import { getSession } from '@/lib/auth/auth';
 
 import { PostsListClient } from './PostsListClient';
@@ -11,7 +11,7 @@ type PostListProps = {
 };
 
 export async function PostsList({ tags, likedBy, creators }: PostListProps) {
-  const posts = await getCachedPosts({
+  const { data: posts } = await getPosts({
     query: {
       tags,
       likedBy,
