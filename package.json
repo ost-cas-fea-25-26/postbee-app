@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
-    "knip": "knip --reporter compact --no-exit-code",
+    "knip": "knip --config knip.config.ts",
     "api:generate": "openapi-ts"
   },
   "dependencies": {
@@ -29,7 +29,6 @@
     "zod": "4.1.13"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
     "@hey-api/openapi-ts": "0.88.2",
     "@smartive/eslint-config": "7.0.0",
     "@smartive/prettier-config": "3.1.2",
