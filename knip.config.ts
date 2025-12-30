@@ -6,7 +6,6 @@ const config: KnipConfig = {
     'openapi-ts.config.ts', // Ignore OpenAPI config file
   ],
   ignoreDependencies: [
-    'tailwindcss', // Ignore tailwindcss because knip doesn't recognize v4 yet
     'dotenv', // Used in openapi-ts.config.ts
     'typescript-eslint', // Used in eslint.config.mjs
   ],
