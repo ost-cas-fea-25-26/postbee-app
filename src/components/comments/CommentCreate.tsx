@@ -12,6 +12,7 @@ import { PostItemUserInfo } from '@/components/posts/PostItemUserInfo';
 import { AuthSession } from '@/lib/auth/auth';
 import { Button, Textarea } from '@postbee/postbee-ui-lib';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
+import { toast } from 'sonner';
 
 type CommentFormData = {
   comment: string;
@@ -133,6 +134,7 @@ export function CommentCreate({ postId, session }: { postId: string; session: Au
       formFieldsRef.current?.resetForm();
     } catch (error) {
       console.error('Error submitting comment:', error);
+      toast.error('Error submitting comment');
     }
   };
 

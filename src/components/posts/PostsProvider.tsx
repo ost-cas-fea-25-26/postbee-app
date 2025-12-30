@@ -4,6 +4,7 @@ import { ReactNode, createContext, useCallback, useContext, useEffect, useState 
 
 import { getMorePosts } from '@/actions/posts';
 import { Post, PostPaginatedResult } from '@/lib/api/client';
+import { toast } from 'sonner';
 
 interface PostsContextType {
   posts: Post[];
@@ -81,6 +82,7 @@ export function PostsProvider({ children, initialPosts, initialPagination, filte
       }
     } catch (error) {
       console.error('Failed to load more posts:', error);
+      toast.error('Failed to load more posts');
       setHasMore(false);
     } finally {
       setIsLoading(false);
