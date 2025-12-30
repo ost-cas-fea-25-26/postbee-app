@@ -26,10 +26,12 @@ const PostFormFields = ({
   ref,
   title = "Hey, let's mumble?",
   subtitle,
+  submitPending = false,
 }: {
   ref: React.RefObject<PostFormFieldsHandle | null>;
   title?: string;
   subtitle?: string;
+  submitPending?: boolean;
 }) => {
   const {
     register,
@@ -118,7 +120,14 @@ const PostFormFields = ({
 
         <UploadDialog open={openDialog} onClose={() => setOpenDialog(false)} onSubmit={handleUploadSubmit} />
 
-        <Button text="Send" icon="send" fullWidth type="submit" onClick={(e) => e.stopPropagation()} />
+        <Button
+          text="Send"
+          icon="send"
+          fullWidth
+          type="submit"
+          loading={submitPending}
+          onClick={(e) => e.stopPropagation()}
+        />
       </div>
     </>
   );
@@ -133,11 +142,13 @@ type PostCreateProps = {
 };
 
 export function PostCreate({ userDisplayName, userAvatarUrl, title, subtitle, onAddPost }: PostCreateProps) {
+  const [submitPending, setSubmitPending] = useState(false);
   const formFieldsRef = useRef<PostFormFieldsHandle | null>(null);
   const { addPost } = usePosts();
 
   const onSubmit = async (data: PostFormData) => {
     try {
+      setSubmitPending(true);
       const createdPost = await createPost(data.postContent, data.media);
 
       if (createdPost) {
@@ -150,6 +161,8 @@ export function PostCreate({ userDisplayName, userAvatarUrl, title, subtitle, on
     } catch (error) {
       console.error('Error submitting post:', error);
       toast.error('Error submitting post');
+    } finally {
+      setSubmitPending(false);
     }
   };
 
@@ -157,7 +170,7 @@ export function PostCreate({ userDisplayName, userAvatarUrl, title, subtitle, on
     <PostCard post={{ creator: { displayName: userDisplayName, avatarUrl: userAvatarUrl } }}>
       <Form<PostFormData> onSubmit={onSubmit}>
         <div className="grid gap-sm">
-          <PostFormFields ref={formFieldsRef} title={title} subtitle={subtitle} />
+          <PostFormFields ref={formFieldsRef} title={title} subtitle={subtitle} submitPending={submitPending} />
         </div>
       </Form>
     </PostCard>
