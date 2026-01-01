@@ -20,18 +20,6 @@ export type AuthUser = {
 };
 
 export const auth = betterAuth({
-  session: {
-    cookieCache: {
-      enabled: true,
-      maxAge: 7 * 24 * 60 * 60, // 7 days cache duration
-      strategy: 'jwt', // can be "jwt" or "compact"
-      refreshCache: true, // Enable stateless refresh
-    },
-  },
-  account: {
-    storeStateStrategy: 'cookie',
-    storeAccountCookie: true, // Store account data after OAuth flow in a cookie (useful for database-less flows)
-  },
   user: {
     additionalFields: {
       identifier: {
@@ -74,10 +62,6 @@ export const auth = betterAuth({
     }),
   ],
   secret: process.env.AUTH_SECRET ?? '',
-  advanced: {
-    useSecureCookies: process.env.NODE_ENV === 'production',
-    cookiePrefix: 'better-auth',
-  },
 });
 
 export const getSession = cache(async () => {
