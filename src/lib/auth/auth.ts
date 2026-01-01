@@ -36,7 +36,6 @@ export const auth = betterAuth({
       },
     },
   },
-  baseURL: 'https://postbee-app-git-draft-auth-rmorgados-projects.vercel.app',
   plugins: [
     nextCookies(),
     genericOAuth({
