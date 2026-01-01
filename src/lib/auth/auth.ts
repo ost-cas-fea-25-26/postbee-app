@@ -54,7 +54,7 @@ export const auth = betterAuth({
           mapProfileToUser: (profile: OAuthProfile) => {
             return {
               identifier: profile.sub,
-              username: profile.preferred_username,
+              email: profile.email,
             };
           },
         },
