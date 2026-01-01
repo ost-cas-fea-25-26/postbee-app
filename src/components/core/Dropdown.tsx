@@ -13,7 +13,7 @@ export type DropdownAction = {
   variant?: 'default' | 'error';
 };
 
-export type DropdownProps = {
+type DropdownProps = {
   trigger?: React.ReactNode;
   actions: DropdownAction[];
   sideOffset?: number;

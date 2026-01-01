@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
+    "knip": "knip --config knip.config.ts",
     "api:generate": "openapi-ts"
   },
   "dependencies": {
@@ -28,7 +29,6 @@
     "zod": "4.1.13"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
     "@hey-api/openapi-ts": "0.88.2",
     "@smartive/eslint-config": "7.0.0",
     "@smartive/prettier-config": "3.1.2",
@@ -44,6 +44,7 @@
     "eslint": "9.39.2",
     "eslint-config-next": "16.0.10",
     "knip": "5.78.0",
+    "postcss": "8.5.6",
     "prettier": "3.7.4",
     "prettier-plugin-tailwindcss": "0.7.2",
     "tailwindcss": "^4",
