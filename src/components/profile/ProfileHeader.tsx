@@ -63,6 +63,7 @@ export function ProfileHeader({
           <Avatar
             src={avatarUrl ?? ''}
             size="xl"
+            alt={`${displayName}'s avatar`}
             fallback={getUserInitials(displayName ?? username)}
             isEditable={isMe}
             onEdit={isMe ? handleEdit : undefined}
@@ -72,6 +73,7 @@ export function ProfileHeader({
           <Avatar
             src={avatarUrl ?? ''}
             size="lg"
+            alt={`${displayName}'s avatar`}
             fallback={getUserInitials(displayName ?? username)}
             isEditable={isMe}
             onEdit={isMe ? handleEdit : undefined}

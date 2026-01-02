@@ -19,7 +19,7 @@ interface PostCardProps {
 
 export function PostCard({ children, skeleton = false, post, variant = 'Default' }: PostCardProps) {
   const avatarProps: ComponentProps<typeof Avatar> = {
-    alt: post?.creator?.displayName ?? '',
+    alt: `${post?.creator?.displayName ?? 'User'}'s avatar`,
     src: post?.creator?.avatarUrl ?? '',
     size: variant === 'Reply' ? 'sm' : 'md',
     fallback: getUserInitials(post?.creator?.displayName ?? ''),

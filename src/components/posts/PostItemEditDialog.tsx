@@ -29,6 +29,7 @@ const PostEditFields = ({ initialMedia }: { initialMedia?: string | null }) => {
     formState: { errors },
   } = useFormContext<PostFormData>();
 
+  const textareaLabelId = useId();
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(initialMedia ?? null);
@@ -91,11 +92,16 @@ const PostEditFields = ({ initialMedia }: { initialMedia?: string | null }) => {
         />
       )}
 
+      <span id={textareaLabelId} className="sr-only">
+        Edit post content
+      </span>
+
       <Textarea
         {...register('postContent', { required: 'Please enter your contribution.' })}
         name="postContent"
         rows={5}
         placeholder="Your opinion matters!"
+        aria-labelledby={textareaLabelId}
         aria-invalid={!!errors.postContent}
         errorMessage={errors.postContent?.message}
       />
