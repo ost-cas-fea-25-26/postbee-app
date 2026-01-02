@@ -12,7 +12,14 @@ import Link from 'next/link';
 async function ProfileAvatar({ userId }: { userId: string }) {
   const user = await getUser(userId);
 
-  return <Avatar src={user.avatarUrl} size="sm" fallback={getUserInitials(user.displayName)} />;
+  return (
+    <Avatar
+      src={user.avatarUrl}
+      size="sm"
+      alt={`${user.displayName}'s avatar`}
+      fallback={getUserInitials(user.displayName)}
+    />
+  );
 }
 
 async function Actions() {

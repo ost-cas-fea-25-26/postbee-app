@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 
 import { Form } from '@/components/core/Form';
 import { ImageView } from '@/components/core/ImageView';
@@ -29,6 +29,7 @@ const PostEditFields = ({ initialMedia }: { initialMedia?: string | null }) => {
     formState: { errors },
   } = useFormContext<PostFormData>();
 
+  const textareaLabelId = useId();
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(initialMedia ?? null);
@@ -91,25 +92,28 @@ const PostEditFields = ({ initialMedia }: { initialMedia?: string | null }) => {
         />
       )}
 
+      <span id={textareaLabelId} className="sr-only">
+        Edit post content
+      </span>
+
       <Textarea
         {...register('postContent', { required: 'Please enter your contribution.' })}
         name="postContent"
         rows={5}
         placeholder="Your opinion matters!"
+        aria-labelledby={textareaLabelId}
         aria-invalid={!!errors.postContent}
         errorMessage={errors.postContent?.message}
       />
 
       <UploadDialog open={openDialog} onClose={() => setOpenDialog(false)} onSubmit={handleUploadSubmit} />
-
-      {/* Hidden submit button that Dialog can trigger */}
-      <button type="submit" id="edit-post-submit" className="hidden" />
     </>
   );
 };
 
 export function PostItemEditDialog({ open, initialContent, initialMedia, onClose, onSubmit }: PostItemEditDialogProps) {
   const [submitPending, setSubmitPending] = useState(false);
+  const formId = useId();
   const handleSubmit = async (data: PostFormData) => {
     setSubmitPending(true);
     await onSubmit(data);
@@ -117,22 +121,33 @@ export function PostItemEditDialog({ open, initialContent, initialMedia, onClose
     onClose();
   };
 
-  const handleDialogSubmit = () => {
-    document.getElementById('edit-post-submit')?.click();
+  const submitForm = () => {
+    const form = document.getElementById(formId) as HTMLFormElement | null;
+    form?.requestSubmit();
   };
 
   return (
     <Dialog
       title="Post edit"
       open={open}
+      onSubmit={submitForm}
       actions={
         <>
-          <Button text="Cancel" icon="cancel" variant="secondary" onClick={onClose} size="md" />
-          <Button text="Save" icon="checkmark" onClick={handleDialogSubmit} size="md" loading={submitPending} />
+          <Button text="Cancel" icon="cancel" variant="secondary" onClick={onClose} size="md" type="button" />
+          <Button
+            text="Save"
+            icon="checkmark"
+            type="submit"
+            form={formId}
+            onClick={submitForm}
+            size="md"
+            loading={submitPending}
+          />
         </>
       }
     >
       <Form<PostFormData>
+        id={formId}
         onSubmit={handleSubmit}
         formOptions={{
           defaultValues: {

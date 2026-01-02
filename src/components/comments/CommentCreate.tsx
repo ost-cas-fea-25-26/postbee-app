@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { forwardRef, useEffect, useId, useImperativeHandle, useMemo, useRef, useState } from 'react';
 
 import { createPostReply } from '@/actions/comments';
 import { useComments } from '@/components/comments/CommentsProvider';
@@ -32,6 +32,7 @@ const CommentFormFields = forwardRef<CommentFormFieldsHandle, { session: AuthSes
       formState: { errors },
     } = useFormContext<CommentFormData>();
 
+    const textareaLabelId = useId();
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -88,9 +89,14 @@ const CommentFormFields = forwardRef<CommentFormFieldsHandle, { session: AuthSes
           </div>
         )}
 
+        <span id={textareaLabelId} className="sr-only">
+          Add a comment
+        </span>
+
         <Textarea
           placeholder="And what do you think about that?"
           rows={4}
+          aria-labelledby={textareaLabelId}
           {...register('comment', {
             required: 'Please provide a comment.',
           })}

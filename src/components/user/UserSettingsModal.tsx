@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useId, useState } from 'react';
 
 import { updateUserSettings } from '@/actions/user';
 import { Form } from '@/components/core/Form';
@@ -52,15 +52,13 @@ const UserSettingsFields = () => {
         aria-invalid={!!errors.username}
         errorMessage={errors.username?.message}
       />
-
-      {/* Hidden submit button that Dialog can trigger */}
-      <button type="submit" id="user-settings-submit" className="hidden" />
     </div>
   );
 };
 
 export function UserSettingsModal({ open, onClose, user }: UserSettingsModalProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const formId = useId();
 
   const handleSubmit = async (data: UserSettingsFormData) => {
     setIsLoading(true);
@@ -76,8 +74,9 @@ export function UserSettingsModal({ open, onClose, user }: UserSettingsModalProp
     }
   };
 
-  const handleDialogSubmit = () => {
-    document.getElementById('user-settings-submit')?.click();
+  const submitForm = () => {
+    const form = document.getElementById(formId) as HTMLFormElement | null;
+    form?.requestSubmit();
   };
 
   const firstname = user.firstname || user.displayName?.split(' ')[0] || '';
@@ -88,15 +87,24 @@ export function UserSettingsModal({ open, onClose, user }: UserSettingsModalProp
       title="User Settings"
       open={open}
       onClose={onClose}
-      onSubmit={handleDialogSubmit}
+      onSubmit={submitForm}
       actions={
         <>
-          <Button text="Cancel" icon="cancel" variant="secondary" onClick={onClose} size="md" />
-          <Button text="Save" icon="checkmark" onClick={handleDialogSubmit} size="md" loading={isLoading} />
+          <Button text="Cancel" icon="cancel" variant="secondary" onClick={onClose} size="md" type="button" />
+          <Button
+            text="Save"
+            icon="checkmark"
+            type="submit"
+            form={formId}
+            onClick={submitForm}
+            size="md"
+            loading={isLoading}
+          />
         </>
       }
     >
       <Form<UserSettingsFormData>
+        id={formId}
         onSubmit={handleSubmit}
         formOptions={{
           defaultValues: {

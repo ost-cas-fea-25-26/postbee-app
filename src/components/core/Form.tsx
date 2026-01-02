@@ -7,14 +7,15 @@ type FormProps<T extends FieldValues> = {
   children: ReactNode;
   formOptions?: UseFormProps<T>;
   className?: string;
+  id?: string;
 };
 
-export function Form<T extends FieldValues>({ onSubmit, children, formOptions, className }: FormProps<T>) {
+export function Form<T extends FieldValues>({ onSubmit, children, formOptions, className, id }: FormProps<T>) {
   const methods = useForm<T>(formOptions);
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)} className={className} noValidate>
+      <form id={id} onSubmit={methods.handleSubmit(onSubmit)} className={className} noValidate>
         {children}
       </form>
     </FormProvider>

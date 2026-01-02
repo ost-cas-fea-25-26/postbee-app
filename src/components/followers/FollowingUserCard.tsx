@@ -14,7 +14,12 @@ export function FollowingUserCard({ user, isFollowingInitial = false }: { user: 
   return (
     <Card className="flex flex-col items-center bg-white rounded-lg gap-sm !p-md text-center">
       <Link href={`/profile/${user.id}/mumbles`} className="contents *:cursor-pointer" prefetch={false}>
-        <Avatar size="lg" src={user.avatarUrl ?? ''} fallback={getUserInitials(displayName ?? '')} />
+        <Avatar
+          size="lg"
+          src={user.avatarUrl ?? ''}
+          alt={`${displayName}'s avatar`}
+          fallback={getUserInitials(displayName ?? '')}
+        />
         <div className="pt-xxs">
           <div className="pb-label-lg pb-xxs">{displayName}</div>
           <IconLabel colorClassName="text-primary" icon="profile">

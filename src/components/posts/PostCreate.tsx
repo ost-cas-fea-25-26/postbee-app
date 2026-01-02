@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useImperativeHandle, useMemo, useRef, useState } from 'react';
 
 import { createPost } from '@/actions/posts';
 import { Form } from '@/components/core/Form';
@@ -40,6 +40,7 @@ const PostFormFields = ({
     formState: { errors },
   } = useFormContext<PostFormData>();
 
+  const headingId = useId();
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -88,7 +89,9 @@ const PostFormFields = ({
   return (
     <>
       <div className="flex flex-col gap-xs">
-        <Heading level={4}>{title}</Heading>
+        <Heading id={headingId} level={4}>
+          {title}
+        </Heading>
         {subtitle && <Paragraph>{subtitle}</Paragraph>}
       </div>
 
@@ -102,6 +105,7 @@ const PostFormFields = ({
       <Textarea
         {...register('postContent', { required: 'Please enter your contribution.' })}
         name="postContent"
+        aria-labelledby={headingId}
         placeholder="Your opinion matters!"
         rows={4}
         aria-invalid={!!errors.postContent}

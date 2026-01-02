@@ -3,7 +3,8 @@ import { ComponentProps } from 'react';
 import { IconLabel } from '@/components/core/IconLabel';
 import { PostVariant } from '@/lib/types';
 import { getUserInitials, readableCreatedDate } from '@/lib/utils';
-import { Avatar, Label } from '@postbee/postbee-ui-lib';
+import { Avatar } from '@postbee/postbee-ui-lib';
+import { clsx } from 'clsx';
 import Link from 'next/link';
 
 interface IPostItemUserInfo {
@@ -23,13 +24,8 @@ export function PostItemUserInfo({
   date,
   variant = 'Default',
 }: IPostItemUserInfo) {
-  const labelProps: ComponentProps<typeof Label> = {
-    size: variant === 'Reply' ? 'md' : 'lg',
-    children: displayName ?? username,
-  };
-
   const avatarProps: ComponentProps<typeof Avatar> = {
-    alt: displayName,
+    alt: `${displayName}'s avatar`,
     src: avatarSrc,
     size: 'sm',
     fallback: getUserInitials(displayName),
@@ -46,7 +42,9 @@ export function PostItemUserInfo({
       >
         {variant === 'Reply' && <Avatar {...avatarProps} />}
         <div className="flex flex-col gap-xs hover:brightness-75 transition-all duration-300">
-          <Label {...labelProps} className="max-w-[250px] truncate capitalize sm:max-w-none" />
+          <div className={clsx('max-w-[250px] truncate sm:max-w-none', variant === 'Reply' ? 'pb-label-md' : 'pb-label-lg')}>
+            {displayName ?? username}
+          </div>
 
           <div className="flex flex-wrap gap-sm items-center">
             {username && (
