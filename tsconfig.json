@@ -30,6 +30,7 @@
     ".next/dev/types/**/*.ts",
     "*.config.mjs",
     "*.config.js",
+    ".pa11yci.js",
     ".prettierrc.mjs"
   ],
   "exclude": ["node_modules"]
