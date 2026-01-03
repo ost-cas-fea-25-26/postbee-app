@@ -9,7 +9,8 @@
     "lint": "eslint",
     "format": "prettier --write .",
     "knip": "knip --config knip.config.ts",
-    "api:generate": "openapi-ts"
+    "api:generate": "openapi-ts",
+    "pa11y": "pa11y-ci"
   },
   "dependencies": {
     "@postbee/postbee-ui-lib": "1.33.0",
