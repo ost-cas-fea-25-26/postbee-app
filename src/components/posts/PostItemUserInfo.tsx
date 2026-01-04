@@ -54,7 +54,7 @@ export function PostItemUserInfo({
             )}
 
             {date && (
-              <IconLabel colorClassName="text-secondary-400" icon="time">
+              <IconLabel colorClassName="text-secondary-500" icon="time">
                 {readableCreatedDate(date)}
               </IconLabel>
             )}
