@@ -1,24 +1,33 @@
-'use client';
+import { PostsProvider } from '@/components/posts/PostsProvider';
+import { getPosts } from '@/lib/api';
+import { getSession } from '@/lib/auth/auth';
 
-import { PostCard } from '@/components/posts/PostCard';
-import { PostItem } from '@/components/posts/PostItem';
-import { usePosts } from '@/components/posts/PostsProvider';
-import { AuthSession } from '@/lib/auth/auth';
+import { PostsListClient } from './PostsListClient';
 
-type PostsListClientProps = {
-  session: AuthSession;
+type PostListProps = {
+  tags?: string[];
+  likedBy?: string[];
+  creators?: string[];
 };
 
-export default function PostsList({ session }: PostsListClientProps) {
-  const { posts } = usePosts();
+export async function PostsList({ tags, likedBy, creators }: PostListProps) {
+  const { data: posts } = await getPosts({
+    query: {
+      tags,
+      likedBy,
+      creators,
+      limit: 20,
+    },
+  });
+  const session = await getSession();
 
   return (
-    <div className="flex h-fit w-full max-w-full flex-col items-center justify-center gap-sm" data-testid="posts-list">
-      {posts.map((post) => (
-        <PostCard key={post.id} post={post}>
-          <PostItem post={post} session={session} />
-        </PostCard>
-      ))}
-    </div>
+    <PostsProvider
+      initialPosts={posts?.data ?? []}
+      initialPagination={posts ?? undefined}
+      filters={{ tags, likedBy, creators }}
+    >
+      <PostsListClient session={session} />
+    </PostsProvider>
   );
 }

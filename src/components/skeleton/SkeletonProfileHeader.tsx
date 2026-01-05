@@ -1,7 +1,7 @@
-import Skeleton from './Skeleton';
-import SkeletonAvatar from './SkeletonAvatar';
+import { Skeleton } from '.';
+import { SkeletonAvatar } from './SkeletonAvatar';
 
-export default function SkeletonProfileHeader() {
+export function SkeletonProfileHeader() {
   return (
     <div>
       <Skeleton className="relative mb-md h-80 w-full  items-center rounded-m bg-white px-xl py-lg rounded-lg">

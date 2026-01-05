@@ -13,6 +13,7 @@ This directory contains end-to-end tests for the PostBee application using Playw
 2. Set up authentication environment variables:
 
    Create a `.env` file or set the following environment variables:
+
    ```bash
    PLAYWRIGHT_TEST_USERNAME=your-test-username
    PLAYWRIGHT_TEST_PASSWORD=your-test-password
@@ -113,6 +114,7 @@ Tests are configured to authenticate before running. The authentication setup:
 4. Reuses the saved state for all test runs
 
 **Environment Variables:**
+
 - `PLAYWRIGHT_TEST_USERNAME` - Username for test authentication
 - `PLAYWRIGHT_TEST_PASSWORD` - Password for test authentication
 

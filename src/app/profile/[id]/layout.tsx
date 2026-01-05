@@ -3,8 +3,8 @@ import { Suspense } from 'react';
 import { getIsUserFollowed } from '@/actions/followers';
 import { getUser } from '@/actions/user';
 import { ProfileFollowUser } from '@/components/profile/ProfileFollowUser';
-import ProfileHeader from '@/components/profile/ProfileHeader';
-import ProfileTabs from '@/components/profile/ProfileTabs';
+import { ProfileHeader } from '@/components/profile/ProfileHeader';
+import { ProfileTabs } from '@/components/profile/ProfileTabs';
 import { SkeletonProfileHeader } from '@/components/skeleton';
 import { getSession } from '@/lib/auth/auth';
 import { notFound } from 'next/navigation';
@@ -24,7 +24,12 @@ async function ProfileLayoutAsyncWrapper({ params }: { params: Promise<{ id: str
 
   return (
     <>
-      <ProfileHeader username={user.username} displayName={user.displayName} avatarUrl={user.avatarUrl ?? ''} />
+      <ProfileHeader
+        username={user.username}
+        displayName={user.displayName}
+        avatarUrl={user.avatarUrl ?? ''}
+        isMe={!!user.isMe}
+      />
       {user.isMe ? (
         <div className="mt-md">
           <ProfileTabs />

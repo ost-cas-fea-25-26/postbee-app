@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const ULID_SCHEMA = z.string().ulid({ message: 'Invalid ULID' });
+const ULID_SCHEMA = z.string().ulid({ message: 'Invalid ULID' });
 
 export const decodeULIDTimestamp = (ulid: string) => {
   const validate = ULID_SCHEMA.safeParse(ulid);

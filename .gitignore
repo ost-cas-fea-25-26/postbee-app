@@ -50,3 +50,5 @@ next-env.d.ts
 auth.db
 
 .vscode/*
+
+/temp

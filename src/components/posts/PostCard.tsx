@@ -17,9 +17,9 @@ interface PostCardProps {
   variant?: PostVariant;
 }
 
-export const PostCard = ({ children, skeleton = false, post, variant = 'Default' }: PostCardProps) => {
+export function PostCard({ children, skeleton = false, post, variant = 'Default' }: PostCardProps) {
   const avatarProps: ComponentProps<typeof Avatar> = {
-    alt: post?.creator?.displayName ?? '',
+    alt: `${post?.creator?.displayName ?? 'User'}'s avatar`,
     src: post?.creator?.avatarUrl ?? '',
     size: variant === 'Reply' ? 'sm' : 'md',
     fallback: getUserInitials(post?.creator?.displayName ?? ''),
@@ -33,8 +33,6 @@ export const PostCard = ({ children, skeleton = false, post, variant = 'Default'
           'p-0! pt-xs!': variant === 'Reply',
         })}
         data-testid="post-card"
-        role="button"
-        tabIndex={0}
       >
         <div
           className={clsx('absolute', {
@@ -52,4 +50,4 @@ export const PostCard = ({ children, skeleton = false, post, variant = 'Default'
       </Card>
     </div>
   );
-};
+}

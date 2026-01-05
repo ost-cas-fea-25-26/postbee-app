@@ -1,7 +1,6 @@
 import { getUnfollowedUsers } from '@/actions/followers/get';
+import { FollowingUserCard } from '@/components/followers/FollowingUserCard';
 import type { User } from '@/lib/api/client';
-
-import { FollowingUserCard } from '../followers/FollowingUserCard';
 
 export async function ProfileRecommendedUsers({ userId }: { userId: string }) {
   let unfollowedUsers: User[] = [];

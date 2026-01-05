@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useImperativeHandle, useMemo, useRef, useState } from 'react';
 
 import { createPost } from '@/actions/posts';
 import { Form } from '@/components/core/Form';
@@ -11,6 +11,7 @@ import { usePosts } from '@/components/posts/PostsProvider';
 import type { Post } from '@/lib/api/client';
 import { Button, Heading, Paragraph, Textarea } from '@postbee/postbee-ui-lib';
 import { useFormContext } from 'react-hook-form';
+import { toast } from 'sonner';
 
 type PostFormData = {
   postContent: string;
@@ -25,10 +26,12 @@ const PostFormFields = ({
   ref,
   title = "Hey, let's mumble?",
   subtitle,
+  submitPending = false,
 }: {
   ref: React.RefObject<PostFormFieldsHandle | null>;
   title?: string;
   subtitle?: string;
+  submitPending?: boolean;
 }) => {
   const {
     register,
@@ -37,6 +40,7 @@ const PostFormFields = ({
     formState: { errors },
   } = useFormContext<PostFormData>();
 
+  const headingId = useId();
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -85,7 +89,9 @@ const PostFormFields = ({
   return (
     <>
       <div className="flex flex-col gap-xs" data-testid="post-create-header">
-        <Heading level={4}>{title}</Heading>
+        <Heading id={headingId} level={4}>
+          {title}
+        </Heading>
         {subtitle && <Paragraph>{subtitle}</Paragraph>}
       </div>
 
@@ -108,6 +114,7 @@ const PostFormFields = ({
       <Textarea
         {...register('postContent', { required: 'Please enter your contribution.' })}
         name="postContent"
+        aria-labelledby={headingId}
         placeholder="Your opinion matters!"
         rows={4}
         aria-invalid={!!errors.postContent}
@@ -133,6 +140,7 @@ const PostFormFields = ({
           icon="send"
           fullWidth
           type="submit"
+          loading={submitPending}
           onClick={(e) => e.stopPropagation()}
           data-testid="post-create-send-button"
         />
@@ -143,17 +151,20 @@ const PostFormFields = ({
 
 type PostCreateProps = {
   userDisplayName: string;
+  userAvatarUrl?: string;
   title?: string;
   subtitle?: string;
   onAddPost?: (createdPost: Post) => void;
 };
 
-export const PostCreate = ({ userDisplayName, title, subtitle, onAddPost }: PostCreateProps) => {
+export function PostCreate({ userDisplayName, userAvatarUrl, title, subtitle, onAddPost }: PostCreateProps) {
+  const [submitPending, setSubmitPending] = useState(false);
   const formFieldsRef = useRef<PostFormFieldsHandle | null>(null);
   const { addPost } = usePosts();
 
   const onSubmit = async (data: PostFormData) => {
     try {
+      setSubmitPending(true);
       const createdPost = await createPost(data.postContent, data.media);
 
       if (createdPost) {
@@ -165,16 +176,19 @@ export const PostCreate = ({ userDisplayName, title, subtitle, onAddPost }: Post
       formFieldsRef.current?.resetForm();
     } catch (error) {
       console.error('Error submitting post:', error);
+      toast.error('Error submitting post');
+    } finally {
+      setSubmitPending(false);
     }
   };
 
   return (
-    <PostCard post={{ creator: { displayName: userDisplayName } }}>
+    <PostCard post={{ creator: { displayName: userDisplayName, avatarUrl: userAvatarUrl } }}>
       <Form<PostFormData> onSubmit={onSubmit} data-testid="post-create-form">
         <div className="grid gap-sm">
-          <PostFormFields ref={formFieldsRef} title={title} subtitle={subtitle} />
+          <PostFormFields ref={formFieldsRef} title={title} subtitle={subtitle} submitPending={submitPending} />
         </div>
       </Form>
     </PostCard>
   );
-};
+}

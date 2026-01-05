@@ -15,7 +15,9 @@ interface Props {
 
 async function PostContent({ params }: Props) {
   const postId = (await params).id;
-  const { data: post } = await getPostsById({ path: { id: postId } });
+  const { data: post } = await getPostsById({
+    path: { id: postId },
+  });
   const session = await getSession();
 
   if (!post) {

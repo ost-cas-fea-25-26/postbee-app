@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 
-import PostsList from '@/components/posts/Posts';
+import { PostsList } from '@/components/posts';
 import { ProfileRecommendedMumbles } from '@/components/profile/ProfileRecommendedMumbles';
 import { SkeletonPost } from '@/components/skeleton';
 import { getPosts } from '@/lib/api';
@@ -18,7 +18,7 @@ async function LikesContent({ params }: { params: Promise<{ id: string }> }) {
 
   const { data: posts } = await getPosts({
     query: {
-      creators: [id],
+      likedBy: [id],
       limit: 1,
     },
   });

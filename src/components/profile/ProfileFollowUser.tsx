@@ -2,9 +2,8 @@
 
 import { useState } from 'react';
 
+import { FollowingButtons } from '@/components/followers/FollowingButtons';
 import { AppUser } from '@/lib/types';
-
-import { FollowingButtons } from '../followers/FollowingButtons';
 
 export function ProfileFollowUser({ user, isFollowingInitial }: { user: AppUser; isFollowingInitial: boolean }) {
   const [isFollowing, setIsFollowing] = useState(isFollowingInitial);

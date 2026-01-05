@@ -25,6 +25,7 @@ async function MumblesContent({ params }: { params: Promise<{ id: string }> }) {
         <PostsProvider initialPosts={[]}>
           <PostCreateRefresh
             userDisplayName={user.displayName}
+            userAvatarUrl={user.avatarUrl}
             title="So empty here! 😲"
             subtitle="Create your first Mumble or follow other users!"
           />

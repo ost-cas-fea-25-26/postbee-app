@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 
-import Skeleton from './Skeleton';
+import { Skeleton } from '.';
 
 interface ISkeletonAvatar {
   size?: 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
 }
 
-export default function SkeletonAvatar({ size = 'md', className }: ISkeletonAvatar) {
+export function SkeletonAvatar({ size = 'md', className }: ISkeletonAvatar) {
   return (
     <Skeleton
       className={clsx(

@@ -6,7 +6,7 @@ import { signOut } from '@/lib/auth/auth-client';
 import { HeaderButton } from '@postbee/postbee-ui-lib';
 import { useRouter } from 'next/navigation';
 
-export default function AuthLogoutButton() {
+export function AuthLogoutButton() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 

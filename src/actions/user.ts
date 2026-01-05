@@ -2,10 +2,13 @@
 
 import { cache } from 'react';
 
-import { type User, getUsersById } from '@/lib/api/client';
+import { throwIfError } from '@/actions/helpers';
+import { type User, getUsersById, patchUsers, putUsersAvatar } from '@/lib/api/client';
+import { clientNoAuth } from '@/lib/api/clients';
 import { type AuthSession, getSession } from '@/lib/auth/auth';
 import { AppUser } from '@/lib/types';
 import { getUserDisplayName } from '@/lib/utils/user';
+import { cacheLife, cacheTag, updateTag } from 'next/cache';
 
 type ActiveSession = NonNullable<AuthSession>;
 
@@ -33,6 +36,19 @@ function mapSessionUserToAppUser(session: ActiveSession): AppUser {
   };
 }
 
+async function getCachedUser(userId: string) {
+  'use cache';
+  cacheTag('user');
+  cacheLife('hours');
+
+  const { data: apiUser, error } = await getUsersById({
+    client: clientNoAuth,
+    path: { id: userId },
+  });
+
+  return { apiUser, error };
+}
+
 /**
  * Retrieves user information by ID with a fallback mechanism.
  *
@@ -53,9 +69,7 @@ export const getUser = cache(async (userId: string): Promise<AppUser> => {
   let fetchError: unknown;
 
   // Try to fetch user from API
-  const { data: apiUser, error } = await getUsersById({
-    path: { id: userId },
-  });
+  const { apiUser, error } = await getCachedUser(userId);
 
   if (apiUser && activeSession) {
     return mapApiUserToAppUser(apiUser, isMe, activeSession);
@@ -81,3 +95,47 @@ export const getUser = cache(async (userId: string): Promise<AppUser> => {
   // Generic error
   throw new Error('User not found');
 });
+
+export async function updateUserSettings(data: { firstname?: string; lastname?: string; username?: string }) {
+  const session = await getSession();
+
+  if (!session?.user) {
+    throw new Error('Unauthorized');
+  }
+
+  const { data: result, error } = await patchUsers({
+    body: {
+      firstname: data.firstname,
+      lastname: data.lastname,
+      username: data.username,
+    },
+  });
+
+  throwIfError(error);
+
+  updateTag('user');
+  updateTag('followers');
+
+  return result;
+}
+
+export async function updateAvatar(file: File) {
+  const session = await getSession();
+
+  if (!session?.user) {
+    throw new Error('Unauthorized');
+  }
+
+  const { data: result, error } = await putUsersAvatar({
+    body: {
+      media: file,
+    },
+  });
+
+  throwIfError(error);
+
+  updateTag('user');
+  updateTag('followers');
+
+  return result;
+}

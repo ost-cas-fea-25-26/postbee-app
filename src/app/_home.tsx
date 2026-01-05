@@ -1,6 +1,7 @@
+import { getUser } from '@/actions/user';
 import { PostsListClient, PostsProvider } from '@/components/posts';
 import { PostCreate } from '@/components/posts/PostCreate';
-import { getPosts } from '@/lib/api/client/sdk.gen';
+import { getPosts } from '@/lib/api';
 import { getSession } from '@/lib/auth/auth';
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 
 export async function HomeContent({ searchParams }: Props) {
   const session = await getSession();
+  const user = await getUser(session?.user?.identifier ?? '');
   const { tags, likedBy, creators } = await searchParams;
 
   const tagsList = Array.isArray(tags) ? tags : tags ? [tags] : undefined;
@@ -24,6 +26,7 @@ export async function HomeContent({ searchParams }: Props) {
       tags: tagsList,
       likedBy: likeByList,
       creators: creatorsList,
+      limit: 20,
     },
   });
 
@@ -31,8 +34,12 @@ export async function HomeContent({ searchParams }: Props) {
 
   return (
     <div className="flex flex-col items-center justify-center gap-sm mb-xl">
-      <PostsProvider initialPosts={initialPosts}>
-        {session?.user ? <PostCreate userDisplayName={session?.user.name ?? ''} /> : null}
+      <PostsProvider
+        initialPosts={initialPosts}
+        initialPagination={posts ?? undefined}
+        filters={{ tags: tagsList, likedBy: likeByList, creators: creatorsList }}
+      >
+        {session?.user ? <PostCreate userDisplayName={user.displayName} userAvatarUrl={user.avatarUrl} /> : null}
         <PostsListClient session={session} />
       </PostsProvider>
     </div>

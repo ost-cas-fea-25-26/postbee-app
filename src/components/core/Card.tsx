@@ -12,7 +12,7 @@ interface CardProps {
   'data-testid'?: string;
 }
 
-export const Card = ({
+export function Card({
   children,
   className = '',
   onClick,
@@ -20,7 +20,7 @@ export const Card = ({
   role,
   tabIndex,
   'data-testid': dataTestId,
-}: CardProps) => {
+}: CardProps) {
   return (
     <div
       data-testid={dataTestId ?? 'mumble-card'}
@@ -37,4 +37,4 @@ export const Card = ({
       {children}
     </div>
   );
-};
+}

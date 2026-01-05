@@ -1,4 +1,4 @@
-import Header from '@/components/header/Header';
+import { Header } from '@/components/header/Header';
 import type { Metadata } from 'next';
 import { Toaster } from 'sonner';
 
@@ -6,6 +6,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'PostBee Mumble',
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({

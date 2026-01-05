@@ -10,7 +10,7 @@ type CommentsListClientProps = {
   session: AuthSession;
 };
 
-export const CommentsList = ({ session }: CommentsListClientProps) => {
+export function CommentsList({ session }: CommentsListClientProps) {
   const { comments } = useComments();
 
   return (
@@ -22,4 +22,4 @@ export const CommentsList = ({ session }: CommentsListClientProps) => {
       ))}
     </div>
   );
-};
+}

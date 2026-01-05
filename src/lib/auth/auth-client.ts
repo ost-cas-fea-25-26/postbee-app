@@ -25,7 +25,7 @@ export interface OAuthProfile {
   sub: string; // Subject ID of the user
 }
 
-export const authClient = createAuthClient({
+const authClient = createAuthClient({
   plugins: [genericOAuthClient()],
 });
 
@@ -34,6 +34,5 @@ export const { signIn, signOut } = authClient;
 export const signinZitadel = async () => {
   await signIn.oauth2({
     providerId: process.env.NEXT_PUBLIC_AUTH_PROVIDER_ID ?? '',
-    callbackURL: '/',
   });
 };
