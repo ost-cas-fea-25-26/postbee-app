@@ -42,7 +42,12 @@ export function PostItemUserInfo({
       >
         {variant === 'Reply' && <Avatar {...avatarProps} />}
         <div className="flex flex-col gap-xs hover:brightness-75 transition-all duration-300">
-          <div className={clsx('max-w-[250px] truncate sm:max-w-none', variant === 'Reply' ? 'pb-label-md' : 'pb-label-lg')}>
+          <div
+            className={clsx(
+              'truncate max-w-50 xs:max-w-80 sm:max-w-none',
+              variant === 'Reply' ? 'pb-label-md' : 'pb-label-lg',
+            )}
+          >
             {displayName ?? username}
           </div>
 
