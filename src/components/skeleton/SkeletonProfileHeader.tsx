@@ -1,4 +1,4 @@
-import { Skeleton } from './Skeleton';
+import { Skeleton } from '.';
 import { SkeletonAvatar } from './SkeletonAvatar';
 
 export function SkeletonProfileHeader() {

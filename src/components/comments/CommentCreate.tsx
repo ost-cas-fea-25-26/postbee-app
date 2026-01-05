@@ -19,7 +19,7 @@ type CommentFormData = {
   media?: File;
 };
 
-export interface CommentFormFieldsHandle {
+interface CommentFormFieldsHandle {
   resetForm: () => void;
 }
 

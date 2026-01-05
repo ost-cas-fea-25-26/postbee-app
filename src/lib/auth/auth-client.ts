@@ -25,7 +25,7 @@ export interface OAuthProfile {
   sub: string; // Subject ID of the user
 }
 
-export const authClient = createAuthClient({
+const authClient = createAuthClient({
   plugins: [genericOAuthClient()],
 });
 
