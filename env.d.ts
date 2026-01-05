@@ -1,6 +1,5 @@
 declare namespace NodeJS {
   interface ProcessEnv {
-    NEXT_PUBLIC_HOST: string;
     // AUTH
     NEXT_PUBLIC_AUTH_PROVIDER_ID: string;
     AUTH_CLIENT_ID: string;
