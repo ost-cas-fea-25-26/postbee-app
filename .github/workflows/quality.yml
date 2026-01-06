@@ -119,6 +119,12 @@ jobs:
       - name: Run Playwright E2E tests
         run: npm run test:e2e
         env:
+          AUTH_CLIENT_ID: ${{ secrets.AUTH_CLIENT_ID }}
+          NEXT_PUBLIC_AUTH_PROVIDER_ID: ${{ secrets.NEXT_PUBLIC_AUTH_PROVIDER_ID }}
+          AUTH_DISCOVERY_URL: ${{ secrets.AUTH_DISCOVERY_URL }}
+          AUTH_SCOPES: ${{ secrets.AUTH_SCOPES }}
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          API_URL_MUMBLE: ${{ secrets.API_URL_MUMBLE }}
           PLAYWRIGHT_TEST_USERNAME: ${{ secrets.PLAYWRIGHT_TEST_USERNAME }}
           PLAYWRIGHT_TEST_PASSWORD: ${{ secrets.PLAYWRIGHT_TEST_PASSWORD }}
       - name: Upload Playwright report
