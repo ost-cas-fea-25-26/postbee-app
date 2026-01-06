@@ -39,7 +39,6 @@
     "@smartive/eslint-config": "7.0.0",
     "@smartive/prettier-config": "3.1.2",
     "@tailwindcss/postcss": "^4",
-    "@testing-library/react": "16.3.1",
     "@trivago/prettier-plugin-sort-imports": "6.0.0",
     "@types/jsdom": "27.0.0",
     "@types/node": "^22",
