@@ -7,7 +7,7 @@ test.describe('PostContent Component (authenticated)', () => {
     await page.goto('/');
     try {
       await page.waitForLoadState('networkidle', { timeout: 60000 });
-    } catch (e) {
+    } catch {
       throw new Error('Page did not load within 60s. Is the dev server running and seeded with posts?');
     }
   });
