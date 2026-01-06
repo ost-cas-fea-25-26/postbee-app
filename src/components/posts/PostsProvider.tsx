@@ -50,15 +50,55 @@ export function PostsProvider({ children, initialPosts, initialPagination, filte
 
   // Subscribe to live posts via SSE
   useEffect(() => {
-    const unsubscribe = subscribePostsSse((post) => {
-      setPosts((prev) => {
-        if (prev.some((p) => p.id === post.id)) {
-          return prev;
-        }
-        toast.success('A new post was added!', { id: `new-post-${post.id}` });
+    const unsubscribe = subscribePostsSse({
+      onPostCreated: (post) => {
+        setPosts((prev) => {
+          if (prev.some((p) => p.id === post.id)) {
+            return prev;
+          }
+          toast.success('A new post was added!', { id: `new-post-${post.id}` });
 
-        return [post, ...prev];
-      });
+          return [post, ...prev];
+        });
+      },
+      onPostUpdated: (updated) => {
+        setPosts((prev) => {
+          if (!updated?.id || !prev.some((p) => p.id === updated?.id)) {
+            return prev;
+          }
+
+          return prev.map((p) => (p.id === updated.id ? { ...p, ...updated } : p));
+        });
+      },
+      onPostDeleted: (deleted) => {
+        setPosts((prev) => {
+          if (!deleted.id || !prev.some((p) => p.id === deleted.id)) {
+            return prev;
+          }
+
+          return prev.filter((p) => p.id !== deleted.id);
+        });
+      },
+      onPostLiked: (like) => {
+        setPosts((prev) => {
+          if (!like.postId || !prev.some((p) => p.id === like.postId)) {
+            return prev;
+          }
+
+          return prev.map((p) => (p.id === like.postId ? { ...p, likes: (p.likes ?? 0) + 1, likedBySelf: true } : p));
+        });
+      },
+      onPostUnliked: (like) => {
+        setPosts((prev) => {
+          if (!like.postId || !prev.some((p) => p.id === like.postId)) {
+            return prev;
+          }
+
+          return prev.map((p) =>
+            p.id === like.postId ? { ...p, likes: Math.max((p.likes ?? 1) - 1, 0), likedBySelf: false } : p,
+          );
+        });
+      },
     });
 
     return () => {
