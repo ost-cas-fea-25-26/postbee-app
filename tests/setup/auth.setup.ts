@@ -28,6 +28,7 @@ setup('authenticate', async ({ page }) => {
   // Wait for and click the login button
   const loginButton = page.getByRole('button', { name: /login/i });
   await loginButton.waitFor({ timeout: 10000 });
+  console.warn('LoginButton => ', loginButton);
   await loginButton.click();
 
   // Wait for the OAuth provider login page to load by waiting for username input
@@ -60,6 +61,14 @@ setup('authenticate', async ({ page }) => {
     .first();
   await submitButton.click();
 
+  // Handle 2FA setup screen if it appears
+  const skip2FAButton = page.locator('button[name="skip"]');
+  if (await skip2FAButton.isVisible({ timeout: 2000 }).catch(() => false)) {
+    await skip2FAButton.click();
+    // Wait for navigation or UI update after skipping 2FA
+    await page.waitForLoadState('networkidle');
+  }
+
   // Wait for redirect back to the app (OAuth callback)
   await page.waitForURL(/\//, { timeout: 30000 });
 
@@ -80,8 +89,16 @@ setup('authenticate', async ({ page }) => {
       return true;
     }),
   ]).catch(() => {
+    console.error('❌ Authentication verification failed - logout button not found and login button still visible.');
     throw new Error('Authentication verification failed - user does not appear to be logged in');
   });
+
+  // Extra reloads and navigations to help set all cookies
+  await page.waitForTimeout(2000);
+  // await page.reload();
+  // await page.waitForTimeout(2000);
+  // await page.goto('/');
+  // await page.waitForTimeout(2000);
 
   // Save the authentication state
   await page.context().storageState({ path: authFile });
