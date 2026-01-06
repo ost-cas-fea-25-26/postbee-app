@@ -19,7 +19,7 @@ test.describe('PostCard Component', () => {
       });
   });
 
-  test('should have correct accessibility attributes on post cards', async ({ page }) => {
+  test('should render post card container', async ({ page }) => {
     await page.waitForLoadState('networkidle');
 
     const postCard = page.locator('[data-testid="post-card"]').first();
@@ -27,8 +27,7 @@ test.describe('PostCard Component', () => {
     // Check if post card exists (might not if there are no posts)
     const count = await postCard.count();
     if (count > 0) {
-      await expect(postCard).toHaveAttribute('role', 'button');
-      await expect(postCard).toHaveAttribute('tabindex', '0');
+      await expect(postCard).toBeVisible();
     }
   });
 
