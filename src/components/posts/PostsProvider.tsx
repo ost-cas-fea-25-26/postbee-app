@@ -4,6 +4,7 @@ import { ReactNode, createContext, useCallback, useContext, useEffect, useState 
 
 import { getMorePosts } from '@/actions/posts';
 import { Post, PostPaginatedResult } from '@/lib/api/client';
+import { subscribePostsSse } from '@/lib/api/subscribePostsSse';
 import { toast } from 'sonner';
 
 interface PostsContextType {
@@ -46,6 +47,24 @@ export function PostsProvider({ children, initialPosts, initialPagination, filte
   useEffect(() => {
     setPosts(initialPosts);
   }, [initialPosts]);
+
+  // Subscribe to live posts via SSE
+  useEffect(() => {
+    const unsubscribe = subscribePostsSse((post) => {
+      setPosts((prev) => {
+        // Avoid duplicates if post already exists
+        if (prev.some((p) => p.id === post.id)) {
+          return prev;
+        }
+
+        return [post, ...prev];
+      });
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   const updatePost = useCallback((postId: string, updatedData: Partial<Post>) => {
     setPosts((prev) => prev.map((post) => (post.id === postId ? { ...post, ...updatedData } : post)));
