@@ -7,7 +7,6 @@ import { ProfileRecommendedMumbles } from '@/components/profile/ProfileRecommend
 import { ProfileRecommendedUsers } from '@/components/profile/ProfileRecommendedUsers';
 import { SkeletonPost } from '@/components/skeleton';
 import { getPosts } from '@/lib/api';
-import { Heading } from '@postbee/postbee-ui-lib';
 
 async function MumblesContent({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -30,7 +29,8 @@ async function MumblesContent({ params }: { params: Promise<{ id: string }> }) {
             subtitle="Create your first Mumble or follow other users!"
           />
         </PostsProvider>
-        <Heading level={3}>Recommended users</Heading>
+        {/* use h2 with the style of h3 for the correct semantic structure */}
+        <h2 className="pb-h3">Recommended users</h2>
         <Suspense fallback={<div className="pb-label-md pb-sm">Loading users ...</div>}>
           <ProfileRecommendedUsers userId={user.id} />
         </Suspense>

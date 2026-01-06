@@ -1,7 +1,6 @@
 import { Suspense } from 'react';
 
 import { SkeletonPost } from '@/components/skeleton';
-import { Heading } from '@postbee/postbee-ui-lib';
 
 import { HomeContent } from './_home';
 
@@ -16,9 +15,8 @@ interface Props {
 export default function Home({ searchParams }: Props) {
   return (
     <>
-      <Heading level={2} className="text-primary mb-lg">
-        Welcome to Mumble
-      </Heading>
+      {/* satisfying the a11y requirement of having a h1 on the page */}
+      <h1 className="pb-h2 text-primary mb-lg">Welcome to Mumble</h1>
       <Suspense fallback={<SkeletonPost count={15} />}>
         <HomeContent searchParams={searchParams} />
       </Suspense>
