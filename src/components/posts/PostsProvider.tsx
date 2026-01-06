@@ -52,10 +52,10 @@ export function PostsProvider({ children, initialPosts, initialPagination, filte
   useEffect(() => {
     const unsubscribe = subscribePostsSse((post) => {
       setPosts((prev) => {
-        // Avoid duplicates if post already exists
         if (prev.some((p) => p.id === post.id)) {
           return prev;
         }
+        toast.success('A new post was added!', { id: `new-post-${post.id}` });
 
         return [post, ...prev];
       });
