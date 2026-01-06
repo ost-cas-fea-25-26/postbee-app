@@ -44,7 +44,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         // Use authenticated storage state if available (created by setup project)
-        storageState: process.env.PLAYWRIGHT_TEST_USERNAME ? 'tests/.auth/user.json' : undefined,
+        storageState: 'tests/.auth/user.json'
       },
     },
 
@@ -54,7 +54,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Firefox'],
         // Use authenticated storage state if available (created by setup project)
-        storageState: process.env.PLAYWRIGHT_TEST_USERNAME ? 'tests/.auth/user.json' : undefined,
+        storageState: 'tests/.auth/user.json'
       },
     },
 
@@ -64,7 +64,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Safari'],
         // Use authenticated storage state if available (created by setup project)
-        storageState: process.env.PLAYWRIGHT_TEST_USERNAME ? 'tests/.auth/user.json' : undefined,
+        storageState: 'tests/.auth/user.json'
       },
     },
 
