@@ -18,6 +18,8 @@ npm run test:e2e:ui -- --grep "Accessibility"
 npm run test:e2e:headed -- --grep "Accessibility"
 ```
 
+> Note: Accessibility tests are scoped to Chromium via a runtime skip. If you filter by project, use the `chromium` project.
+
 ## Writing New Accessibility Tests
 
 Use the custom `makeAxeBuilder` fixture provided in the test setup:
@@ -68,15 +70,12 @@ const accessibilityScanResults = await makeAxeBuilder(page)
 ## Current Test Coverage
 
 - **Home Page** ([tests/a11y.spec.ts](tests/a11y.spec.ts))
-  - General accessibility violations
-  - Heading structure
-  - Button accessibility
-  - Form input labels
+  - No accessibility violations on the home page shell
+  - No accessibility violations in the Settings dialog
+  - No accessibility violations in the Image Upload dialog
 
 - **Profile Page** ([tests/profile/a11y.spec.ts](tests/profile/a11y.spec.ts))
-  - Profile page accessibility
-  - Profile header structure
-  - Follow button accessibility
+  - No accessibility violations on the profile page
 
 ## Understanding Test Results
 
