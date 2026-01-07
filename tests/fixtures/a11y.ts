@@ -1,5 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
-import { test as base, expect as baseExpect } from '@playwright/test';
+import { test as base } from '@playwright/test';
 import type { Page } from '@playwright/test';
 
 type A11yFixtures = {
@@ -13,5 +13,3 @@ export const test = base.extend<A11yFixtures>({
     await use(makeBuilder);
   },
 });
-
-export const expect = baseExpect;
