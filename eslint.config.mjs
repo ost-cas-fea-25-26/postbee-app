@@ -19,6 +19,12 @@ const config = [
   {
     ignores: ['src/lib/api/client/**', 'test-results/**', 'playwright-report/**', 'playwright/.cache/**'],
   },
+  {
+    files: ['tests/**/*.ts'],
+    rules: {
+      'react-hooks/rules-of-hooks': 'off',
+    },
+  },
 ];
 
 export default config;
