@@ -47,7 +47,7 @@ PostBee is a modern, full-featured social web app built with Next.js, TypeScript
 
 ## 🛠️ Tech Stack
 
-- ⚡️ [Next.js 13+](https://nextjs.org/) (App Router)
+- ⚡️ [Next.js 16+](https://nextjs.org/) (App Router)
 - 🟦 [TypeScript](https://www.typescriptlang.org/)
 - 🎨 [Tailwind CSS](https://tailwindcss.com/)
 - 🧪 [Playwright](https://playwright.dev/) for testing
