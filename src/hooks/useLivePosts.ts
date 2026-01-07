@@ -1,0 +1,84 @@
+import { useEffect } from 'react';
+import { Dispatch, SetStateAction } from 'react';
+
+import { Post } from '@/lib/api/client';
+import { subscribePostsSse } from '@/lib/api/subscribePostsSse';
+import { toast } from 'sonner';
+
+export function useLivePosts(
+  onNewPosts: (buffer: Post[]) => void,
+  setPosts: Dispatch<SetStateAction<Post[]>>,
+  setNewPostsBuffer: Dispatch<SetStateAction<Post[]>>,
+) {
+  const toastId = 'new-posts-toast';
+
+  useEffect(() => {
+    const unsubscribe = subscribePostsSse({
+      onPostCreated: (post) => {
+        setNewPostsBuffer((buffer) => {
+          if (buffer.some((p) => p.id === post.id)) {
+            return buffer;
+          }
+          const updatedBuffer = [post, ...buffer];
+          toast(`${updatedBuffer.length} new post${updatedBuffer.length > 1 ? 's' : ''} available!`, {
+            id: toastId,
+            duration: Infinity,
+            action: {
+              label: 'View now',
+              onClick: () => {
+                window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+                onNewPosts(updatedBuffer);
+                setNewPostsBuffer([]);
+                toast.dismiss(toastId);
+              },
+            },
+          });
+
+          return updatedBuffer;
+        });
+      },
+      onPostUpdated: (updated) => {
+        setPosts((prev) => {
+          if (!updated?.id || !prev.some((p) => p.id === updated?.id)) {
+            return prev;
+          }
+
+          return prev.map((p) => (p.id === updated.id ? { ...p, ...updated } : p));
+        });
+      },
+      onPostDeleted: (deleted) => {
+        setPosts((prev) => {
+          if (!deleted.id || !prev.some((p) => p.id === deleted.id)) {
+            return prev;
+          }
+
+          return prev.filter((p) => p.id !== deleted.id);
+        });
+      },
+      onPostLiked: (like) => {
+        setPosts((prev) => {
+          if (!like.postId || !prev.some((p) => p.id === like.postId)) {
+            return prev;
+          }
+
+          return prev.map((p) => (p.id === like.postId ? { ...p, likes: (p.likes ?? 0) + 1, likedBySelf: true } : p));
+        });
+      },
+      onPostUnliked: (like) => {
+        setPosts((prev) => {
+          if (!like.postId || !prev.some((p) => p.id === like.postId)) {
+            return prev;
+          }
+
+          return prev.map((p) =>
+            p.id === like.postId ? { ...p, likes: Math.max((p.likes ?? 1) - 1, 0), likedBySelf: false } : p,
+          );
+        });
+      },
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [onNewPosts, setPosts, setNewPostsBuffer]);
+}

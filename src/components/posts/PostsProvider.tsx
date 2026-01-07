@@ -3,8 +3,8 @@
 import { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 import { getMorePosts } from '@/actions/posts';
+import { useLivePosts } from '@/hooks/useLivePosts';
 import { Post, PostPaginatedResult } from '@/lib/api/client';
-import { subscribePostsSse } from '@/lib/api/subscribePostsSse';
 import { toast } from 'sonner';
 
 interface PostsContextType {
@@ -21,6 +21,7 @@ interface PostsContextType {
     likedBy?: string[];
     creators?: string[];
   };
+  newPostsBuffer: Post[];
 }
 
 const PostsContext = createContext<PostsContextType | undefined>(undefined);
@@ -37,6 +38,7 @@ interface PostsProviderProps {
 }
 
 export function PostsProvider({ children, initialPosts, initialPagination, filters }: PostsProviderProps) {
+  const [newPostsBuffer, setNewPostsBuffer] = useState<Post[]>([]);
   const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(!!initialPagination?.next);
@@ -48,63 +50,15 @@ export function PostsProvider({ children, initialPosts, initialPagination, filte
     setPosts(initialPosts);
   }, [initialPosts]);
 
-  // Subscribe to live posts via SSE
-  useEffect(() => {
-    const unsubscribe = subscribePostsSse({
-      onPostCreated: (post) => {
-        setPosts((prev) => {
-          if (prev.some((p) => p.id === post.id)) {
-            return prev;
-          }
-          toast.success('A new post was added!', { id: `new-post-${post.id}` });
-
-          return [post, ...prev];
-        });
-      },
-      onPostUpdated: (updated) => {
-        setPosts((prev) => {
-          if (!updated?.id || !prev.some((p) => p.id === updated?.id)) {
-            return prev;
-          }
-
-          return prev.map((p) => (p.id === updated.id ? { ...p, ...updated } : p));
-        });
-      },
-      onPostDeleted: (deleted) => {
-        setPosts((prev) => {
-          if (!deleted.id || !prev.some((p) => p.id === deleted.id)) {
-            return prev;
-          }
-
-          return prev.filter((p) => p.id !== deleted.id);
-        });
-      },
-      onPostLiked: (like) => {
-        setPosts((prev) => {
-          if (!like.postId || !prev.some((p) => p.id === like.postId)) {
-            return prev;
-          }
-
-          return prev.map((p) => (p.id === like.postId ? { ...p, likes: (p.likes ?? 0) + 1, likedBySelf: true } : p));
-        });
-      },
-      onPostUnliked: (like) => {
-        setPosts((prev) => {
-          if (!like.postId || !prev.some((p) => p.id === like.postId)) {
-            return prev;
-          }
-
-          return prev.map((p) =>
-            p.id === like.postId ? { ...p, likes: Math.max((p.likes ?? 1) - 1, 0), likedBySelf: false } : p,
-          );
-        });
-      },
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  // Use live posts hook for SSE and toast logic
+  useLivePosts(
+    (buffer) => {
+      setPosts((prev) => [...buffer, ...prev]);
+      setNewPostsBuffer([]);
+    },
+    setPosts,
+    setNewPostsBuffer,
+  );
 
   const updatePost = useCallback((postId: string, updatedData: Partial<Post>) => {
     setPosts((prev) => prev.map((post) => (post.id === postId ? { ...post, ...updatedData } : post)));
@@ -160,6 +114,7 @@ export function PostsProvider({ children, initialPosts, initialPagination, filte
         hasMore,
         loadMore,
         filters,
+        newPostsBuffer,
       }}
     >
       {children}
