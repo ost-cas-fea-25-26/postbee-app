@@ -138,7 +138,7 @@ export function useLivePosts(
 
             return {
               ...p,
-              likes: Math.max((p.likes ?? 1) - 1, 0),
+              likes: isSelf ? p.likes : Math.max((p.likes ?? 1) - 1, 0),
               // Only set likedBySelf to false if the current user unliked the post
               likedBySelf: isSelf ? false : p.likedBySelf,
             };
