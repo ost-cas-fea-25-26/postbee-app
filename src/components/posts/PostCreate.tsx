@@ -9,7 +9,7 @@ import { UploadDialog } from '@/components/core/UploadDialog';
 import { PostCard } from '@/components/posts/PostCard';
 import { usePosts } from '@/components/posts/PostsProvider';
 import type { Post } from '@/lib/api/client';
-import { Button, Heading, Paragraph, Textarea } from '@postbee/postbee-ui-lib';
+import { Button, Label, Paragraph, Textarea } from '@postbee/postbee-ui-lib';
 import { useFormContext } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -40,9 +40,10 @@ const PostFormFields = ({
     formState: { errors },
   } = useFormContext<PostFormData>();
 
-  const headingId = useId();
+  const labelId = useId();
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [error, setError] = useState<string>('');
 
   // Derive preview URL and clean it up on change/unmount
   const previewUrl = useMemo(() => (selectedFile ? URL.createObjectURL(selectedFile) : null), [selectedFile]);
@@ -67,8 +68,20 @@ const PostFormFields = ({
     [previewUrl],
   );
 
+  // 1MB size limit in bytes
+  const SIZE_LIMIT = 1024 * 1024;
+
   const handleUploadSubmit = (files: File[]) => {
     const file = files[0] ?? null;
+    if (file && file.size > SIZE_LIMIT) {
+      setError('File size exceeds the maximum allowed size of 1MB.');
+      setSelectedFile(null);
+      setValue('media', undefined);
+      setOpenDialog(false);
+
+      return;
+    }
+    setError('');
     setSelectedFile(file);
     setValue('media', file ?? undefined, { shouldValidate: true });
     setOpenDialog(false);
@@ -77,6 +90,7 @@ const PostFormFields = ({
   const handleRemoveFile = () => {
     setSelectedFile(null);
     setValue('media', undefined);
+    setError('');
   };
 
   // Sync media field when file is cleared
@@ -88,28 +102,40 @@ const PostFormFields = ({
 
   return (
     <>
-      <div className="flex flex-col gap-xs">
-        <Heading id={headingId} level={4}>
+      <div className="flex flex-col gap-xs" data-testid="post-create-header">
+        <Label htmlFor={labelId} size="xl">
           {title}
-        </Heading>
+        </Label>
         {subtitle && <Paragraph>{subtitle}</Paragraph>}
       </div>
 
       {previewUrl && (
-        <div className="grid cursor-auto place-content-center object-contain space-y-xs">
+        <div
+          className="grid cursor-auto place-content-center object-contain space-y-xs"
+          data-testid="post-create-media-preview"
+        >
           <ImageView sources={[previewUrl]} alt="post-media-create" />
-          <Button icon="cancel" text="Remove" onClick={handleRemoveFile} variant="secondary" />
+          <Button
+            icon="cancel"
+            text="Remove"
+            onClick={handleRemoveFile}
+            variant="secondary"
+            data-testid="post-create-remove-media"
+          />
         </div>
       )}
 
+      {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+
       <Textarea
         {...register('postContent', { required: 'Please enter your contribution.' })}
+        id={labelId}
         name="postContent"
-        aria-labelledby={headingId}
         placeholder="Your opinion matters!"
         rows={4}
         aria-invalid={!!errors.postContent}
         errorMessage={errors.postContent?.message}
+        data-testid="post-create-textarea"
       />
 
       <div className="flex items-center justify-center gap-sm flex-wrap sm:flex-nowrap">
@@ -120,6 +146,7 @@ const PostFormFields = ({
           fullWidth
           type="button"
           onClick={() => setOpenDialog(true)}
+          data-testid="post-create-upload-button"
         />
 
         <UploadDialog open={openDialog} onClose={() => setOpenDialog(false)} onSubmit={handleUploadSubmit} />
@@ -131,6 +158,7 @@ const PostFormFields = ({
           type="submit"
           loading={submitPending}
           onClick={(e) => e.stopPropagation()}
+          data-testid="post-create-send-button"
         />
       </div>
     </>
@@ -172,7 +200,7 @@ export function PostCreate({ userDisplayName, userAvatarUrl, title, subtitle, on
 
   return (
     <PostCard post={{ creator: { displayName: userDisplayName, avatarUrl: userAvatarUrl } }}>
-      <Form<PostFormData> onSubmit={onSubmit}>
+      <Form<PostFormData> onSubmit={onSubmit} data-testid="post-create-form">
         <div className="grid gap-sm">
           <PostFormFields ref={formFieldsRef} title={title} subtitle={subtitle} submitPending={submitPending} />
         </div>

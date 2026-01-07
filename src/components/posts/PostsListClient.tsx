@@ -40,7 +40,7 @@ export function PostsListClient({ session }: PostsListClientProps) {
   }, [hasMore, isLoading, loadMore]);
 
   return (
-    <div className="flex h-fit w-full max-w-full flex-col items-center justify-center gap-sm ">
+    <div className="flex h-fit w-full max-w-full flex-col items-center justify-center gap-sm " data-testid="posts-list">
       {posts.map((post) => (
         <PostCard key={post.id} post={post}>
           <PostItem post={post} session={session} />
