@@ -143,7 +143,9 @@ npx openapi-ts
 
 ## 🌍 Deployment
 
-Deploy easily on [Vercel](https://vercel.com/) or your favorite platform.
+The app is continuously deployed and available at: [https://postbee-app.vercel.app/](https://postbee-app.vercel.app/)
+
+Deployment is powered by [Vercel](https://vercel.com/). You can also deploy on your own Vercel account or another platform if desired.
 
 ---
 
