@@ -28,6 +28,8 @@
 
 PostBee is a modern, full-featured social web app built with Next.js, TypeScript, and a beautiful UI. Share posts, comment, like, follow users, and manage your profile in a seamless, real-time experience. Powered by a robust API and designed for extensibility.
 
+> 🏫 This project was developed as part of the [CAS Frontend Engineering Advanced](https://www.ost.ch/de/weiterbildung/weiterbildungsangebot/informatik/software-engineering/cas-frontend-engineering-advanced) program at OST – Eastern Switzerland University of Applied Sciences.
+
 ---
 
 ## 🚀 Features
