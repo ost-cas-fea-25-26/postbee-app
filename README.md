@@ -130,6 +130,22 @@ Learn more about Playwright in the [official docs](https://playwright.dev/).
 
 ---
 
+## ♿ Accessibility Testing
+
+PostBee includes comprehensive accessibility (a11y) testing using [axe-core](https://github.com/dequelabs/axe-core) integrated with Playwright. We're committed to ensuring an inclusive experience for all users.
+
+- A11y tests scan pages for accessibility violations (WCAG compliance)
+- Tests are located in the `tests/` directory (e.g., `a11y.spec.ts`)
+- Run accessibility tests:
+
+```bash
+npm run test:e2e -- --grep "Accessibility"
+```
+
+For more details on accessibility testing in this project, see [tests/A11Y_README.md](tests/A11Y_README.md).
+
+---
+
 ## 📦 API & OpenAPI
 
 PostBee uses an auto-generated API client from an OpenAPI spec. Update the client with:
