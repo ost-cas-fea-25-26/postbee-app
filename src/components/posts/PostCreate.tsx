@@ -43,6 +43,7 @@ const PostFormFields = ({
   const headingId = useId();
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [error, setError] = useState<string>('');
 
   // Derive preview URL and clean it up on change/unmount
   const previewUrl = useMemo(() => (selectedFile ? URL.createObjectURL(selectedFile) : null), [selectedFile]);
@@ -67,8 +68,20 @@ const PostFormFields = ({
     [previewUrl],
   );
 
+  // 1MB size limit in bytes
+  const SIZE_LIMIT = 1024 * 1024;
+
   const handleUploadSubmit = (files: File[]) => {
     const file = files[0] ?? null;
+    if (file && file.size > SIZE_LIMIT) {
+      setError('File size exceeds the maximum allowed size of 1MB.');
+      setSelectedFile(null);
+      setValue('media', undefined);
+      setOpenDialog(false);
+
+      return;
+    }
+    setError('');
     setSelectedFile(file);
     setValue('media', file ?? undefined, { shouldValidate: true });
     setOpenDialog(false);
@@ -77,6 +90,7 @@ const PostFormFields = ({
   const handleRemoveFile = () => {
     setSelectedFile(null);
     setValue('media', undefined);
+    setError('');
   };
 
   // Sync media field when file is cleared
@@ -101,6 +115,8 @@ const PostFormFields = ({
           <Button icon="cancel" text="Remove" onClick={handleRemoveFile} variant="secondary" />
         </div>
       )}
+
+      {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
 
       <Textarea
         {...register('postContent', { required: 'Please enter your contribution.' })}
