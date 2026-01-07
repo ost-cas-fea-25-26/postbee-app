@@ -154,6 +154,18 @@ Deploy easily on [Vercel](https://vercel.com/) or your favorite platform.
 
 ---
 
+## 🧰 PostBee UI Library
+
+PostBee leverages a custom, reusable component library: [postbee-ui-lib](https://github.com/ost-cas-fea-25-26/postbee-ui-lib).
+
+- 🧩 Shared UI components for a consistent look and feel
+- 🎨 Built with Tailwind CSS and React
+- 🛠️ Used across PostBee projects for rapid development
+
+Check out the library and its documentation for more details and usage examples.
+
+---
+
 ## 📚 References
 
 - ⚛️ **React**: https://react.dev
