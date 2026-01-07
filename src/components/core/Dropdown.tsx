@@ -11,6 +11,7 @@ export type DropdownAction = {
   onSelect: () => void | Promise<void>;
   icon: IconName;
   variant?: 'default' | 'error';
+  'data-testid'?: string;
 };
 
 type DropdownProps = {
@@ -41,7 +42,7 @@ export function Dropdown({ trigger, actions, sideOffset = 8, 'data-testid': data
           className="min-w-[150px] bg-white rounded-lg shadow-xl p-xs flex flex-col gap-xxs"
           sideOffset={sideOffset}
         >
-          {actions.map(({ label, onSelect, icon, variant }, i) => (
+          {actions.map(({ label, onSelect, icon, variant, 'data-testid': dataTestId }, i) => (
             <DropdownMenu.Item
               key={i}
               className={clsx(
@@ -49,6 +50,7 @@ export function Dropdown({ trigger, actions, sideOffset = 8, 'data-testid': data
                 `${variant === 'error' ? 'text-error ' : ''}`,
               )}
               onSelect={onSelect}
+              data-testid={dataTestId}
             >
               <Icon icon={icon} />
               {label}
