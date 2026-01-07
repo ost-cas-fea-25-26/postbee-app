@@ -3,7 +3,9 @@
 import { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 import { getMorePosts } from '@/actions/posts';
+import { useLivePosts } from '@/hooks/useLivePosts';
 import { Post, PostPaginatedResult } from '@/lib/api/client';
+import { useLocalStorage } from 'react-use-storage';
 import { toast } from 'sonner';
 
 interface PostsContextType {
@@ -20,6 +22,7 @@ interface PostsContextType {
     likedBy?: string[];
     creators?: string[];
   };
+  newPostsBuffer: Post[];
 }
 
 const PostsContext = createContext<PostsContextType | undefined>(undefined);
@@ -33,9 +36,11 @@ interface PostsProviderProps {
     likedBy?: string[];
     creators?: string[];
   };
+  userId?: string;
 }
 
-export function PostsProvider({ children, initialPosts, initialPagination, filters }: PostsProviderProps) {
+export function PostsProvider({ children, initialPosts, initialPagination, filters, userId }: PostsProviderProps) {
+  const [newPostsBuffer, setNewPostsBuffer] = useState<Post[]>([]);
   const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(!!initialPagination?.next);
@@ -46,6 +51,20 @@ export function PostsProvider({ children, initialPosts, initialPagination, filte
   useEffect(() => {
     setPosts(initialPosts);
   }, [initialPosts]);
+
+  const [livePostsEnabled] = useLocalStorage<boolean>('livePostsEnabled', false);
+
+  // to use a custom effect inside useLivePosts that can be toggled on/off.
+  useLivePosts(
+    (buffer) => {
+      setPosts((prev) => [...buffer, ...prev]);
+      setNewPostsBuffer([]);
+    },
+    setPosts,
+    setNewPostsBuffer,
+    livePostsEnabled,
+    userId,
+  );
 
   const updatePost = useCallback((postId: string, updatedData: Partial<Post>) => {
     setPosts((prev) => prev.map((post) => (post.id === postId ? { ...post, ...updatedData } : post)));
@@ -101,6 +120,7 @@ export function PostsProvider({ children, initialPosts, initialPagination, filte
         hasMore,
         loadMore,
         filters,
+        newPostsBuffer,
       }}
     >
       {children}

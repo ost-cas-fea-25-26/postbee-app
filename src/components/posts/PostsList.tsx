@@ -26,6 +26,7 @@ export async function PostsList({ tags, likedBy, creators }: PostListProps) {
       initialPosts={posts?.data ?? []}
       initialPagination={posts ?? undefined}
       filters={{ tags, likedBy, creators }}
+      userId={session?.user?.identifier ?? ''}
     >
       <PostsListClient session={session} />
     </PostsProvider>

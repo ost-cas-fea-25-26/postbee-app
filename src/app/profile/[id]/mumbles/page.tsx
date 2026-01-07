@@ -21,7 +21,7 @@ async function MumblesContent({ params }: { params: Promise<{ id: string }> }) {
   if (user.isMe && posts?.count === 0) {
     return (
       <div className="flex flex-col gap-md">
-        <PostsProvider initialPosts={[]}>
+        <PostsProvider initialPosts={[]} userId={user.id}>
           <PostCreateRefresh
             userDisplayName={user.displayName}
             userAvatarUrl={user.avatarUrl}

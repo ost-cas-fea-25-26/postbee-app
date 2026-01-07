@@ -38,6 +38,7 @@ export async function HomeContent({ searchParams }: Props) {
         initialPosts={initialPosts}
         initialPagination={posts ?? undefined}
         filters={{ tags: tagsList, likedBy: likeByList, creators: creatorsList }}
+        userId={user.id}
       >
         {session?.user ? <PostCreate userDisplayName={user.displayName} userAvatarUrl={user.avatarUrl} /> : null}
         <PostsListClient session={session} />
