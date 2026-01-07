@@ -3,21 +3,22 @@ import { expect, test } from '@playwright/test';
 // Assumes mock server and app are running, and test user is authenticated
 
 test.describe('Posts E2E', () => {
-  //   test.beforeEach(async ({ page }) => {
-  //     await page.goto('/');
-  //     await page.waitForLoadState('networkidle');
-  //     // Delete all posts containing the dropdown (i.e., posts owned by the test user)
-  //     while ((await page.getByTestId('post-content-dropdown').count()) > 0) {
-  //       const dropdown = page.getByTestId('post-content-dropdown').first();
-  //       await dropdown.click();
-  //       const deleteButton = page.getByTestId('post-content-delete-action').first();
-  //       await deleteButton.click();
-  //       // If a confirmation dialog appears, handle it (uncomment if needed)
-  //       // await page.getByRole('button', { name: /confirm/i }).click();
-  //       // Wait for the post to be removed from the DOM
-  //       await page.waitForTimeout(500); // Adjust as needed for UI update
-  //     }
-  //   });
+  test('clear', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+    // Delete all posts containing the dropdown (i.e., posts owned by the test user)
+    while ((await page.getByTestId('post-content-dropdown').count()) > 0) {
+      const dropdown = page.getByTestId('post-content-dropdown').first();
+      await dropdown.click();
+      const deleteButton = page.getByTestId('post-content-delete-action').first();
+      await deleteButton.click();
+      // If a confirmation dialog appears, handle it (uncomment if needed)
+      // await page.getByRole('button', { name: /confirm/i }).click();
+      // Wait for the post to be removed from the DOM
+      await page.waitForTimeout(500); // Adjust as needed for UI update
+    }
+  });
+
   test('should create a post with content only', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
@@ -37,9 +38,11 @@ test.describe('Posts E2E', () => {
     await page.setInputFiles('input[type="file"]', filePath);
     await page.getByTestId('upload-dialog-apply-button').click();
     await page.getByTestId('post-create-send-button').click();
-    await expect(page.getByText('E2E test post with media')).toBeVisible();
-    // Optionally check for image preview
-    await expect(page.getByAltText('post-media-create')).toBeVisible();
+    // Check for the post text
+    const post = page.locator('[data-testid="post-content"]', { hasText: 'E2E test post with media' }).first();
+    await expect(post).toBeVisible();
+    // Check for image preview inside the correct post
+    await expect(post.getByAltText('post-media')).toBeVisible();
   });
 
   test('should like a post', async ({ page }) => {
