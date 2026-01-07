@@ -54,7 +54,16 @@ export function useLivePosts(
             return prev;
           }
 
-          return prev.map((p) => (p.id === updated.id ? { ...p, ...updated } : p));
+          return prev.map((p) =>
+            p.id === updated.id
+              ? {
+                  ...p,
+                  ...updated,
+                  // Preserve likedBySelf if because is not provided in the update
+                  likedBySelf: p.likedBySelf,
+                }
+              : p,
+          );
         });
       },
       onPostDeleted: (deleted) => {
