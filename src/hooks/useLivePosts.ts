@@ -54,6 +54,30 @@ export function useLivePosts(
 
           return prev.filter((p) => p.id !== deleted.id);
         });
+
+        setNewPostsBuffer((buffer) => {
+          const updatedBuffer = buffer.filter((p) => p.id !== deleted.id);
+          if (updatedBuffer.length === 0) {
+            toast.dismiss(toastId);
+
+            return updatedBuffer;
+          }
+          toast(`${updatedBuffer.length} new post${updatedBuffer.length > 1 ? 's' : ''} available!`, {
+            id: toastId,
+            duration: Infinity,
+            action: {
+              label: 'View now',
+              onClick: () => {
+                window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+                onNewPosts(updatedBuffer);
+                setNewPostsBuffer([]);
+                toast.dismiss(toastId);
+              },
+            },
+          });
+
+          return updatedBuffer;
+        });
       },
       onPostLiked: (like) => {
         setPosts((prev) => {
