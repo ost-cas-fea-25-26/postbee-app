@@ -6,7 +6,7 @@ import { updateAvatar } from '@/actions/user';
 import { IconLabel } from '@/components/core/IconLabel';
 import { AvatarUploadDialog } from '@/components/profile/AvatarUploadDialog';
 import { getUserInitials } from '@/lib/utils';
-import { Avatar, Heading } from '@postbee/postbee-ui-lib';
+import { Avatar } from '@postbee/postbee-ui-lib';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -81,7 +81,8 @@ export function ProfileHeader({
         </div>
       </div>
       <div className="mt-md">
-        <Heading level={3}>{displayName}</Heading>
+        {/* satisfying the a11y requirement of having a h1 on the page */}
+        <h1 className="pb-h3">{displayName}</h1>
         <IconLabel colorClassName="text-primary" icon="profile">
           {username}
         </IconLabel>

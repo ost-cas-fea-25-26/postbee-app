@@ -24,7 +24,16 @@ export function ImageView({ sources, alt = 'media' }: { sources: string[]; alt: 
           }}
         />
       ))}
-      <Lightbox open={toggle} close={() => setOpen(false)} slides={sources.map((src) => ({ src }))} />
+      <Lightbox
+        open={toggle}
+        close={() => setOpen(false)}
+        slides={sources.map((src) => ({ src }))}
+        carousel={{ finite: sources.length <= 1 }}
+        render={{
+          buttonPrev: sources.length <= 1 ? () => null : undefined,
+          buttonNext: sources.length <= 1 ? () => null : undefined,
+        }}
+      />
     </>
   );
 }

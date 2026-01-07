@@ -131,6 +131,7 @@ export function PostItemEditDialog({ open, initialContent, initialMedia, onClose
       title="Post edit"
       open={open}
       onSubmit={submitForm}
+      onClose={onClose}
       actions={
         <>
           <Button text="Cancel" icon="cancel" variant="secondary" onClick={onClose} size="md" type="button" />

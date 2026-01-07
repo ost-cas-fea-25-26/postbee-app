@@ -9,7 +9,7 @@ import { UploadDialog } from '@/components/core/UploadDialog';
 import { PostCard } from '@/components/posts/PostCard';
 import { usePosts } from '@/components/posts/PostsProvider';
 import type { Post } from '@/lib/api/client';
-import { Button, Heading, Paragraph, Textarea } from '@postbee/postbee-ui-lib';
+import { Button, Label, Paragraph, Textarea } from '@postbee/postbee-ui-lib';
 import { useFormContext } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -40,9 +40,10 @@ const PostFormFields = ({
     formState: { errors },
   } = useFormContext<PostFormData>();
 
-  const headingId = useId();
+  const labelId = useId();
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [error, setError] = useState<string>('');
 
   // Derive preview URL and clean it up on change/unmount
   const previewUrl = useMemo(() => (selectedFile ? URL.createObjectURL(selectedFile) : null), [selectedFile]);
@@ -67,8 +68,20 @@ const PostFormFields = ({
     [previewUrl],
   );
 
+  // 1MB size limit in bytes
+  const SIZE_LIMIT = 1024 * 1024;
+
   const handleUploadSubmit = (files: File[]) => {
     const file = files[0] ?? null;
+    if (file && file.size > SIZE_LIMIT) {
+      setError('File size exceeds the maximum allowed size of 1MB.');
+      setSelectedFile(null);
+      setValue('media', undefined);
+      setOpenDialog(false);
+
+      return;
+    }
+    setError('');
     setSelectedFile(file);
     setValue('media', file ?? undefined, { shouldValidate: true });
     setOpenDialog(false);
@@ -77,6 +90,7 @@ const PostFormFields = ({
   const handleRemoveFile = () => {
     setSelectedFile(null);
     setValue('media', undefined);
+    setError('');
   };
 
   // Sync media field when file is cleared
@@ -89,9 +103,9 @@ const PostFormFields = ({
   return (
     <>
       <div className="flex flex-col gap-xs" data-testid="post-create-header">
-        <Heading id={headingId} level={4}>
+        <Label htmlFor={labelId} size="xl">
           {title}
-        </Heading>
+        </Label>
         {subtitle && <Paragraph>{subtitle}</Paragraph>}
       </div>
 
@@ -111,10 +125,12 @@ const PostFormFields = ({
         </div>
       )}
 
+      {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+
       <Textarea
         {...register('postContent', { required: 'Please enter your contribution.' })}
+        id={labelId}
         name="postContent"
-        aria-labelledby={headingId}
         placeholder="Your opinion matters!"
         rows={4}
         aria-invalid={!!errors.postContent}
