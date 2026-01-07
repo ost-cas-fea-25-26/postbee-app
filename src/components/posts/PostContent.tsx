@@ -138,9 +138,9 @@ export function PostContent({ post, session, variant = 'Default', onUpdate, onDe
   };
 
   return (
-    <div className="grid gap-sm sm:gap-md">
+    <div className="grid gap-sm sm:gap-md" data-testid="post-content">
       {post.id && (
-        <div className="flex items-center gap-sm">
+        <div className="flex items-center gap-sm" data-testid="post-content-header">
           <PostItemUserInfo
             userId={post.creator?.id ?? ''}
             displayName={post.creator?.displayName ?? ''}
@@ -149,7 +149,7 @@ export function PostContent({ post, session, variant = 'Default', onUpdate, onDe
             date={decodeULIDTimestamp(post.id)}
             variant={variant}
           />
-          {isMyPost && <Dropdown actions={actions} />}
+          {isMyPost && <Dropdown actions={actions} data-testid="post-content-dropdown" />}
         </div>
       )}
       {post.text && (
@@ -158,20 +158,22 @@ export function PostContent({ post, session, variant = 'Default', onUpdate, onDe
           suppressHydrationWarning
           className="pb-paragraph-md cursor-auto whitespace-pre-wrap break-all"
           dangerouslySetInnerHTML={{ __html: getSanitizedHTML(textToTagsLink(post.text)) }}
+          data-testid="post-content-text"
         ></p>
       )}
       {post.mediaUrl && (
-        <div className="grid cursor-auto place-content-center object-contain">
+        <div className="grid cursor-auto place-content-center object-contain" data-testid="post-content-media">
           <ImageView sources={[post.mediaUrl]} alt={'post-media'} />
         </div>
       )}
       {post.id && (
-        <div className="-ml-3 flex flex-wrap gap-xxs gap-y-0 sm:gap-sm">
+        <div className="-ml-3 flex flex-wrap gap-xxs gap-y-0 sm:gap-sm" data-testid="post-content-actions">
           {!isVariantReply && (
             <CommentsButton
               count={(post as Post).replies}
               disabled={!session}
               onClick={() => router.push(`/post/${post.id}`)}
+              data-testid="post-content-comments-button"
             />
           )}
 
@@ -181,9 +183,12 @@ export function PostContent({ post, session, variant = 'Default', onUpdate, onDe
             disabled={!session}
             onLikeAdd={handleLike}
             onLikeRemove={handleUnlike}
+            data-testid="post-content-like-button"
           />
 
-          {!isVariantReply && <CopyButton textToCopy={`${origin}/post/${post.id ?? ''}`} />}
+          {!isVariantReply && (
+            <CopyButton textToCopy={`${origin}/post/${post.id ?? ''}`} data-testid="post-content-copy-button" />
+          )}
         </div>
       )}
       {post.id && (
