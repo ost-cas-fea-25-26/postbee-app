@@ -7,8 +7,7 @@
     <img alt="TailwindCSS" src="https://img.shields.io/badge/tailwindcss-4-38b2ac?logo=tailwindcss">
     <img alt="React" src="https://img.shields.io/badge/react-19-61dafb?logo=react">
     <img alt="Status" src="https://img.shields.io/badge/status-stable-4caf50">
-    <!-- <img alt="Quality Check" src="https://github.com/ost-cas-fea-25-26/postbee-app/actions/workflows/quality.yml/badge.svg"> -->
-    <!-- <img alt="Release" src="https://github.com/ost-cas-fea-25-26/postbee-app/actions/workflows/release.yml/badge.svg"> -->
+    <img alt="Quality Check" src="https://github.com/ost-cas-fea-25-26/postbee-app/actions/workflows/quality.yml/badge.svg">
     <img alt="Vercel Deploy" src="https://img.shields.io/github/deployments/ost-cas-fea-25-26/postbee-app/production?label=vercel&logo=vercel">
     <img alt="Code Style" src="https://img.shields.io/badge/code%20style-prettier-ff69b4?logo=prettier">
     <img alt="ESLint" src="https://img.shields.io/badge/ESLint-9.39-4B32C3?logo=eslint">
