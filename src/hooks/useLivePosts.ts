@@ -100,7 +100,6 @@ export function useLivePosts(
         });
       },
       onPostLiked: (like) => {
-        console.warn('Post liked SSE received:', like);
         setPosts((prev) => {
           if (!like.postId || !prev.some((p) => p.id === like.postId)) {
             return prev;
@@ -111,7 +110,7 @@ export function useLivePosts(
               return p;
             }
 
-            // Use isCurrentUser to check if the like event is from the current user
+            // check if the like event is from the current user
             const isSelf = userid === like.userId;
 
             return {
@@ -134,7 +133,7 @@ export function useLivePosts(
               return p;
             }
 
-            // Use isCurrentUser to check if the unlike event is from the current user
+            // check if the like event is from the current user
             const isSelf = userid === like.userId;
 
             return {
