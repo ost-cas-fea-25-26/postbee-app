@@ -129,9 +129,9 @@ export function UserSettingsModal({ open, onClose, user }: UserSettingsModalProp
       >
         <UserSettingsFields />
       </Form>
-      <div className="flex flex-col mt-8">
-        <div className="pb-label-md mr-2">Beta Features 🧪</div>
-        <div className="flex flex-row items-center ml-1 mt-4">
+      <div className="flex flex-col mt-xl">
+        <div className="pb-label-md">Beta Features 🧪</div>
+        <div className="flex flex-row items-center mt-sm">
           <Checkbox
             id="live-posts-checkbox"
             label="Enable live posts (real-time updates)"
