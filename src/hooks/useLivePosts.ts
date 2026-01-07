@@ -115,7 +115,7 @@ export function useLivePosts(
 
             return {
               ...p,
-              likes: (p.likes ?? 0) + 1,
+              likes: p.likedBySelf ? (p.likes ?? 0) : (p.likes ?? 0) + 1,
               // Only set likedBySelf if the current user liked the post
               likedBySelf: isSelf ? true : p.likedBySelf,
             };
