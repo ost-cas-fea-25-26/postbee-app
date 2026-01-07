@@ -15,7 +15,7 @@
     <img alt="Conventional Commits" src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg">
     <img alt="Semantic Release" src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg">
     <img alt="Maintained" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg">
-    <img alt="Node Version" src="https://img.shields.io/badge/node-%3E%3D20-brightgreen?logo=node.js">
+    <img alt="Node Version" src="https://img.shields.io/badge/node-22.12-brightgreen?logo=node.js">
     <img alt="Issues" src="https://img.shields.io/github/issues/ost-cas-fea-25-26/postbee-app?label=issues">
     <img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square">
   </p>
