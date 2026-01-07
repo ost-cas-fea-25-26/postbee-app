@@ -77,7 +77,13 @@ const PostEditFields = ({ initialMedia }: { initialMedia?: string | null }) => {
       {previewUrl ? (
         <div className="grid cursor-auto place-content-center object-contain space-y-xs">
           <ImageView sources={[previewUrl]} alt="post-media" />
-          <Button icon="cancel" text="Remove" onClick={handleRemoveMedia} variant="secondary" />
+          <Button
+            icon="cancel"
+            text="Remove"
+            onClick={handleRemoveMedia}
+            variant="secondary"
+            data-testid="post-edit-remove-media"
+          />
         </div>
       ) : (
         <Button
@@ -89,6 +95,7 @@ const PostEditFields = ({ initialMedia }: { initialMedia?: string | null }) => {
           onClick={() => {
             setOpenDialog(true);
           }}
+          data-testid="post-edit-upload-button"
         />
       )}
 
@@ -104,6 +111,7 @@ const PostEditFields = ({ initialMedia }: { initialMedia?: string | null }) => {
         aria-labelledby={textareaLabelId}
         aria-invalid={!!errors.postContent}
         errorMessage={errors.postContent?.message}
+        data-testid="post-edit-textarea"
       />
 
       <UploadDialog open={openDialog} onClose={() => setOpenDialog(false)} onSubmit={handleUploadSubmit} />
@@ -134,7 +142,15 @@ export function PostItemEditDialog({ open, initialContent, initialMedia, onClose
       onClose={onClose}
       actions={
         <>
-          <Button text="Cancel" icon="cancel" variant="secondary" onClick={onClose} size="md" type="button" />
+          <Button
+            text="Cancel"
+            icon="cancel"
+            variant="secondary"
+            onClick={onClose}
+            size="md"
+            type="button"
+            data-testid="post-edit-cancel-button"
+          />
           <Button
             text="Save"
             icon="checkmark"
@@ -143,6 +159,7 @@ export function PostItemEditDialog({ open, initialContent, initialMedia, onClose
             onClick={submitForm}
             size="md"
             loading={submitPending}
+            data-testid="post-edit-send-button"
           />
         </>
       }

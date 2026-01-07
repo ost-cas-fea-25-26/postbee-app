@@ -36,8 +36,15 @@ export function UploadDialog({ open, multiple = false, onClose, onSubmit }: Uplo
       onClose={handleClose}
       actions={
         <>
-          <Button text="Cancel" icon="cancel" variant="secondary" onClick={handleClose} size="md" />
-          <Button text="Apply" icon="checkmark" onClick={handleSubmit} size="md" />
+          <Button
+            text="Cancel"
+            icon="cancel"
+            variant="secondary"
+            onClick={handleClose}
+            size="md"
+            data-testid="upload-dialog-cancel-button"
+          />
+          <Button text="Apply" icon="checkmark" onClick={handleSubmit} size="md" data-testid="upload-dialog-apply-button" />
         </>
       }
     >
