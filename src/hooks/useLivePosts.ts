@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Dispatch, SetStateAction } from 'react';
 
 import { Post } from '@/lib/api/client';
@@ -9,10 +9,21 @@ export function useLivePosts(
   onNewPosts: (buffer: Post[]) => void,
   setPosts: Dispatch<SetStateAction<Post[]>>,
   setNewPostsBuffer: Dispatch<SetStateAction<Post[]>>,
+  enabled: boolean,
+  userid: string | undefined,
 ) {
   const toastId = 'new-posts-toast';
 
+  const unsubscribeRef = useRef<null | (() => void)>(null);
+
   useEffect(() => {
+    if (unsubscribeRef.current) {
+      unsubscribeRef.current();
+      unsubscribeRef.current = null;
+    }
+    if (!enabled) {
+      return;
+    }
     const unsubscribe = subscribePostsSse({
       onPostCreated: (post) => {
         setNewPostsBuffer((buffer) => {
@@ -80,12 +91,27 @@ export function useLivePosts(
         });
       },
       onPostLiked: (like) => {
+        console.warn('Post liked SSE received:', like);
         setPosts((prev) => {
           if (!like.postId || !prev.some((p) => p.id === like.postId)) {
             return prev;
           }
 
-          return prev.map((p) => (p.id === like.postId ? { ...p, likes: (p.likes ?? 0) + 1, likedBySelf: true } : p));
+          return prev.map((p) => {
+            if (p.id !== like.postId) {
+              return p;
+            }
+
+            // Use isCurrentUser to check if the like event is from the current user
+            const isSelf = userid === like.userId;
+
+            return {
+              ...p,
+              likes: (p.likes ?? 0) + 1,
+              // Only set likedBySelf if the current user liked the post
+              likedBySelf: isSelf ? true : p.likedBySelf,
+            };
+          });
         });
       },
       onPostUnliked: (like) => {
@@ -94,15 +120,33 @@ export function useLivePosts(
             return prev;
           }
 
-          return prev.map((p) =>
-            p.id === like.postId ? { ...p, likes: Math.max((p.likes ?? 1) - 1, 0), likedBySelf: false } : p,
-          );
+          return prev.map((p) => {
+            if (p.id !== like.postId) {
+              return p;
+            }
+
+            // Use isCurrentUser to check if the unlike event is from the current user
+            const isSelf = userid === like.userId;
+
+            return {
+              ...p,
+              likes: Math.max((p.likes ?? 1) - 1, 0),
+              // Only set likedBySelf to false if the current user unliked the post
+              likedBySelf: isSelf ? false : p.likedBySelf,
+            };
+          });
         });
       },
     });
 
+    unsubscribeRef.current = unsubscribe;
+
     return () => {
-      unsubscribe();
+      if (unsubscribeRef.current) {
+        unsubscribeRef.current();
+        unsubscribeRef.current = null;
+      }
     };
-  }, [onNewPosts, setPosts, setNewPostsBuffer]);
+    // Only rerun if enabled changes
+  }, [onNewPosts, setPosts, setNewPostsBuffer, enabled, userid]);
 }

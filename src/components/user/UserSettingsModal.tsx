@@ -1,12 +1,14 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 
 import { updateUserSettings } from '@/actions/user';
+import { Checkbox } from '@/components/core/Checkbox';
 import { Form } from '@/components/core/Form';
 import { AppUser } from '@/lib/types';
 import { Button, Dialog, Input } from '@postbee/postbee-ui-lib';
 import { useFormContext } from 'react-hook-form';
+import { useLocalStorage } from 'react-use-storage';
 import { toast } from 'sonner';
 
 type UserSettingsFormData = {
@@ -14,6 +16,8 @@ type UserSettingsFormData = {
   lastname: string;
   username: string;
 };
+
+const LIVE_POSTS_KEY = 'livePostsEnabled';
 
 type UserSettingsModalProps = {
   open: boolean;
@@ -57,12 +61,20 @@ const UserSettingsFields = () => {
 };
 
 export function UserSettingsModal({ open, onClose, user }: UserSettingsModalProps) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useLocalStorage<boolean>('userSettingsModalIsLoading', false);
   const formId = useId();
+  const [livePostsEnabled, setLivePostsEnabled] = useLocalStorage<boolean>(LIVE_POSTS_KEY, false);
+  const [pendingLivePostsEnabled, setPendingLivePostsEnabled] = useState(livePostsEnabled);
+
+  // Sync pending state with localStorage when modal opens
+  useEffect(() => {
+    setPendingLivePostsEnabled(livePostsEnabled);
+  }, [open, livePostsEnabled]);
 
   const handleSubmit = async (data: UserSettingsFormData) => {
     setIsLoading(true);
     try {
+      setLivePostsEnabled(pendingLivePostsEnabled);
       await updateUserSettings(data);
       toast.success('User settings updated successfully.');
       onClose();
@@ -117,6 +129,17 @@ export function UserSettingsModal({ open, onClose, user }: UserSettingsModalProp
       >
         <UserSettingsFields />
       </Form>
+      <div className="flex flex-col mt-8">
+        <div className="pb-label-md mr-2">Beta Features 🧪</div>
+        <div className="flex flex-row items-center ml-1 mt-4">
+          <Checkbox
+            id="live-posts-checkbox"
+            label="Enable live posts (real-time updates)"
+            checked={pendingLivePostsEnabled}
+            onCheckedChange={(checked) => setPendingLivePostsEnabled(checked === true)}
+          />
+        </div>
+      </div>
     </Dialog>
   );
 }

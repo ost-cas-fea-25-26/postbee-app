@@ -5,6 +5,7 @@ import { ReactNode, createContext, useCallback, useContext, useEffect, useState 
 import { getMorePosts } from '@/actions/posts';
 import { useLivePosts } from '@/hooks/useLivePosts';
 import { Post, PostPaginatedResult } from '@/lib/api/client';
+import { useLocalStorage } from 'react-use-storage';
 import { toast } from 'sonner';
 
 interface PostsContextType {
@@ -35,9 +36,10 @@ interface PostsProviderProps {
     likedBy?: string[];
     creators?: string[];
   };
+  userId?: string;
 }
 
-export function PostsProvider({ children, initialPosts, initialPagination, filters }: PostsProviderProps) {
+export function PostsProvider({ children, initialPosts, initialPagination, filters, userId }: PostsProviderProps) {
   const [newPostsBuffer, setNewPostsBuffer] = useState<Post[]>([]);
   const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +52,9 @@ export function PostsProvider({ children, initialPosts, initialPagination, filte
     setPosts(initialPosts);
   }, [initialPosts]);
 
-  // Use live posts hook for SSE and toast logic
+  const [livePostsEnabled] = useLocalStorage<boolean>('livePostsEnabled', false);
+
+  // to use a custom effect inside useLivePosts that can be toggled on/off.
   useLivePosts(
     (buffer) => {
       setPosts((prev) => [...buffer, ...prev]);
@@ -58,6 +62,8 @@ export function PostsProvider({ children, initialPosts, initialPagination, filte
     },
     setPosts,
     setNewPostsBuffer,
+    livePostsEnabled,
+    userId,
   );
 
   const updatePost = useCallback((postId: string, updatedData: Partial<Post>) => {

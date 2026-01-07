@@ -25,7 +25,7 @@ async function PostContent({ params }: Props) {
   }
 
   return (
-    <PostsProvider initialPosts={post ? [post] : []}>
+    <PostsProvider initialPosts={post ? [post] : []} userId={session?.user?.identifier ?? ''}>
       <PostCard post={post}>
         <PostItem post={post} session={session} />
         <Comments postId={postId}>
