@@ -9,7 +9,7 @@ import { UploadDialog } from '@/components/core/UploadDialog';
 import { PostCard } from '@/components/posts/PostCard';
 import { usePosts } from '@/components/posts/PostsProvider';
 import type { Post } from '@/lib/api/client';
-import { Button, Heading, Paragraph, Textarea } from '@postbee/postbee-ui-lib';
+import { Button, Label, Paragraph, Textarea } from '@postbee/postbee-ui-lib';
 import { useFormContext } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -40,7 +40,7 @@ const PostFormFields = ({
     formState: { errors },
   } = useFormContext<PostFormData>();
 
-  const headingId = useId();
+  const labelId = useId();
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [error, setError] = useState<string>('');
@@ -102,10 +102,10 @@ const PostFormFields = ({
 
   return (
     <>
-      <div className="flex flex-col gap-xs">
-        <Heading id={headingId} level={4}>
+      <div className="flex flex-col gap-xs" data-testid="post-create-header">
+        <Label htmlFor={labelId} size="xl">
           {title}
-        </Heading>
+        </Label>
         {subtitle && <Paragraph>{subtitle}</Paragraph>}
       </div>
 
@@ -120,8 +120,8 @@ const PostFormFields = ({
 
       <Textarea
         {...register('postContent', { required: 'Please enter your contribution.' })}
+        id={labelId}
         name="postContent"
-        aria-labelledby={headingId}
         placeholder="Your opinion matters!"
         rows={4}
         aria-invalid={!!errors.postContent}
