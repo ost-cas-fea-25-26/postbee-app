@@ -114,7 +114,6 @@ export async function updateUserSettings(data: { firstname?: string; lastname?: 
   throwIfError(error);
 
   updateTag('user');
-  updateTag('followers');
 
   return result;
 }
@@ -135,7 +134,6 @@ export async function updateAvatar(file: File) {
   throwIfError(error);
 
   updateTag('user');
-  updateTag('followers');
 
   return result;
 }
