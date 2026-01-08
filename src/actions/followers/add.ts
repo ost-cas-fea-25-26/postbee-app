@@ -3,7 +3,6 @@
 import { throwIfError } from '@/actions/helpers';
 import { putUsersByIdFollowers } from '@/lib/api';
 import { getSession } from '@/lib/auth/auth';
-import { updateTag } from 'next/cache';
 
 export async function addFollower(userId: string) {
   const session = await getSession();
@@ -18,6 +17,4 @@ export async function addFollower(userId: string) {
   });
 
   throwIfError(error);
-
-  updateTag('followers');
 }
