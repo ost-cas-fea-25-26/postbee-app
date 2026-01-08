@@ -1,7 +1,6 @@
-import { test as base, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 // Authenticated tests
-const test = base.extend({});
 test.describe('PostContent Component (authenticated)', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
@@ -134,15 +133,14 @@ test.describe('PostContent Component (authenticated)', () => {
 });
 
 // Unauthenticated tests
-const unauthTest = base.extend({});
-unauthTest.use({ storageState: undefined });
-unauthTest.describe('PostContent Component (unauthenticated)', () => {
-  unauthTest.beforeEach(async ({ page }) => {
+test.use({ storageState: undefined });
+test.describe('PostContent Component (unauthenticated)', () => {
+  test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
   });
 
-  unauthTest('should display post text content', async ({ page }) => {
+  test('should display post text content', async ({ page }) => {
     const postContent = page.locator('[data-testid="post-content"]').first();
     const count = await postContent.count();
     if (count > 0) {
@@ -155,7 +153,7 @@ unauthTest.describe('PostContent Component (unauthenticated)', () => {
     }
   });
 
-  unauthTest('should display user information', async ({ page }) => {
+  test('should display user information', async ({ page }) => {
     const postContent = page.locator('[data-testid="post-content"]').first();
     const count = await postContent.count();
     if (count > 0) {
@@ -167,7 +165,7 @@ unauthTest.describe('PostContent Component (unauthenticated)', () => {
     }
   });
 
-  unauthTest('should have like button (enabled)', async ({ page }) => {
+  test('should have like button (enabled)', async ({ page }) => {
     const likeButton = page.locator('[data-testid="post-content-like-button"]').first();
     const count = await likeButton.count();
     if (count > 0) {
@@ -176,7 +174,7 @@ unauthTest.describe('PostContent Component (unauthenticated)', () => {
     }
   });
 
-  unauthTest('should have comments button for posts (enabled)', async ({ page }) => {
+  test('should have comments button for posts (enabled)', async ({ page }) => {
     const commentsButton = page.locator('[data-testid="post-content-comments-button"]').first();
     const count = await commentsButton.count();
     if (count > 0) {
@@ -185,7 +183,7 @@ unauthTest.describe('PostContent Component (unauthenticated)', () => {
     }
   });
 
-  unauthTest('should display media if post has media', async ({ page }) => {
+  test('should display media if post has media', async ({ page }) => {
     const postMedia = page.locator('[data-testid="post-content-media"]').first();
     const count = await postMedia.count();
     if (count > 0) {
@@ -195,7 +193,7 @@ unauthTest.describe('PostContent Component (unauthenticated)', () => {
     }
   });
 
-  unauthTest('should display post content structure', async ({ page }) => {
+  test('should display post content structure', async ({ page }) => {
     const postContent = page.locator('[data-testid="post-content"]').first();
     const count = await postContent.count();
     if (count > 0) {
