@@ -12,10 +12,8 @@ test.describe('Posts E2E', () => {
       await dropdown.click();
       const deleteButton = page.getByTestId('post-content-delete-action').first();
       await deleteButton.click();
-      // If a confirmation dialog appears, handle it (uncomment if needed)
-      // await page.getByRole('button', { name: /confirm/i }).click();
       // Wait for the post to be removed from the DOM
-      await page.waitForTimeout(500); // Adjust as needed for UI update
+      await page.waitForTimeout(500);
     }
   });
 
@@ -88,8 +86,6 @@ test.describe('Posts E2E', () => {
     // Find delete button (correct selector)
     const deleteButton = page.getByTestId('post-content-delete-action').first();
     await deleteButton.click();
-    // Confirm delete (replace with actual selector if needed)
-    // await page.getByRole('button', { name: /confirm/i }).click();
     await expect(page.getByText('E2E updated post content')).not.toBeVisible();
   });
 });
