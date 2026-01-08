@@ -91,8 +91,24 @@ export function UserSettingsModal({ open, onClose, user }: UserSettingsModalProp
     form?.requestSubmit();
   };
 
-  const firstname = user.firstname || user.displayName?.split(' ')[0] || '';
-  const lastname = user.lastname || (user.displayName?.split(' ')?.at(1) ?? '') || '';
+  const parseNameFromDisplayName = (displayName?: string) => {
+    if (!displayName) {
+      return { first: '', last: '' };
+    }
+    const parts = displayName.trim().split(/\s+/);
+    if (parts.length === 1) {
+      return { first: parts[0] ?? '', last: '' };
+    }
+
+    return {
+      first: parts.slice(0, -1).join(' '),
+      last: parts[parts.length - 1],
+    };
+  };
+
+  const { first: dnFirst, last: dnLast } = parseNameFromDisplayName(user.displayName);
+  const firstname = user.firstname || dnFirst;
+  const lastname = user.lastname || dnLast;
 
   return (
     <Dialog
