@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
 };
 
+if (process.env.NEXT_PUBLIC_API_MOCKING === 'true') {
+  await import('../../mock-server');
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{

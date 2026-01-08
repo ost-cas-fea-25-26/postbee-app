@@ -1,22 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-// Assumes mock server and app are running, and test user is authenticated
-
 test.describe('Posts E2E', () => {
-  test('clear', async ({ page }) => {
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
-    // Delete all posts containing the dropdown (i.e., posts owned by the test user)
-    while ((await page.getByTestId('post-content-dropdown').count()) > 0) {
-      const dropdown = page.getByTestId('post-content-dropdown').first();
-      await dropdown.click();
-      const deleteButton = page.getByTestId('post-content-delete-action').first();
-      await deleteButton.click();
-      // Wait for the post to be removed from the DOM
-      await page.waitForTimeout(500);
-    }
-  });
-
   test('should create a post with content only', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
@@ -57,8 +41,10 @@ test.describe('Posts E2E', () => {
     const likeButton = page.getByTestId('post-content-like-button').first();
     // Like first
     await likeButton.click();
+    await page.waitForTimeout(4000);
     // Unlike
     await likeButton.click();
+    await page.waitForTimeout(1000);
     await expect(likeButton).toHaveAttribute('aria-pressed', 'false');
   });
 
