@@ -28,7 +28,7 @@ setup('authenticate', async ({ page }) => {
   // Wait for and click the login button
   const loginButton = page.getByRole('button', { name: /login/i });
   await loginButton.waitFor({ timeout: 10000 });
-  console.warn('LoginButton => ', loginButton);
+
   await loginButton.click();
 
   // Wait for the OAuth provider login page to load by waiting for username input
