@@ -10,6 +10,7 @@ export * from './client/sdk.gen';
  */
 export const createClientConfig: CreateClientConfig = (config) => ({
   ...config,
+  baseUrl: process.env.API_URL_MUMBLE,
   auth: async () => {
     const token = await getAccessToken();
 
