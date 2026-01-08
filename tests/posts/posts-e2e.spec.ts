@@ -39,12 +39,14 @@ test.describe('Posts E2E', () => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
     const likeButton = page.getByTestId('post-content-like-button').first();
+
     // Like first
     await likeButton.click();
-    await page.waitForTimeout(4000);
+    await expect(likeButton).toHaveAttribute('aria-pressed', 'true');
+
     // Unlike
+    await page.waitForTimeout(3000);
     await likeButton.click();
-    await page.waitForTimeout(1000);
     await expect(likeButton).toHaveAttribute('aria-pressed', 'false');
   });
 
