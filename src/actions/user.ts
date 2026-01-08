@@ -39,7 +39,7 @@ function mapSessionUserToAppUser(session: ActiveSession): AppUser {
 async function getCachedUser(userId: string) {
   'use cache';
   cacheTag('user');
-  cacheLife('hours');
+  cacheLife('days');
 
   const { data: apiUser, error } = await getUsersById({
     client: clientNoAuth,
