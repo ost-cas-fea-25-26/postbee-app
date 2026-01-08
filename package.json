@@ -34,7 +34,7 @@
     "react-use-storage": "^0.5.1",
     "sonner": "2.0.7",
     "yet-another-react-lightbox": "3.27.0",
-    "zod": "4.1.13"
+    "zod": "4.3.5"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.11.0",
