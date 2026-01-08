@@ -4,6 +4,8 @@ import { existsSync } from 'fs';
 import { mkdir } from 'fs/promises';
 import { dirname } from 'path';
 
+import './mock-server/msw/msw-setup';
+
 const authFile = 'tests/.auth/user.json';
 
 setup('authenticate', async ({ page }) => {

@@ -42,6 +42,7 @@ export function PostContent({ post, session, variant = 'Default', onUpdate, onDe
       label: 'Edit',
       onSelect: () => setEditDialogOpen(true),
       icon: 'edit',
+      'data-testid': 'post-content-edit-action',
     },
     {
       label: 'Delete',
@@ -61,6 +62,7 @@ export function PostContent({ post, session, variant = 'Default', onUpdate, onDe
       },
       icon: 'cancel',
       variant: 'error',
+      'data-testid': 'post-content-delete-action',
     },
   ];
 
