@@ -30,7 +30,7 @@
     "next": "16.0.10",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "react-hook-form": "7.68.0",
+    "react-hook-form": "7.71.1",
     "react-use-storage": "^0.5.1",
     "sonner": "2.0.7",
     "yet-another-react-lightbox": "3.27.0",
