@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "4.11.0",
-    "@hey-api/openapi-ts": "0.88.2",
+    "@hey-api/openapi-ts": "0.90.4",
     "@playwright/test": "1.57.0",
     "@smartive/eslint-config": "7.0.0",
     "@smartive/prettier-config": "3.1.2",
